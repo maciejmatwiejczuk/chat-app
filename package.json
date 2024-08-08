@@ -1,0 +1,29 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build:frontend": "npm run build -w ./apps/frontend",
+    "build:backend": "npm run build -w ./apps/backend",
+    "build": "tsc build --verbose",
+    "dev:frontend": "npm run dev -w ./apps/frontend",
+    "dev:backend": "npm run dev -w ./apps/backend"
+  },
+  "keywords": [],
+  "author": "https://github.com/maciejmatwiejczuk",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.1",
+    "@typescript-eslint/parser": "^8.0.1",
+    "eslint": "^9.8.0",
+    "tsx": "^4.16.5",
+    "typescript": "^5.5.4"
+  }
+}
