@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  gap: 6px;
+
+  width: 100%;
+}
+
+.inputBox,
+.sendButton {
+  display: flex;
+  align-items: center;
+
+  padding: 14px;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 1em;
+}
+
+.inputBox {
+  flex: 1;
+  background-color: #fff;
+}
+
+.sendButton {
+  justify-content: center;
+  background-color: #273be2;
+  cursor: pointer;
+}
