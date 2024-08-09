@@ -1,5 +1,12 @@
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
-export const socket = io('http://localhost:8080', {
-  autoConnect: true,
-});
+interface SharedEvents {
+  chatMessage: (msg: string) => void;
+}
+
+export const socket: Socket<SharedEvents, SharedEvents> = io(
+  'http://localhost:8080',
+  {
+    autoConnect: true,
+  }
+);

@@ -26,12 +26,12 @@ function App() {
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
-    socket.on('chat-message', onChatMessageEvent);
+    socket.on('chatMessage', onChatMessageEvent);
 
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
-      socket.off('chat-message', onChatMessageEvent);
+      socket.off('chatMessage', onChatMessageEvent);
     };
   }, []);
 

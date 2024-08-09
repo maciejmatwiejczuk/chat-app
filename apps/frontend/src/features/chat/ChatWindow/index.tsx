@@ -16,7 +16,7 @@ function ChatWindow({ chatMessages, setChatMessages }: ChatWindowProps) {
   function onMessageSend() {
     if (message) {
       setChatMessages((prev) => [...prev, { isMe: true, message }]);
-      socket.emit('chat-message', message);
+      socket.emit('chatMessage', message);
       setMessage('');
     }
   }

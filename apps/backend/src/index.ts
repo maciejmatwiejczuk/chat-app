@@ -2,9 +2,13 @@ import express from 'express';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 
+interface SharedEvents {
+  chatMessage: (msg: string) => void;
+}
+
 const app = express();
 const server = createServer(app);
-const io = new Server(server, {
+const io = new Server<SharedEvents, SharedEvents>(server, {
   cors: {
     origin: 'http://localhost:5173',
   },
@@ -15,9 +19,8 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  socket.on('chat-message', (msg) => {
-    // socket.emit('chat-message', msg);
-    socket.broadcast.emit('chat-message', msg);
+  socket.on('chatMessage', (msg) => {
+    socket.broadcast.emit('chatMessage', msg);
   });
 });
 
