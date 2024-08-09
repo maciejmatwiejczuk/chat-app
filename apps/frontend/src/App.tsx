@@ -2,9 +2,14 @@ import { useState, useEffect } from 'react';
 import ChatWindow from './features/chat/ChatWindow';
 import { socket } from './config/socket.ts';
 
+export interface ChatMessage {
+  isMe: boolean;
+  message: string;
+}
+
 function App() {
   // const [isConnected, setIsConnected] = useState(socket.connected);
-  const [chatMessages, setChatMessages] = useState<Array<string>>([]);
+  const [chatMessages, setChatMessages] = useState<Array<ChatMessage>>([]);
 
   useEffect(() => {
     function onConnect() {
@@ -16,7 +21,7 @@ function App() {
     }
 
     function onChatMessageEvent(msg: string) {
-      setChatMessages((prev) => [...prev, msg]);
+      setChatMessages((prev) => [...prev, { isMe: false, message: msg }]);
     }
 
     socket.on('connect', onConnect);
@@ -32,7 +37,10 @@ function App() {
 
   return (
     <>
-      <ChatWindow chatMessages={chatMessages} />
+      <ChatWindow
+        chatMessages={chatMessages}
+        setChatMessages={setChatMessages}
+      />
     </>
   );
 }

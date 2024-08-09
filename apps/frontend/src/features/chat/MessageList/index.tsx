@@ -1,13 +1,15 @@
+import { ChatMessage } from '../../../App';
+
 interface MessageListProps {
-  chatMessages: Array<string>;
+  chatMessages: Array<ChatMessage>;
 }
 
 function MessageList({ chatMessages }: MessageListProps) {
   return (
     chatMessages && (
       <ul>
-        {chatMessages.map((msg) => (
-          <li>{msg}</li>
+        {chatMessages.map((msgObj) => (
+          <li>{msgObj.message}</li>
         ))}
       </ul>
     )

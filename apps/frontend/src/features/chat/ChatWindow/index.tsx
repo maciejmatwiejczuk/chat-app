@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import MessageList from '../MessageList';
 import MessageInput from '../MessageInput';
+import { ChatMessage } from '../../../App';
 import styles from './styles.module.css';
 import { socket } from '../../../config/socket';
 
 interface ChatWindowProps {
-  chatMessages: Array<string>;
+  chatMessages: Array<ChatMessage>;
+  setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
 }
 
-function ChatWindow({ chatMessages }: ChatWindowProps) {
+function ChatWindow({ chatMessages, setChatMessages }: ChatWindowProps) {
   const [message, setMessage] = useState('');
 
   function onMessageSend() {
     if (message) {
+      setChatMessages((prev) => [...prev, { isMe: true, message }]);
       socket.emit('chat-message', message);
       setMessage('');
     }
