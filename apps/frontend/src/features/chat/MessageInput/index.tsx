@@ -1,7 +1,11 @@
 import { PaperPlaneTilt } from '@phosphor-icons/react';
 import styles from './styles.module.css';
 
-function MessageInput() {
+interface MessageInputProps {
+  onMessageSend: () => void;
+}
+
+function MessageInput({ onMessageSend }: MessageInputProps) {
   return (
     <div className={styles.container}>
       <input
@@ -9,7 +13,7 @@ function MessageInput() {
         type="text"
         placeholder="Write a message"
       />
-      <button className={styles.sendButton}>
+      <button className={styles.sendButton} onClick={onMessageSend}>
         <PaperPlaneTilt size={24} weight="fill" color="#fff" />
       </button>
     </div>

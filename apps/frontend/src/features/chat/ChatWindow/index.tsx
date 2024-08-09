@@ -1,10 +1,18 @@
+import MessageList from '../MessageList';
 import MessageInput from '../MessageInput';
 import styles from './styles.module.css';
 
-function ChatWindow() {
+interface ChatWindowProps {
+  chatMessages: Array<string>;
+}
+
+function ChatWindow({ chatMessages }: ChatWindowProps) {
+  function onMessageSend() {}
+
   return (
     <div className={styles.container}>
-      <MessageInput />
+      <MessageList chatMessages={chatMessages} />
+      <MessageInput onMessageSend={onMessageSend} />
     </div>
   );
 }
