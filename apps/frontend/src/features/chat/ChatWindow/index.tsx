@@ -20,12 +20,15 @@ function ChatWindow({ chatMessages, setChatMessages }: ChatWindowProps) {
     if (message) {
       setChatMessages((prev) => [
         ...prev,
-        { id: messageId, isMe: true, message, date: new Date().toISOString() },
+        { id: messageId, isMe: true, message, date: new Date() },
       ]);
       socket.emit('chatMessageClient', message, (date) => {
         setChatMessages((prev) => {
           const filtered = prev.filter((msg) => msg.id !== messageId);
-          return [...filtered, { id: messageId, isMe: true, message, date }];
+          return [
+            ...filtered,
+            { id: messageId, isMe: true, message, date: new Date(date) },
+          ];
         });
       });
       setMessage('');

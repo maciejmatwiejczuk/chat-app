@@ -7,7 +7,7 @@ export interface ChatMessage {
   id: string;
   isMe: boolean;
   message: string;
-  date: string;
+  date: Date;
 }
 
 export interface TransferredChatMessage {
@@ -31,7 +31,12 @@ function App() {
     function onChatMessageEvent(msgObj: TransferredChatMessage) {
       setChatMessages((prev) => [
         ...prev,
-        { id: uuid(), isMe: false, message: msgObj.message, date: msgObj.date },
+        {
+          id: uuid(),
+          isMe: false,
+          message: msgObj.message,
+          date: new Date(msgObj.date),
+        },
       ]);
     }
 
