@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react';
 import ChatWindow from './features/chat/ChatWindow';
 import { socket } from './config/socket.ts';
+import { v4 as uuid } from 'uuid';
 
 export interface ChatMessage {
+  id: string;
   isMe: boolean;
   message: string;
+  date: string;
+}
+
+export interface TransferredChatMessage {
+  message: string;
+  date: string;
 }
 
 function App() {
@@ -20,18 +28,21 @@ function App() {
       console.log('disconnected');
     }
 
-    function onChatMessageEvent(msg: string) {
-      setChatMessages((prev) => [...prev, { isMe: false, message: msg }]);
+    function onChatMessageEvent(msgObj: TransferredChatMessage) {
+      setChatMessages((prev) => [
+        ...prev,
+        { id: uuid(), isMe: false, message: msgObj.message, date: msgObj.date },
+      ]);
     }
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
-    socket.on('chatMessage', onChatMessageEvent);
+    socket.on('chatMessageServer', onChatMessageEvent);
 
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
-      socket.off('chatMessage', onChatMessageEvent);
+      socket.off('chatMessageServer', onChatMessageEvent);
     };
   }, []);
 
