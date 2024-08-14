@@ -3,6 +3,7 @@ import { ChatMessage } from '../../../App';
 import { groupMessagesByTime } from '../../../helpers/chat.helpers';
 import { formatDate } from '../../../helpers/date.helpers';
 import { v4 as uuid } from 'uuid';
+import styles from './styles.module.css';
 
 interface MessageListProps {
   chatMessages: Array<ChatMessage>;
@@ -35,13 +36,27 @@ interface MessageGroupProps {
 
 function MessageGroup({ date, messages }: MessageGroupProps) {
   return (
-    <>
-      <p>{formatDate(date)}</p>
+    <div className={styles.messageGroup}>
+      <p className={styles.date}>{formatDate(date)}</p>
       {messages.map((msg) => (
-        <li key={msg.id}>{msg.message}</li>
+        <MessageBubble key={msg.id} isMe={msg.isMe}>
+          {msg.message}
+        </MessageBubble>
       ))}
-    </>
+    </div>
   );
+}
+
+interface MessageBubbleProps {
+  isMe: boolean;
+  children: string;
+  hasTopMargin?: boolean;
+}
+
+function MessageBubble({ children, isMe }: MessageBubbleProps) {
+  const bubbleStyle = isMe ? styles.sentMessage : styles.receivedMessage;
+
+  return <div className={`${styles.message} ${bubbleStyle}`}>{children}</div>;
 }
 
 export default MessageList;

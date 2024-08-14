@@ -1,0 +1,57 @@
+.messageGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.date {
+  margin: 64px auto 24px auto;
+  color: #272727;
+  font-size: 1em;
+}
+
+.message {
+  padding: 10px 14px;
+  font-size: 1.1em;
+  word-wrap: break-word;
+
+  width: max-content;
+  max-width: 75%;
+}
+
+.date + div > .message {
+  margin-top: 32px;
+}
+
+.sentMessage {
+  border-radius: 20px 10px 10px 20px;
+  background-color: #273be2;
+  color: #fff;
+  margin-left: auto;
+}
+
+.receivedMessage {
+  border-radius: 10px 20px 20px 10px;
+  background-color: #cfcfcf;
+  color: #272727;
+}
+
+.receivedMessage + .sentMessage,
+.date + .sentMessage {
+  border-top-right-radius: 20px;
+}
+
+.sentMessage:has(+ .receivedMessage),
+.sentMessage:last-child {
+  border-bottom-right-radius: 20px;
+}
+
+.sentMessage + .receivedMessage,
+.date + .receivedMessage {
+  border-top-left-radius: 20px;
+}
+
+.receivedMessage:has(+ .sentMessage),
+.receivedMessage:last-child {
+  border-bottom-left-radius: 20px;
+}
