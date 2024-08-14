@@ -1,7 +1,20 @@
+.container {
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  padding: 24px;
+  overflow-y: scroll;
+  flex: 1;
+}
+
 .messageGroup {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.messageGroup:first-child .date {
+  margin-top: 0;
 }
 
 .date {

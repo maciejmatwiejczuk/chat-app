@@ -26,7 +26,11 @@ function MessageList({ chatMessages }: MessageListProps) {
     return messageGroups;
   }
 
-  return chatMessages.length > 0 && renderMessages();
+  return (
+    <div className={styles.container}>
+      {chatMessages.length > 0 && renderMessages()}
+    </div>
+  );
 }
 
 interface MessageGroupProps {
