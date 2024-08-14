@@ -9,7 +9,7 @@ import { ChatMessage } from '../App';
  */
 export function groupMessagesByTime(
   messages: Array<ChatMessage>,
-  timeIntervalInMinutes: number = 15
+  timeIntervalInMinutes: number = 10
 ) {
   const messagesGrouped = new Map<Date, Array<ChatMessage>>();
 
