@@ -32,7 +32,7 @@ function MessageList({ chatMessages }: MessageListProps) {
         renderMessages()
       ) : (
         // a <p> for know, probably should be some kind of <h_> tag
-        <p className={styles.placeholder}>Write your first message!</p>
+        <p className={styles.placeholder}>Send your first message!</p>
       )}
     </div>
   );
