@@ -28,7 +28,12 @@ function MessageList({ chatMessages }: MessageListProps) {
 
   return (
     <div className={styles.container}>
-      {chatMessages.length > 0 && renderMessages()}
+      {chatMessages.length > 0 ? (
+        renderMessages()
+      ) : (
+        // a <p> for know, probably should be some kind of <h_> tag
+        <p className={styles.placeholder}>Write your first message!</p>
+      )}
     </div>
   );
 }

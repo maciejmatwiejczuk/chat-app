@@ -5,6 +5,8 @@
   padding: 24px;
   overflow-y: scroll;
   flex: 1;
+
+  display: grid;
 }
 
 .messageGroup {
@@ -67,4 +69,12 @@
 .receivedMessage:has(+ .sentMessage),
 .receivedMessage:last-child {
   border-bottom-left-radius: 20px;
+}
+
+.placeholder {
+  color: #cfcfcf;
+  font-size: 32px;
+  font-weight: 600;
+  align-self: center;
+  justify-self: center;
 }
