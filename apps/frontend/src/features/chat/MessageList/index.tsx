@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, useRef, useEffect } from 'react';
 import { ChatMessage } from '../../../App';
 import { groupMessagesByTime } from '../../../helpers/chat.helpers';
 import { formatDate } from '../../../helpers/date.helpers';
@@ -10,6 +10,24 @@ interface MessageListProps {
 }
 
 function MessageList({ chatMessages }: MessageListProps) {
+  const listEndRef = useRef<HTMLDivElement>(null);
+
+  const isScrolledToBottomRef = useRef(true);
+
+  useEffect(() => {
+    if (isScrolledToBottomRef.current) {
+      listEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [chatMessages]);
+
+  function calculateIsScrolledToBottom(
+    e: React.UIEvent<HTMLDivElement, UIEvent>
+  ) {
+    const container = e.target as HTMLDivElement;
+    isScrolledToBottomRef.current =
+      container.scrollHeight - container.clientHeight <= container.scrollTop;
+  }
+
   function renderMessages() {
     const chatMessagesMap = chatMessages && groupMessagesByTime(chatMessages);
 
@@ -27,13 +45,14 @@ function MessageList({ chatMessages }: MessageListProps) {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onScroll={calculateIsScrolledToBottom}>
       {chatMessages.length > 0 ? (
         renderMessages()
       ) : (
         // a <p> for know, probably should be some kind of <h_> tag
         <p className={styles.placeholder}>Send your first message!</p>
       )}
+      <div ref={listEndRef} />
     </div>
   );
 }
