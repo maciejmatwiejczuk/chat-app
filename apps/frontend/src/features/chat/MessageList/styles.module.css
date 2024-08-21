@@ -9,6 +9,38 @@
   display: grid;
 }
 
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: #7d89ee;
+  border-radius: 8px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background-color: #5262e8;
+}
+
+.container::-webkit-scrollbar-thumb:active {
+  background-color: #273be2;
+}
+
+.container::-webkit-scrollbar-track {
+  border-radius: 8px;
+}
+
+.container::-webkit-scrollbar-track:hover {
+  background-color: #e0e0e0;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .container {
+    scrollbar-width: thin;
+    scrollbar-color: #273be2 #e0e0e0;
+  }
+}
+
 .messageGroup {
   display: flex;
   flex-direction: column;
