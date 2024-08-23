@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 import styles from './styles.module.css';
 
 interface MessageListProps {
-  chatMessages: Array<ChatMessage>;
+  chatMessages: ChatMessage[];
 }
 
 function MessageList({ chatMessages }: MessageListProps) {
@@ -31,9 +31,7 @@ function MessageList({ chatMessages }: MessageListProps) {
   function renderMessages() {
     const chatMessagesMap = chatMessages && groupMessagesByTime(chatMessages);
 
-    const messageGroups: Array<
-      ReactElement<MessageGroupProps, typeof MessageGroup>
-    > = [];
+    const messageGroups: ReactElement<MessageGroupProps, typeof MessageGroup>[] = [];
 
     for (const [date, messages] of chatMessagesMap) {
       messageGroups.push(
@@ -59,7 +57,7 @@ function MessageList({ chatMessages }: MessageListProps) {
 
 interface MessageGroupProps {
   date: Date;
-  messages: Array<ChatMessage>;
+  messages: ChatMessage[];
 }
 
 function MessageGroup({ date, messages }: MessageGroupProps) {

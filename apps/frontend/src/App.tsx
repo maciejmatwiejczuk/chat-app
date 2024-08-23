@@ -17,7 +17,7 @@ export interface TransferredChatMessage {
 
 function App() {
   // const [isConnected, setIsConnected] = useState(socket.connected);
-  const [chatMessages, setChatMessages] = useState<Array<ChatMessage>>([]);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
     function onConnect() {

@@ -8,7 +8,7 @@ import { v4 as uuid } from 'uuid';
 import ChatHeader from './ChatHeader';
 
 interface ChatProps {
-  chatMessages: Array<ChatMessage>;
+  chatMessages: ChatMessage[];
   setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
 }
 

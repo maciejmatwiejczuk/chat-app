@@ -8,10 +8,10 @@ import { ChatMessage } from '../App';
  * the next message creates another group
  */
 export function groupMessagesByTime(
-  messages: Array<ChatMessage>,
-  timeIntervalInMinutes: number = 10
+  messages: ChatMessage[],
+  timeIntervalInMinutes = 10
 ) {
-  const messagesGrouped = new Map<Date, Array<ChatMessage>>();
+  const messagesGrouped = new Map<Date, ChatMessage[]>();
 
   let dateKey = messages[0].date;
   let messagesUnderDateKey = [messages[0]];
