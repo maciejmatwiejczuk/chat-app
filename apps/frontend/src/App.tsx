@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Chat from './features/chat/index.tsx';
+import Chat from './components/chat/index.tsx';
 import { socket } from './config/socket.ts';
 import { v4 as uuid } from 'uuid';
 
