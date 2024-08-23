@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import MessageList from '../MessageList';
-import MessageInput from '../MessageInput';
-import { ChatMessage } from '../../../App';
+import MessageList from './MessageList';
+import MessageInput from './MessageInput';
+import { ChatMessage } from '../../App';
 import styles from './styles.module.css';
-import { socket } from '../../../config/socket';
+import { socket } from '../../config/socket';
 import { v4 as uuid } from 'uuid';
-import ChatHeader from '../ChatHeader';
+import ChatHeader from './ChatHeader';
 
-interface ChatWindowProps {
+interface ChatProps {
   chatMessages: Array<ChatMessage>;
   setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
 }
 
-function ChatWindow({ chatMessages, setChatMessages }: ChatWindowProps) {
+function Chat({ chatMessages, setChatMessages }: ChatProps) {
   const [message, setMessage] = useState('');
 
   function onMessageSend() {
@@ -49,4 +49,4 @@ function ChatWindow({ chatMessages, setChatMessages }: ChatWindowProps) {
   );
 }
 
-export default ChatWindow;
+export default Chat;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import ChatWindow from './features/chat/ChatWindow';
+import Chat from './features/chat/index.tsx';
 import { socket } from './config/socket.ts';
 import { v4 as uuid } from 'uuid';
 
@@ -53,10 +53,7 @@ function App() {
 
   return (
     <>
-      <ChatWindow
-        chatMessages={chatMessages}
-        setChatMessages={setChatMessages}
-      />
+      <Chat chatMessages={chatMessages} setChatMessages={setChatMessages} />
     </>
   );
 }
