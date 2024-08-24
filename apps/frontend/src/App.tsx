@@ -3,16 +3,13 @@ import Chat from './components/chat/index.tsx';
 import { socket } from './config/socket.ts';
 import { v4 as uuid } from 'uuid';
 
+import { TransferredChatMessage } from '@chat-app/common/types.ts';
+
 export interface ChatMessage {
   id: string;
   isMe: boolean;
   message: string;
   date: Date;
-}
-
-export interface TransferredChatMessage {
-  message: string;
-  date: string;
 }
 
 function App() {

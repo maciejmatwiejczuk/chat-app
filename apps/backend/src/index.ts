@@ -1,19 +1,7 @@
 import express from 'express';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
-
-interface TransferredChatMessage {
-  message: string;
-  date: string;
-}
-
-interface ClientEvents {
-  chatMessageClient: (msg: string, callback: (date: string) => void) => void;
-}
-
-interface ServerEvents {
-  chatMessageServer: (msg: TransferredChatMessage) => void;
-}
+import type { ServerEvents, ClientEvents } from '@chat-app/common/types.ts';
 
 const app = express();
 const server = createServer(app);

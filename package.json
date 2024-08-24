@@ -6,7 +6,8 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "common"
   ],
   "scripts": {
     "build:frontend": "npm run build -w ./apps/frontend",

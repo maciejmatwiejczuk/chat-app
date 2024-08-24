@@ -1,0 +1,9 @@
+{
+  "name": "@chat-app/common",
+  "version": "1.0.0",
+  "description": "Package containing modules common for frontend and backend",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --build"
+  }
+}

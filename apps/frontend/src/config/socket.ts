@@ -1,14 +1,5 @@
-import { TransferredChatMessage } from '../App';
-
 import { io, Socket } from 'socket.io-client';
-
-interface ClientEvents {
-  chatMessageClient: (msg: string, callback: (date: string) => void) => void;
-}
-
-interface ServerEvents {
-  chatMessageServer: (msg: TransferredChatMessage) => void;
-}
+import type { ServerEvents, ClientEvents } from '@chat-app/common/types.ts';
 
 export const socket: Socket<ServerEvents, ClientEvents> = io(
   'http://localhost:8080',
