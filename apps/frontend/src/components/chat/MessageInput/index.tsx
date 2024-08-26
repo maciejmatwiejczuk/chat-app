@@ -22,7 +22,7 @@ function MessageInput({
         placeholder="Write a message"
       />
       <button className={styles.sendButton} onClick={onMessageSend}>
-        <PaperPlaneTilt size={24} weight="fill" color="#fff" />
+        <PaperPlaneTilt size={24} weight="fill" />
       </button>
     </div>
   );

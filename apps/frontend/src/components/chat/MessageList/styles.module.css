@@ -14,16 +14,16 @@
 }
 
 .container::-webkit-scrollbar-thumb {
-  background-color: #7d89ee;
+  background-color: var(--color-secondary-200);
   border-radius: 8px;
 }
 
 .container::-webkit-scrollbar-thumb:hover {
-  background-color: #5262e8;
+  background-color: var(--color-secondary-300);
 }
 
 .container::-webkit-scrollbar-thumb:active {
-  background-color: #273be2;
+  background-color: var(--color-secondary-400);
 }
 
 .container::-webkit-scrollbar-track {
@@ -31,13 +31,13 @@
 }
 
 .container::-webkit-scrollbar-track:hover {
-  background-color: #e0e0e0;
+  background-color: var(--color-primary-200);
 }
 
 @supports not selector(::-webkit-scrollbar) {
   .container {
     scrollbar-width: thin;
-    scrollbar-color: #273be2 #e0e0e0;
+    scrollbar-color: var(--color-secondary-400) var(--color-primary-200);
   }
 }
 
@@ -53,7 +53,7 @@
 
 .date {
   margin: 64px auto 24px auto;
-  color: #272727;
+  color: var(--color-primary-800);
   font-size: 1em;
 }
 
@@ -72,15 +72,15 @@
 
 .sentMessage {
   border-radius: 20px 10px 10px 20px;
-  background-color: #273be2;
-  color: #fff;
+  background-color: var(--color-secondary-400);
+  color: var(--color-primary-50);
   margin-left: auto;
 }
 
 .receivedMessage {
   border-radius: 10px 20px 20px 10px;
-  background-color: #cfcfcf;
-  color: #272727;
+  background-color: var(--color-primary-200);
+  color: var(--color-primary-900);
 }
 
 .receivedMessage + .sentMessage,
@@ -104,7 +104,7 @@
 }
 
 .placeholder {
-  color: #cfcfcf;
+  color: var(--color-primary-200);
   font-size: 32px;
   font-weight: 600;
   align-self: center;

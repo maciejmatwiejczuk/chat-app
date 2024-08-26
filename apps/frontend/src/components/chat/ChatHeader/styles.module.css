@@ -1,5 +1,5 @@
 .container {
-  background-color: #fff;
+  background-color: var(--color-primary-50);
   border-radius: 8px;
   height: 80px;
   margin-bottom: 8px;
