@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import Chat from './components/chat/index.tsx';
 import { socket } from './config/socket.ts';
 import { v4 as uuid } from 'uuid';
-
+import Chat from './components/chat/index.tsx';
 import { TransferredChatMessage } from '@chat-app/common/types.ts';
 
 export interface ChatMessage {

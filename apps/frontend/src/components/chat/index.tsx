@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import { socket } from '../../config/socket';
+import { v4 as uuid } from 'uuid';
+import ChatHeader from './ChatHeader';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import { ChatMessage } from '../../App';
 import styles from './styles.module.css';
-import { socket } from '../../config/socket';
-import { v4 as uuid } from 'uuid';
-import ChatHeader from './ChatHeader';
 
 interface ChatProps {
   chatMessages: ChatMessage[];
