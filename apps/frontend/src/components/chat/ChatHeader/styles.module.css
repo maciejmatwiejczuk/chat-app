@@ -1,6 +1,6 @@
 .container {
-  background-color: var(--color-primary-50);
-  border-radius: 8px;
   height: 80px;
   margin-bottom: 8px;
+  border-radius: 8px;
+  background-color: var(--color-primary-50);
 }

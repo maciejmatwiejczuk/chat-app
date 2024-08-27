@@ -1,12 +1,11 @@
 .container {
-  background-color: #fff;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  padding: 24px;
-  overflow-y: auto;
   flex: 1;
-
   display: grid;
+  padding: 24px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background-color: #fff;
+  overflow-y: auto;
 }
 
 .container::-webkit-scrollbar {
@@ -58,12 +57,11 @@
 }
 
 .message {
+  width: max-content;
+  max-width: 75%;
   padding: 10px 14px;
   font-size: 1.1em;
   word-wrap: break-word;
-
-  width: max-content;
-  max-width: 75%;
 }
 
 .date + div > .message {
@@ -104,9 +102,9 @@
 }
 
 .placeholder {
+  align-self: center;
+  justify-self: center;
   color: var(--color-primary-200);
   font-size: 32px;
   font-weight: 600;
-  align-self: center;
-  justify-self: center;
 }

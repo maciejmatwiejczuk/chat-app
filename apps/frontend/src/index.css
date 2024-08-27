@@ -32,11 +32,9 @@ body {
 }
 
 #root {
-  height: 100vh;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
+  height: 100vh;
   padding: 32px;
 }
