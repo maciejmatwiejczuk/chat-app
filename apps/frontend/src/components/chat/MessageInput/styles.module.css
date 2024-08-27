@@ -16,7 +16,16 @@
 
 .inputBox {
   flex: 1;
+  border: 2px solid var(--color-primary-50);
   background-color: var(--color-primary-50);
+  outline: none;
+  transition: box-shadow 0.2s ease-out;
+  transition: border 0.2s ease-out;
+}
+
+.inputBox:focus {
+  border: 2px solid var(--color-secondary-400);
+  box-shadow: 0 0 12px -4px var(--color-secondary-400);
 }
 
 .sendButton {
@@ -24,4 +33,13 @@
   background-color: var(--color-secondary-400);
   color: var(--color-primary-50);
   cursor: pointer;
+  transition: opacity 0.2s ease-out;
+}
+
+.sendButton:hover {
+  opacity: 0.9;
+}
+
+.sendButton:active {
+  background-color: var(--color-secondary-500);
 }
