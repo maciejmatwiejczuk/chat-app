@@ -24,6 +24,28 @@
   --color-secondary-500: #192bbd;
   --color-secondary-600: #132190;
   --color-secondary-700: #0d1663;
+
+  --size-rem-3xs: 0.25rem;
+  --size-rem-2xs: 0.5rem;
+  --size-rem-xs: 0.75rem;
+  --size-rem-s: 1rem;
+  --size-rem-m: 1.5rem;
+  --size-rem-l: 2rem;
+  --size-rem-xl: 3rem;
+  --size-rem-2xl: 4rem;
+  --size-rem-3xl: 8rem;
+
+  --size-px-3xs: 4px;
+  --size-px-2xs: 8px;
+  --size-px-xs: 12px;
+  --size-px-s: 16px;
+  --size-px-m: 24px;
+  --size-px-l: 32px;
+  --size-px-xl: 48px;
+  --size-px-2xl: 64px;
+  --size-px-3xl: 128px;
+
+  --border-radius-default: 16px;
 }
 
 body {
