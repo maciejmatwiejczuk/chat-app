@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  gap: 6px;
+  gap: var(--size-px-2xs);
   width: 100%;
 }
 
@@ -8,10 +8,9 @@
 .sendButton {
   display: flex;
   align-items: center;
-  padding: 14px;
+  padding: var(--size-px-s);
   border: none;
-  border-radius: 8px;
-  font-size: 1em;
+  border-radius: var(--border-radius-default);
 }
 
 .inputBox {
@@ -21,6 +20,7 @@
   outline: none;
   transition: box-shadow 0.2s ease-out;
   transition: border 0.2s ease-out;
+  font-size: var(--size-rem-s);
 }
 
 .inputBox:focus {

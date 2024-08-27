@@ -1,9 +1,9 @@
 .container {
   flex: 1;
   display: grid;
-  padding: 24px;
-  margin-bottom: 8px;
-  border-radius: 8px;
+  padding: var(--size-px-m);
+  margin-bottom: var(--size-px-2xs);
+  border-radius: var(--border-radius-default);
   background-color: #fff;
   overflow-y: auto;
 }
@@ -43,7 +43,7 @@
 .messageGroup {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--size-px-3xs);
 }
 
 .messageGroup:first-child .date {
@@ -51,21 +51,21 @@
 }
 
 .date {
-  margin: 64px auto 24px auto;
+  margin: var(--size-px-xl) auto var(--size-px-m) auto;
   color: var(--color-primary-800);
-  font-size: 1em;
+  font-size: var(--size-rem-s);
 }
 
 .message {
   width: max-content;
   max-width: 75%;
-  padding: 10px 14px;
-  font-size: 1.1em;
+  padding: var(--size-px-xs) var(--size-px-s);
+  font-size: var(--size-rem-s);
   word-wrap: break-word;
 }
 
 .date + div > .message {
-  margin-top: 32px;
+  margin-top: var(--size-px-l);
 }
 
 .sentMessage {
@@ -105,6 +105,6 @@
   align-self: center;
   justify-self: center;
   color: var(--color-primary-200);
-  font-size: 32px;
+  font-size: var(--size-rem-l);
   font-weight: 600;
 }
