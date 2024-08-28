@@ -20,6 +20,7 @@ function MessageInput({
         className={styles.inputBox}
         type="text"
         placeholder="Write a message"
+        onKeyDown={(e) => e.key === 'Enter' && onMessageSend()}
       />
       <button className={styles.sendButton} onClick={onMessageSend}>
         <PaperPlaneTilt size={24} weight="fill" />
