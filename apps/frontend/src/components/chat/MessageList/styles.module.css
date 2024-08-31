@@ -51,7 +51,10 @@
 }
 
 .date {
-  margin: var(--size-px-xl) auto var(--size-px-m) auto;
+  margin: var(--size-px-3xl) auto var(--size-px-2xl) auto;
+  padding: var(--size-px-2xs);
+  border: 1px solid var(--color-primary-300);
+  border-radius: 100px;
   color: var(--color-primary-800);
   font-size: var(--size-rem-s);
 }
@@ -59,7 +62,7 @@
 .message {
   width: max-content;
   max-width: 75%;
-  padding: var(--size-px-xs) var(--size-px-s);
+  padding: var(--size-px-s) var(--size-px-s);
   font-size: var(--size-rem-s);
   word-wrap: break-word;
 }
@@ -69,36 +72,36 @@
 }
 
 .sentMessage {
-  border-radius: 20px 10px 10px 20px;
+  border-radius: 24px 12px 12px 24px;
   background-color: var(--color-secondary-400);
   color: var(--color-primary-50);
   margin-left: auto;
 }
 
 .receivedMessage {
-  border-radius: 10px 20px 20px 10px;
+  border-radius: 12px 24px 24px 12px;
   background-color: var(--color-primary-200);
   color: var(--color-primary-900);
 }
 
 .receivedMessage + .sentMessage,
 .date + .sentMessage {
-  border-top-right-radius: 20px;
+  border-top-right-radius: 24px;
 }
 
 .sentMessage:has(+ .receivedMessage),
 .sentMessage:last-child {
-  border-bottom-right-radius: 20px;
+  border-bottom-right-radius: 24px;
 }
 
 .sentMessage + .receivedMessage,
 .date + .receivedMessage {
-  border-top-left-radius: 20px;
+  border-top-left-radius: 24px;
 }
 
 .receivedMessage:has(+ .sentMessage),
 .receivedMessage:last-child {
-  border-bottom-left-radius: 20px;
+  border-bottom-left-radius: 24px;
 }
 
 .placeholder {
