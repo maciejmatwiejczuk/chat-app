@@ -11,12 +11,12 @@ export function registerChatEvents(
   ): void {
     const messageDate = new Date().toISOString();
 
-    socket.broadcast.emit('chatMessageServer', {
+    socket.broadcast.emit('chat_message:server', {
       message,
       date: messageDate,
     });
     callback(messageDate);
   }
 
-  socket.on('chatMessageClient', onClientMessage);
+  socket.on('chat_message:client', onClientMessage);
 }

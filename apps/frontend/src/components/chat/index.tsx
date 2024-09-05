@@ -23,7 +23,7 @@ function Chat({ chatMessages, setChatMessages }: ChatProps) {
         ...prev,
         { id: messageId, isMe: true, message, date: new Date() },
       ]);
-      socket.emit('chatMessageClient', message, (date) => {
+      socket.emit('chat_message:client', message, (date) => {
         setChatMessages((prev) => {
           const filtered = prev.filter((msg) => msg.id !== messageId);
           return [

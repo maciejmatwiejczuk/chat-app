@@ -38,12 +38,12 @@ function App() {
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
-    socket.on('chatMessageServer', onChatMessageEvent);
+    socket.on('chat_message:server', onChatMessageEvent);
 
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
-      socket.off('chatMessageServer', onChatMessageEvent);
+      socket.off('chat_message:server', onChatMessageEvent);
     };
   }, []);
 

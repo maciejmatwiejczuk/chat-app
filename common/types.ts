@@ -4,9 +4,12 @@ export interface TransferredChatMessage {
 }
 
 export interface ClientEvents {
-  chatMessageClient: (msg: string, callback: (date: string) => void) => void;
+  'chat_message:client': (
+    msg: string,
+    callback: (date: string) => void
+  ) => void;
 }
 
 export interface ServerEvents {
-  chatMessageServer: (msg: TransferredChatMessage) => void;
+  'chat_message:server': (msg: TransferredChatMessage) => void;
 }
