@@ -1,6 +1,7 @@
 import express from 'express';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
+import { registerChatEvents } from './events/chatEvents.js';
 import type { ServerEvents, ClientEvents } from '@chat-app/common/types.ts';
 
 const app = express();
@@ -16,14 +17,7 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  socket.on('chatMessageClient', (msg, cb) => {
-    const messageDate = new Date().toISOString();
-    socket.broadcast.emit('chatMessageServer', {
-      message: msg,
-      date: messageDate,
-    });
-    cb(messageDate);
-  });
+  registerChatEvents(io, socket);
 });
 
 server.listen(8080, () => {
