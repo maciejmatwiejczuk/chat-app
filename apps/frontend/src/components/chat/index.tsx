@@ -7,7 +7,7 @@ import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import styles from './styles.module.css';
 
-interface ChatMessage {
+export interface ChatMessage {
   id: string;
   isMe: boolean;
   message: string;

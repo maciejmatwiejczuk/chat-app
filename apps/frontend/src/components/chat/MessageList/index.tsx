@@ -1,6 +1,6 @@
 import { ReactElement, useRef, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
-import { ChatMessage } from '../../../App';
+import { ChatMessage } from '../index';
 import { groupMessagesByTime } from '../../../helpers/chat.helpers';
 import { formatDate } from '../../../helpers/date.helpers';
 import styles from './styles.module.css';
