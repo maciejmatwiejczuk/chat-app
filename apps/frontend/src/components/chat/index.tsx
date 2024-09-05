@@ -1,19 +1,54 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { socket } from '../../config/socket';
 import { v4 as uuid } from 'uuid';
+import { TransferredChatMessage } from '@chat-app/common/types.ts';
 import ChatHeader from './ChatHeader';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
-import { ChatMessage } from '../../App';
 import styles from './styles.module.css';
 
-interface ChatProps {
-  chatMessages: ChatMessage[];
-  setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
+interface ChatMessage {
+  id: string;
+  isMe: boolean;
+  message: string;
+  date: Date;
 }
 
-function Chat({ chatMessages, setChatMessages }: ChatProps) {
+function Chat() {
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    function onConnect() {
+      console.log('connected');
+    }
+
+    function onDisconnect() {
+      console.log('disconnected');
+    }
+
+    function onChatMessageEvent(msgObj: TransferredChatMessage) {
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          id: uuid(),
+          isMe: false,
+          message: msgObj.message,
+          date: new Date(msgObj.date),
+        },
+      ]);
+    }
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+    socket.on('chat_message:server', onChatMessageEvent);
+
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+      socket.off('chat_message:server', onChatMessageEvent);
+    };
+  }, []);
 
   function onMessageSend() {
     const messageId = uuid();
