@@ -1,6 +1,7 @@
 .container {
   flex: 1;
   display: grid;
+  grid-template-rows: 1fr;
   padding: var(--size-px-m);
   margin-bottom: var(--size-px-2xs);
   border-radius: var(--border-radius-default);
