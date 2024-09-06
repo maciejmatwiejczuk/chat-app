@@ -1,4 +1,4 @@
-import Chat from './components/chat/index.tsx';
+import Chat from './components/Chat/index.tsx';
 import List from './components/List/index.tsx';
 import styles from './app.module.css';
 
