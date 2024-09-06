@@ -2,6 +2,6 @@
   display: flex;
   flex-direction: column;
   justify-content: end;
-  width: 800px;
+  flex: 3;
   height: 100%;
 }
