@@ -1,11 +1,11 @@
 import Chat from './components/Chat/index.tsx';
-import List from './components/List/index.tsx';
+import ChatList from './components/ChatList/index.tsx';
 import styles from './app.module.css';
 
 function App() {
   return (
     <div className={styles.container}>
-      <List />
+      <ChatList />
       <Chat />
     </div>
   );

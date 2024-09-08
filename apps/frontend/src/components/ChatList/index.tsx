@@ -17,7 +17,7 @@ const options = [
   },
 ];
 
-function List() {
+function ChatList() {
   const [dropdownSelection, setDropdownSelection] = useState(options[0].value);
 
   return (
@@ -67,4 +67,4 @@ function ChatListItem({ name, lastMessage }: ChatListItemProps) {
   );
 }
 
-export default List;
+export default ChatList;
