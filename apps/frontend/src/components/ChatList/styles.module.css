@@ -95,3 +95,17 @@
   font-size: var(--size-rem-s);
   text-align: start;
 }
+
+.placeholder {
+  font-size: var(--size-rem-s);
+  text-align: center;
+}
+
+.placeholder > span {
+  font-weight: 600;
+}
+
+.placeholderIcon {
+  position: relative;
+  top: 3px;
+}

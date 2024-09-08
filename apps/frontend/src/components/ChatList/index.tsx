@@ -1,10 +1,23 @@
-import { AddressBook, Binoculars } from '@phosphor-icons/react';
-import styles from './styles.module.css';
+import {
+  AddressBook,
+  Binoculars,
+  MagnifyingGlass,
+} from '@phosphor-icons/react';
 import { useState } from 'react';
 import Dropdown from './Dropdown';
 import Search from './Search';
+import { users, contacts } from '../../data';
+import styles from './styles.module.css';
 
-const options = [
+export type OptionValue = 'my_contacts' | 'find_users';
+
+export interface Option {
+  icon: JSX.Element;
+  title: string;
+  value: OptionValue;
+}
+
+const options: Option[] = [
   {
     icon: <AddressBook size={24} weight="fill" />,
     title: 'My contacts',
@@ -18,7 +31,48 @@ const options = [
 ];
 
 function ChatList() {
-  const [dropdownSelection, setDropdownSelection] = useState(options[0].value);
+  const [dropdownSelection, setDropdownSelection] = useState<OptionValue>(
+    options[0].value
+  );
+  const [searchValue, setSearchValue] = useState('');
+
+  function renderItems() {
+    if (dropdownSelection === 'my_contacts') {
+      if (searchValue) {
+        const foundContacts = contacts.filter((contact) =>
+          contact.username.toLowerCase().includes(searchValue.toLowerCase())
+        );
+
+        return foundContacts.map((contact) => (
+          <ChatListItem
+            name={contact.username}
+            lastMessage={contact.last_message}
+          />
+        ));
+      }
+
+      return contacts.map((contact) => (
+        <ChatListItem
+          name={contact.username}
+          lastMessage={contact.last_message}
+        />
+      ));
+    } else {
+      if (searchValue) {
+        const foundUsers = users
+          .filter((user) => !contacts.find((contact) => contact.id === user.id))
+          .filter((user) =>
+            user.username.toLowerCase().includes(searchValue.toLowerCase())
+          );
+
+        return foundUsers.map((contact) => (
+          <ChatListItem name={contact.username} />
+        ));
+      }
+
+      return null;
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -26,31 +80,25 @@ function ChatList() {
         <h2 className={styles.title}>Chats</h2>
         <div className={styles.dropdownSearchWrapper}>
           <Dropdown options={options} onSelect={setDropdownSelection} />
-          <Search />
+          <Search value={searchValue} setValue={setSearchValue} />
         </div>
       </div>
-      <ul className={styles.list}>
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-        <ChatListItem name="First Last" lastMessage="Last message" />
-      </ul>
+      {dropdownSelection === 'find_users' && !searchValue ? (
+        <p className={styles.placeholder}>
+          Use{' '}
+          <MagnifyingGlass weight="bold" className={styles.placeholderIcon} />{' '}
+          <span>search</span> above to find users
+        </p>
+      ) : (
+        <ul className={styles.list}>{renderItems()}</ul>
+      )}
     </div>
   );
 }
 
 interface ChatListItemProps {
   name: string;
-  lastMessage: string;
+  lastMessage?: string;
 }
 
 function ChatListItem({ name, lastMessage }: ChatListItemProps) {

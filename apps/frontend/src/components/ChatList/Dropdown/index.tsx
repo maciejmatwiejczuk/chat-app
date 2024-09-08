@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { CaretUp } from '@phosphor-icons/react';
 import styles from './styles.module.css';
+import type { OptionValue } from '..';
 
 interface DropdownProps {
-  options: { icon: JSX.Element; title: string; value: string }[];
-  onSelect: React.Dispatch<React.SetStateAction<string>>;
+  options: { icon: JSX.Element; title: string; value: OptionValue }[];
+  onSelect: React.Dispatch<React.SetStateAction<OptionValue>>;
 }
 
 function Dropdown({ options, onSelect }: DropdownProps) {
