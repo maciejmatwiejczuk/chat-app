@@ -5,9 +5,9 @@ import {
 } from '@phosphor-icons/react';
 import { useState } from 'react';
 import Dropdown from './Dropdown';
-import Search from './Search';
 import { users, contacts } from '../../data';
 import styles from './styles.module.css';
+import TextInput from '../common/TextInput';
 
 export type OptionValue = 'my_contacts' | 'find_users';
 
@@ -80,7 +80,13 @@ function ChatList() {
         <h2 className={styles.title}>Chats</h2>
         <div className={styles.dropdownSearchWrapper}>
           <Dropdown options={options} onSelect={setDropdownSelection} />
-          <Search value={searchValue} setValue={setSearchValue} />
+          <TextInput
+            value={searchValue}
+            setValue={setSearchValue}
+            type="search"
+            placeholder="search"
+            iconName="MagnifyingGlass"
+          />
         </div>
       </div>
       {dropdownSelection === 'find_users' && !searchValue ? (
