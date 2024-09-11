@@ -1,14 +1,9 @@
-import Chat from './components/Chat/index.tsx';
-import ChatList from './components/ChatList/index.tsx';
-import styles from './app.module.css';
+import ChatPage from './pages/ChatPage';
+// import SignUp from './pages/SignUp';
+// import SignIn from './pages/SignIn';
 
 function App() {
-  return (
-    <div className={styles.container}>
-      <ChatList />
-      <Chat />
-    </div>
-  );
+  return <ChatPage />;
 }
 
 export default App;
