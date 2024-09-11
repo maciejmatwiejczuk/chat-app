@@ -34,7 +34,7 @@
   box-shadow: 0 0 12px -4px var(--color-secondary-400);
 }
 
-.container > svg {
+.inputWrapper > svg {
   align-self: center;
   position: absolute;
   left: var(--size-px-s);
