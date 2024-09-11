@@ -1,4 +1,4 @@
-.container {
+.inputWrapper {
   display: flex;
   width: 100%;
   position: relative;
@@ -13,6 +13,16 @@
   outline: none;
   transition: box-shadow 0.2s ease-out;
   transition: border 0.2s ease-out;
+}
+
+.label {
+  display: block;
+  margin-bottom: var(--size-px-3xs);
+  color: var(--color-primary-700);
+  font-size: var(--size-rem-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .inputWithIcon {

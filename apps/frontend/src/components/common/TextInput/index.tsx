@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import PhosphorIcon from '../PhosphorIcon';
 import styles from './styles.module.css';
 
@@ -7,6 +8,7 @@ interface TextInputProps {
   value: string;
   setValue: (value: string) => void;
   type?: TextInputType;
+  label?: string;
   placeholder?: string;
   iconName?: string;
 }
@@ -15,6 +17,7 @@ function TextInput({
   value,
   setValue,
   type = 'text',
+  label = '',
   placeholder = '',
   iconName = '',
 }: TextInputProps) {
@@ -22,17 +25,27 @@ function TextInput({
     ? `${styles.input} ${styles.inputWithIcon}`
     : styles.input;
 
+  const id = useId();
+
   return (
-    <div className={styles.container}>
-      {iconName && <PhosphorIcon name={iconName} size={24} weight="bold" />}
-      <input
-        type={type}
-        className={inputStyle}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder={placeholder}
-      />
-    </div>
+    <>
+      {label && (
+        <label htmlFor={id} className={styles.label}>
+          {label}
+        </label>
+      )}
+      <div className={styles.inputWrapper}>
+        {iconName && <PhosphorIcon name={iconName} size={24} weight="bold" />}
+        <input
+          id={id}
+          type={type}
+          className={inputStyle}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder={placeholder}
+        />
+      </div>
+    </>
   );
 }
 
