@@ -1,13 +1,14 @@
+import { useState } from 'react';
 import {
   AddressBook,
   Binoculars,
   MagnifyingGlass,
 } from '@phosphor-icons/react';
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Dropdown from './Dropdown';
 import { users, contacts } from '../../data';
-import styles from './styles.module.css';
 import TextInput from '../common/TextInput';
+import styles from './styles.module.css';
 
 export type OptionValue = 'my_contacts' | 'find_users';
 
@@ -45,6 +46,7 @@ function ChatList() {
 
         return foundContacts.map((contact) => (
           <ChatListItem
+            socketId={contact.socketId}
             name={contact.username}
             lastMessage={contact.last_message}
           />
@@ -53,6 +55,7 @@ function ChatList() {
 
       return contacts.map((contact) => (
         <ChatListItem
+          socketId={contact.socketId}
           name={contact.username}
           lastMessage={contact.last_message}
         />
@@ -66,7 +69,7 @@ function ChatList() {
           );
 
         return foundUsers.map((contact) => (
-          <ChatListItem name={contact.username} />
+          <ChatListItem socketId={contact.socketId} name={contact.username} />
         ));
       }
 
@@ -103,20 +106,21 @@ function ChatList() {
 }
 
 interface ChatListItemProps {
+  socketId: number;
   name: string;
   lastMessage?: string;
 }
 
-function ChatListItem({ name, lastMessage }: ChatListItemProps) {
+function ChatListItem({ socketId, name, lastMessage }: ChatListItemProps) {
   return (
     <li className={styles.listItem}>
-      <button type="button">
+      <Link to={`chat/${socketId}`}>
         <div className={styles.imagePlaceholder}></div>
         <div>
           <h4 className={styles.chatName}>{name}</h4>
           <p className={styles.lastMessage}>{lastMessage}</p>
         </div>
-      </button>
+      </Link>
     </li>
   );
 }

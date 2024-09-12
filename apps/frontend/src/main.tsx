@@ -6,12 +6,19 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import ErrorPage from './pages/ErrorPage';
 import './index.css';
+import Chat from './components/Chat';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <ChatPage />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: 'chat/:chatId',
+        element: <Chat />,
+      },
+    ],
   },
   {
     path: '/sign-in',

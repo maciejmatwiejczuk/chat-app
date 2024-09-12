@@ -62,7 +62,7 @@
   list-style: none;
 }
 
-.listItem > button {
+.listItem > a {
   display: flex;
   align-items: center;
   gap: var(--size-px-s);
@@ -70,11 +70,13 @@
   padding: var(--size-px-s) var(--size-px-l);
   border: none;
   background: none;
+  color: var(--color-primary-900);
+  text-decoration: none;
   cursor: pointer;
   transition: background-color 0.2s ease-out;
 }
 
-.listItem > button:hover {
+.listItem > a:hover {
   background-color: var(--color-secondary-100);
 }
 
