@@ -1,6 +1,7 @@
 export const users = [
   {
     id: 1,
+    socketId: 43214,
     username: 'johnDoe92',
     email: 'john.doe92@example.com',
     password: 'password123',
@@ -10,6 +11,7 @@ export const users = [
   },
   {
     id: 2,
+    socketId: 431542,
     username: 'janeSmith85',
     email: 'jane.smith85@example.com',
     password: 'securePass!45',
@@ -19,6 +21,7 @@ export const users = [
   },
   {
     id: 3,
+    socketId: 4545,
     username: 'mikeBrown78',
     email: 'mike.brown78@example.com',
     password: 'mikeB@78password',
@@ -28,6 +31,7 @@ export const users = [
   },
   {
     id: 4,
+    socketId: 53423425,
     username: 'emilyClark88',
     email: 'emily.clark88@example.com',
     password: 'emily!Clark88',
@@ -37,6 +41,7 @@ export const users = [
   },
   {
     id: 5,
+    socketId: 54523,
     username: 'danielLee90',
     email: 'daniel.lee90@example.com',
     password: 'danielLee90pass',
@@ -46,6 +51,7 @@ export const users = [
   },
   {
     id: 6,
+    socketId: 563234,
     username: 'sarahMiller83',
     email: 'sarah.miller83@example.com',
     password: 'SarahMiller!83',
@@ -55,6 +61,7 @@ export const users = [
   },
   {
     id: 7,
+    socketId: 54545,
     username: 'chrisJohnson81',
     email: 'chris.johnson81@example.com',
     password: 'johnsonChris81*',
@@ -64,6 +71,7 @@ export const users = [
   },
   {
     id: 8,
+    socketId: 47428,
     username: 'oliviaTaylor94',
     email: 'olivia.taylor94@example.com',
     password: 'OliviaT@94password',
@@ -73,6 +81,7 @@ export const users = [
   },
   {
     id: 9,
+    socketId: 5489759,
     username: 'jamesAnderson79',
     email: 'james.anderson79@example.com',
     password: 'James79Anderson!',
@@ -82,6 +91,7 @@ export const users = [
   },
   {
     id: 10,
+    socketId: 43874,
     username: 'lauraWilson77',
     email: 'laura.wilson77@example.com',
     password: 'lauraWilson77#',
