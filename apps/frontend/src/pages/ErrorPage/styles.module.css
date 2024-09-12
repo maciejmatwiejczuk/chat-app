@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.heading {
+  margin-bottom: var(--size-px-m);
+  font-size: var(--size-rem-xl);
+}
+
+.message {
+  margin-bottom: var(--size-px-xs);
+  font-size: var(--size-rem-m);
+}
+
+.status {
+  font-size: var(--size-rem-m);
+  color: var(--color-primary-700);
+}

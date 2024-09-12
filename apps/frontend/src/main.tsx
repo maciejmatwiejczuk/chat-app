@@ -1,15 +1,17 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ChatPage from './pages/ChatPage/index.tsx';
-import SignUp from './pages/SignUp/index.tsx';
-import SignIn from './pages/SignIn/index.tsx';
+import ChatPage from './pages/ChatPage';
+import SignUp from './pages/SignUp';
+import SignIn from './pages/SignIn';
+import ErrorPage from './pages/ErrorPage';
 import './index.css';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <ChatPage />,
+    errorElement: <ErrorPage />,
   },
   {
     path: '/sign-in',
