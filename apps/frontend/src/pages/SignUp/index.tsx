@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import { Link } from 'react-router-dom';
 import TextInput from '../../components/common/TextInput';
 import styles from './styles.module.css';
 
@@ -93,9 +94,9 @@ function SignUp() {
 
         <p className={styles.bottomText}>
           Already have an account?{' '}
-          <a href="#" className={styles.redirect}>
+          <Link to="/sign-in" className={styles.redirect}>
             Sign in here
-          </a>
+          </Link>
           .
         </p>
       </form>

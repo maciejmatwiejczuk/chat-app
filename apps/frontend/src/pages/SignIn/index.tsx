@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import TextInput from '../../components/common/TextInput';
 import styles from './styles.module.css';
 
@@ -27,9 +28,9 @@ function SignIn() {
 
         <p className={styles.bottomText}>
           Don't have an account yet?{' '}
-          <a href="#" className={styles.redirect}>
+          <Link to="/sign-up" className={styles.redirect}>
             Sign up here
-          </a>
+          </Link>
           .
         </p>
       </form>
