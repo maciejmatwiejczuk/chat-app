@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 96px;
+  padding: 0 var(--size-px-l);
+  border-radius: var(--border-radius-default);
+  background-color: var(--color-primary-50);
+}
+
+.usernameAvatarWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--size-px-s);
+}
+
+.username {
+  font-size: var(--size-rem-m);
+}
+
+.logout {
+  padding: var(--size-px-xs) var(--size-px-s);
+  border: none;
+  border-radius: 100px;
+  background-color: var(--color-secondary-400);
+  color: var(--color-primary-50);
+  font-size: var(--size-rem-s);
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.3s ease-out;
+}
+
+.logout:hover {
+  opacity: 0.9;
+}
+
+.logout:active {
+  background-color: var(--color-secondary-500);
+}
