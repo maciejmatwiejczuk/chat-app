@@ -1,6 +1,19 @@
 .container {
-  height: 80px;
+  display: flex;
+  align-items: center;
+  gap: var(--size-px-xs);
+  height: 96px;
+  padding-left: var(--size-px-m);
   margin-bottom: var(--size-px-2xs);
   border-radius: var(--border-radius-default);
   background-color: var(--color-primary-50);
+}
+
+.username {
+  font-size: var(--size-rem-s);
+  font-weight: 700;
+}
+
+.status {
+  color: var(--color-primary-600);
 }
