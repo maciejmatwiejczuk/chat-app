@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import Dropdown from './Dropdown';
 import { users, contacts } from '../../data';
 import TextInput from '../common/TextInput';
+import Avatar from '../common/Avatar';
 import styles from './styles.module.css';
 
 export type OptionValue = 'my_contacts' | 'find_users';
@@ -115,7 +116,7 @@ function ChatListItem({ socketId, name, lastMessage }: ChatListItemProps) {
   return (
     <li className={styles.listItem}>
       <Link to={`chat/${socketId}`}>
-        <div className={styles.imagePlaceholder}></div>
+        <Avatar />
         <div>
           <h4 className={styles.chatName}>{name}</h4>
           <p className={styles.lastMessage}>{lastMessage}</p>
