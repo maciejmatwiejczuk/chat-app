@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   gap: var(--size-px-xs);
-  height: 96px;
+  min-height: 96px;
   padding-left: var(--size-px-l);
   margin-bottom: var(--size-px-2xs);
   border-radius: var(--border-radius-default);
