@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   AddressBook,
   Binoculars,
@@ -38,6 +39,12 @@ function ChatList() {
   );
   const [searchValue, setSearchValue] = useState('');
 
+  const { chatId } = useParams();
+
+  function isChatOpen(id: number) {
+    return Number(chatId) === id;
+  }
+
   function renderItems() {
     if (dropdownSelection === 'my_contacts') {
       if (searchValue) {
@@ -50,6 +57,7 @@ function ChatList() {
             socketId={contact.socketId}
             name={contact.username}
             lastMessage={contact.last_message}
+            isOpen={isChatOpen(contact.socketId)}
           />
         ));
       }
@@ -59,6 +67,7 @@ function ChatList() {
           socketId={contact.socketId}
           name={contact.username}
           lastMessage={contact.last_message}
+          isOpen={isChatOpen(contact.socketId)}
         />
       ));
     } else {
@@ -70,7 +79,11 @@ function ChatList() {
           );
 
         return foundUsers.map((contact) => (
-          <ChatListItem socketId={contact.socketId} name={contact.username} />
+          <ChatListItem
+            socketId={contact.socketId}
+            name={contact.username}
+            isOpen={isChatOpen(contact.socketId)}
+          />
         ));
       }
 
@@ -110,11 +123,21 @@ interface ChatListItemProps {
   socketId: number;
   name: string;
   lastMessage?: string;
+  isOpen: boolean;
 }
 
-function ChatListItem({ socketId, name, lastMessage }: ChatListItemProps) {
+function ChatListItem({
+  socketId,
+  name,
+  lastMessage,
+  isOpen,
+}: ChatListItemProps) {
+  const listItemStyle = isOpen
+    ? `${styles.listItem} ${styles.listItemOpen}`
+    : styles.listItem;
+
   return (
-    <li className={styles.listItem}>
+    <li className={listItemStyle}>
       <Link to={`chat/${socketId}`}>
         <Avatar />
         <div>

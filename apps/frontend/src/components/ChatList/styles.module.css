@@ -76,8 +76,21 @@
   transition: background-color 0.2s ease-out;
 }
 
-.listItem > a:hover {
+.listItem:not(.listItemOpen) > a:hover {
   background-color: var(--color-secondary-100);
+}
+
+.listItemOpen {
+  background-color: var(--color-secondary-400);
+}
+
+.listItemOpen > a {
+  color: var(--color-primary-50);
+}
+
+.listItem > a,
+.listItemOpen {
+  border-radius: var(--border-radius-default);
 }
 
 .imagePlaceholder {
