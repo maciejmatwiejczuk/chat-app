@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { AddressBook, Binoculars } from '@phosphor-icons/react';
-import ChatList from './ChatList';
+import AccountPreview from './AccountPreview';
 import Dropdown from './Dropdown';
 import TextInput from '../common/TextInput';
+import ChatList from './ChatList';
 import styles from './styles.module.css';
 
 export type OptionValue = 'my_contacts' | 'find_users';
@@ -34,23 +35,26 @@ function SideMenu() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h2 className={styles.title}>Chats</h2>
-        <div className={styles.dropdownSearchWrapper}>
-          <Dropdown options={options} onSelect={setDropdownSelection} />
-          <TextInput
-            value={searchValue}
-            setValue={setSearchValue}
-            type="search"
-            placeholder="search"
-            iconName="MagnifyingGlass"
-          />
+      <AccountPreview />
+      <div className={styles.listContainer}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Chats</h2>
+          <div className={styles.dropdownSearchWrapper}>
+            <Dropdown options={options} onSelect={setDropdownSelection} />
+            <TextInput
+              value={searchValue}
+              setValue={setSearchValue}
+              type="search"
+              placeholder="search"
+              iconName="MagnifyingGlass"
+            />
+          </div>
         </div>
+        <ChatList
+          dropdownSelection={dropdownSelection}
+          searchValue={searchValue}
+        />
       </div>
-      <ChatList
-        dropdownSelection={dropdownSelection}
-        searchValue={searchValue}
-      />
     </div>
   );
 }

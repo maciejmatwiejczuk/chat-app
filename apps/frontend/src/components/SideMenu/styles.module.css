@@ -1,7 +1,12 @@
 .container {
   flex: 1;
+  gap: var(--size-px-2xs);
   display: flex;
   flex-direction: column;
+}
+
+.listContainer {
+  flex: 1;
   border-radius: var(--border-radius-default);
   background-color: var(--color-primary-50);
 }
