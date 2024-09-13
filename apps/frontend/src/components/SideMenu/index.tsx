@@ -33,7 +33,7 @@ const options: Option[] = [
   },
 ];
 
-function ChatList() {
+function SideMenu() {
   const [dropdownSelection, setDropdownSelection] = useState<OptionValue>(
     options[0].value
   );
@@ -149,4 +149,4 @@ function ChatListItem({
   );
 }
 
-export default ChatList;
+export default SideMenu;
