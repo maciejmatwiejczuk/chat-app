@@ -1,0 +1,70 @@
+.list {
+  overflow-y: auto;
+}
+
+.listItem {
+  list-style: none;
+}
+
+.listItem > a {
+  display: flex;
+  align-items: center;
+  gap: var(--size-px-s);
+  width: 100%;
+  padding: var(--size-px-s) var(--size-px-l);
+  border: none;
+  background: none;
+  color: var(--color-primary-900);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease-out;
+}
+
+.listItem:not(.listItemOpen) > a:hover {
+  background-color: var(--color-secondary-100);
+}
+
+.listItemOpen {
+  background-color: var(--color-secondary-400);
+}
+
+.listItemOpen > a {
+  color: var(--color-primary-50);
+}
+
+.listItem > a,
+.listItemOpen {
+  border-radius: var(--border-radius-default);
+}
+
+.imagePlaceholder {
+  width: var(--size-px-xl);
+  height: var(--size-px-xl);
+  border-radius: 100px;
+  background-color: black;
+}
+
+.chatName {
+  font-size: var(--size-rem-s);
+  font-weight: 700;
+  text-align: start;
+}
+
+.lastMessage {
+  font-size: var(--size-rem-s);
+  text-align: start;
+}
+
+.placeholder {
+  font-size: var(--size-rem-s);
+  text-align: center;
+}
+
+.placeholder > span {
+  font-weight: 600;
+}
+
+.placeholderIcon {
+  position: relative;
+  top: 3px;
+}
