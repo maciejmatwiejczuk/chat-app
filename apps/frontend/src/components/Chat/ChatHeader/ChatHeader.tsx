@@ -1,5 +1,5 @@
-import Avatar from '../../common/Avatar';
-import styles from './styles.module.css';
+import Avatar from '../../_common/Avatar/Avatar';
+import styles from './chat-header.module.css';
 
 function ChatHeader() {
   return (

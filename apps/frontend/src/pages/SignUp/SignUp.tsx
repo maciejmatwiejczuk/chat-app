@@ -1,8 +1,8 @@
 import { useReducer } from 'react';
 import { Link } from 'react-router-dom';
-import TextInput from '../../components/common/TextInput';
-import Button from '../../components/common/Button';
-import styles from './styles.module.css';
+import TextInput from '../../components/_common/TextInput/TextInput';
+import Button from '../../components/_common/Button/Button';
+import styles from './sign-up.module.css';
 
 interface FormState {
   email: string;

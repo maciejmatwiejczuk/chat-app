@@ -1,8 +1,8 @@
 import express from 'express';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
-import { registerChatEvents } from './events/chatEvents.js';
-import type { ServerEvents, ClientEvents } from '@chat-app/common/types.ts';
+import { registerChatEvents } from './events/chat.events.js';
+import type { ServerEvents, ClientEvents } from '@chat-app/_common/types.ts';
 
 const app = express();
 const server = createServer(app);

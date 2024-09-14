@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import type { ServerEvents, ClientEvents } from '@chat-app/common/types.ts';
+import type { ServerEvents, ClientEvents } from '@chat-app/_common/types';
 
 export const socket: Socket<ServerEvents, ClientEvents> = io(
   'http://localhost:8080',

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { socket } from '../../config/socket';
 import { v4 as uuid } from 'uuid';
-import { TransferredChatMessage } from '@chat-app/common/types.ts';
-import ChatHeader from './ChatHeader';
-import MessageList from './MessageList';
-import MessageInput from './MessageInput';
-import styles from './styles.module.css';
+import { TransferredChatMessage } from '@chat-app/_common/types';
+import ChatHeader from './ChatHeader/ChatHeader';
+import MessageList from './MessageList/MessageList';
+import MessageInput from './MessageInput/MessageInput';
+import styles from './chat.module.css';
 
 export interface ChatMessage {
   id: string;

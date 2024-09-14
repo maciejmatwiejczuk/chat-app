@@ -1,9 +1,9 @@
 import { useParams, Link } from 'react-router-dom';
 import { MagnifyingGlass } from '@phosphor-icons/react';
 import { contacts, users } from '../../../data';
-import Avatar from '../../common/Avatar';
-import type { OptionValue } from '..';
-import styles from './styles.module.css';
+import Avatar from '../../_common/Avatar/Avatar';
+import type { OptionValue } from '../SideMenu';
+import styles from './chat-list.module.css';
 
 interface ChatListProps {
   dropdownSelection: OptionValue;

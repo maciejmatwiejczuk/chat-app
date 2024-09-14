@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { AddressBook, Binoculars } from '@phosphor-icons/react';
-import AccountPreview from './AccountPreview';
-import Dropdown from './Dropdown';
-import TextInput from '../common/TextInput';
-import ChatList from './ChatList';
-import styles from './styles.module.css';
+import AccountPreview from './AccountPreview/AccountPreview';
+import Dropdown from './Dropdown/Dropdown';
+import TextInput from '../_common/TextInput/TextInput';
+import ChatList from './ChatList/ChatList';
+import styles from './side-menu.module.css';
 
 export type OptionValue = 'my_contacts' | 'find_users';
 

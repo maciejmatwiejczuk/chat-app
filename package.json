@@ -7,7 +7,8 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "common"
+    "_common/*",
+    "_common"
   ],
   "scripts": {
     "build:frontend": "npm run build -w ./apps/frontend",

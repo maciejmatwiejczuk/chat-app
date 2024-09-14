@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import TextInput from '../../components/common/TextInput';
-import styles from './styles.module.css';
-import Button from '../../components/common/Button';
+import TextInput from '../../components/_common/TextInput/TextInput';
+import styles from './sign-in.module.css';
+import Button from '../../components/_common/Button/Button';
 
 function SignIn() {
   const [username, setUsername] = useState('');

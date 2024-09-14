@@ -1,9 +1,9 @@
 import { ReactElement, useRef, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
-import { ChatMessage } from '../index';
+import { ChatMessage } from '../Chat';
 import { groupMessagesByTime } from '../../../helpers/chat.helpers';
 import { formatDate } from '../../../helpers/date.helpers';
-import styles from './styles.module.css';
+import styles from './message-list.module.css';
 
 interface MessageListProps {
   chatMessages: ChatMessage[];

@@ -1,6 +1,6 @@
 import { useId } from 'react';
-import PhosphorIcon from '../PhosphorIcon';
-import styles from './styles.module.css';
+import PhosphorIcon from '../PhosphorIcon/PhosphorIcon';
+import styles from './text-input.module.css';
 
 type TextInputType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url';
 

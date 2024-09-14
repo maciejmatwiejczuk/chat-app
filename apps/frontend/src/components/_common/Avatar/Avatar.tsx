@@ -1,5 +1,5 @@
 import { User } from '@phosphor-icons/react';
-import styles from './styles.module.css';
+import styles from './avatar.module.css';
 
 function Avatar() {
   return (

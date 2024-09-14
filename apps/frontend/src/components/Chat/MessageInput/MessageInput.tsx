@@ -1,5 +1,5 @@
 import { PaperPlaneTilt } from '@phosphor-icons/react';
-import styles from './styles.module.css';
+import styles from './message-input.module.css';
 
 interface MessageInputProps {
   message: string;

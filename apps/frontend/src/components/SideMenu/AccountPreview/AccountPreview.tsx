@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import Avatar from '../../common/Avatar';
-import Modal from '../../common/Modal';
-import Button from '../../common/Button';
-import styles from './styles.module.css';
+import Avatar from '../../_common/Avatar/Avatar';
+import Modal from '../../_common/Modal/Modal';
+import Button from '../../_common/Button/Button';
+import styles from './account-preview.module.css';
 import { useNavigate } from 'react-router-dom';
 
 function AccountPreview() {

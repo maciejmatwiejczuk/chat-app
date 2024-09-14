@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import SideMenu from '../../components/SideMenu/index.tsx';
-import styles from './styles.module.css';
+import SideMenu from '../../components/SideMenu/SideMenu.tsx';
+import styles from './chat-page.module.css';
 
 function ChatPage() {
   return (
