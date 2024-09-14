@@ -1,6 +1,7 @@
 import { useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import TextInput from '../../components/common/TextInput';
+import Button from '../../components/common/Button';
 import styles from './styles.module.css';
 
 interface FormState {
@@ -90,7 +91,9 @@ function SignUp() {
           />
         </div>
 
-        <button className={styles.submit}>Sign Up</button>
+        <div className={styles.buttonWrapper}>
+          <Button title="Sign in" size="small" type="fill" isWide={true} />
+        </div>
 
         <p className={styles.bottomText}>
           Already have an account?{' '}

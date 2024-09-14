@@ -27,22 +27,9 @@
   margin-bottom: var(--size-px-l);
 }
 
-.submit {
-  width: 100%;
-  padding: var(--size-px-xs);
-  border: none;
-  border-radius: 100px;
+.buttonWrapper {
+  margin-top: var(--size-px-l);
   margin-bottom: var(--size-px-m);
-  background-color: var(--color-secondary-400);
-  color: var(--color-primary-50);
-  font-size: var(--size-rem-s);
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.3s ease-out;
-}
-
-.submit:hover {
-  opacity: 0.9;
 }
 
 .trigger:active {

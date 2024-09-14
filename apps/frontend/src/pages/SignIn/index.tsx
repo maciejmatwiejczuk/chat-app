@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TextInput from '../../components/common/TextInput';
 import styles from './styles.module.css';
+import Button from '../../components/common/Button';
 
 function SignIn() {
   const [username, setUsername] = useState('');
@@ -24,7 +25,9 @@ function SignIn() {
           />
         </div>
 
-        <button className={styles.submit}>Sign In</button>
+        <div className={styles.buttonWrapper}>
+          <Button title="Sign in" size="small" type="fill" isWide={true} />
+        </div>
 
         <p className={styles.bottomText}>
           Don't have an account yet?{' '}
