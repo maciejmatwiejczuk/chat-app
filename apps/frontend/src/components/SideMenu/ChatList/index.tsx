@@ -64,7 +64,7 @@ function ChatList({ dropdownSelection, searchValue }: ChatListProps) {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       {dropdownSelection === 'find_users' && !searchValue ? (
         <p className={styles.placeholder}>
           Use{' '}
