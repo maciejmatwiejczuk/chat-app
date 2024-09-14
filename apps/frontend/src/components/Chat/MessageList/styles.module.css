@@ -62,8 +62,8 @@
 }
 
 .message {
-  width: max-content;
-  max-width: 75%;
+  width: auto;
+  max-width: 55%;
   padding: var(--size-px-s) var(--size-px-s);
   font-size: var(--size-rem-s);
   word-wrap: break-word;
@@ -84,6 +84,7 @@
   border-radius: 12px 24px 24px 12px;
   background-color: var(--color-primary-200);
   color: var(--color-primary-900);
+  margin-right: auto;
 }
 
 .receivedMessage + .sentMessage,
@@ -94,6 +95,7 @@
 .sentMessage:has(+ .receivedMessage),
 .sentMessage:last-child {
   border-bottom-right-radius: 24px;
+  margin-bottom: var(--size-px-2xl);
 }
 
 .sentMessage + .receivedMessage,
@@ -104,6 +106,7 @@
 .receivedMessage:has(+ .sentMessage),
 .receivedMessage:last-child {
   border-bottom-left-radius: 24px;
+  margin-bottom: var(--size-px-2xl);
 }
 
 .placeholder {
