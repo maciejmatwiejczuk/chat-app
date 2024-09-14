@@ -3,6 +3,7 @@
   gap: var(--size-px-2xs);
   display: flex;
   flex-direction: column;
+  min-width: 350px;
 }
 
 .listContainer {
