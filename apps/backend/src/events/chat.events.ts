@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import type { ServerEvents, ClientEvents } from '@chat-app/common/types.ts';
+import type { ServerEvents, ClientEvents } from '@chat-app/_common/types.ts';
 
 export function registerChatEvents(
   io: Server<ClientEvents, ServerEvents>,
