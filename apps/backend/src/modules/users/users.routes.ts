@@ -8,32 +8,47 @@ router
   .route('/')
   .post((req: Request, res: Response) => {
     const { body: user } = req;
-    console.log(user);
 
     const result = UserSchema.safeParse(user);
-    console.log(result);
 
     if (!result.success) {
-      console.log(result.error);
-      return res.status(400).send({ message: 'Invalid fields' });
+      return res.status(400).send({
+        success: false,
+        message: 'Invalid fields',
+        errors: result.error.issues,
+      });
     }
 
-    return res.status(201).send({ message: 'User created' });
+    return res
+      .status(201)
+      .send({ success: true, message: 'New user created successfuly' });
   })
   .get((req: Request, res: Response) => {
-    res.send({ message: 'All users returned' });
+    res.send({ message: 'Users returned successfuly' });
   });
 
 router
   .route('/:id')
   .get((req: Request, res: Response) => {
-    res.send({ message: 'User with specifies id returned' });
+    res.send({ message: 'User with specifies id returned successfuly' });
   })
   .patch((req: Request, res: Response) => {
-    res.send({ message: 'User updated' });
+    const { body: user } = req;
+
+    const result = UserSchema.partial().safeParse(user);
+
+    if (!result.success) {
+      return res.status(400).send({
+        success: false,
+        message: 'Invalid fields',
+        errors: result.error.issues,
+      });
+    }
+
+    return res.send({ success: true, message: 'User updated successfuly' });
   })
   .delete((req: Request, res: Response) => {
-    res.send({ message: 'User deleted' });
+    res.send({ message: 'User deleted successfuly' });
   });
 
 export default router;
