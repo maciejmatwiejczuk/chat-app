@@ -7,12 +7,15 @@ import userRouter from './modules/users/users.routes.js';
 import type { ServerEvents, ClientEvents } from '@chat-app/_common/types.ts';
 
 const app = express();
+
 const server = createServer(app);
 const io = new Server<ClientEvents, ServerEvents>(server, {
   cors: {
     origin: 'http://localhost:5173',
   },
 });
+
+app.use(express.json());
 
 app.use('/users', userRouter);
 
