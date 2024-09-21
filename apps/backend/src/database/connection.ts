@@ -1,7 +1,9 @@
 import type { Database } from './types.js';
-import { Pool } from 'pg';
+import pg from 'pg';
 import { Kysely, PostgresDialect } from 'kysely';
 import { database } from '../environment.js';
+
+const { Pool } = pg;
 
 export const dialect = new PostgresDialect({
   pool: new Pool({
