@@ -32,7 +32,7 @@ export async function findUserByUsername(username: string) {
 export async function findUserByEmail(email: string) {
   return await db
     .selectFrom('user')
-    .where('username', '=', email)
+    .where('email', '=', email)
     .select(['id', 'username', 'email'])
     .executeTakeFirst();
 }
