@@ -10,7 +10,7 @@ export async function createUser(user: UserInsert) {
     .insertInto('user')
     .values(user)
     .returning(['id', 'username', 'email'])
-    .executeTakeFirstOrThrow();
+    .executeTakeFirst();
 }
 
 export async function findUserById(id: number) {
@@ -53,7 +53,7 @@ export async function updateUser(id: number, updateWith: UserUpdate) {
     .set(updateWith)
     .where('id', '=', id)
     .returning(['id', 'username', 'email'])
-    .executeTakeFirstOrThrow();
+    .executeTakeFirst();
 }
 
 export async function deleteUser(id: number) {
@@ -61,5 +61,5 @@ export async function deleteUser(id: number) {
     .deleteFrom('user')
     .where('id', '=', id)
     .returning(['id', 'username', 'email'])
-    .executeTakeFirstOrThrow();
+    .executeTakeFirst();
 }
