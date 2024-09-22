@@ -21,6 +21,22 @@ export async function findUserById(id: number) {
     .executeTakeFirst();
 }
 
+export async function findUserByUsername(username: string) {
+  return await db
+    .selectFrom('user')
+    .where('username', '=', username)
+    .select(['id', 'username', 'email'])
+    .executeTakeFirst();
+}
+
+export async function findUserByEmail(email: string) {
+  return await db
+    .selectFrom('user')
+    .where('username', '=', email)
+    .select(['id', 'username', 'email'])
+    .executeTakeFirst();
+}
+
 export async function findUsers(criteria: Partial<UserSelect>) {
   return await db
     .selectFrom('user')
