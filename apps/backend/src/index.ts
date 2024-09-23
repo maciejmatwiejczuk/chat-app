@@ -3,6 +3,7 @@ import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import { registerChatEvents } from './events/chat.events.js';
 import { server as serverConfig } from './environment.js';
+import errorCatcher from './middlewares/errorCatcher.js';
 import userRouter from './modules/users/users.routes.js';
 import type { ServerEvents, ClientEvents } from '@chat-app/_common/types.ts';
 
@@ -17,11 +18,13 @@ const io = new Server<ClientEvents, ServerEvents>(server, {
 
 app.use(express.json());
 
-app.use('/users', userRouter);
-
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+
+app.use('/users', userRouter);
+
+app.use(errorCatcher);
 
 io.on('connection', (socket) => {
   registerChatEvents(io, socket);
