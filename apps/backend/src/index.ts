@@ -6,6 +6,7 @@ import { server as serverConfig } from './environment.js';
 import errorCatcher from './middlewares/errorCatcher.js';
 import userRouter from './modules/users/users.routes.js';
 import type { ServerEvents, ClientEvents } from '@chat-app/_common/types.ts';
+import ErrorHandler from './utils/ErrorHandler.js';
 
 const app = express();
 
@@ -28,6 +29,13 @@ app.use(errorCatcher);
 
 io.on('connection', (socket) => {
   registerChatEvents(io, socket);
+});
+
+process.on('uncaughtException', (error: Error) => {
+  ErrorHandler.handleError(error);
+  if (!ErrorHandler.isTrustedError(error)) {
+    process.exit(1);
+  }
 });
 
 const HOST = serverConfig.SERVER_HOST;
