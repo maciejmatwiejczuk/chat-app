@@ -1,8 +1,10 @@
+import bcrypt from 'bcrypt';
 import { CreateUserSchema, UpdateUserSchema } from './users.schemas.js';
-import type { CreateUserDto, UpdateUserDto } from './users.schemas.js';
 import * as UserRepository from './users.repository.js';
 import mapFieldErrors from '../../utils/mapFieldErrors.js';
 import AppError from '../../utils/AppError.js';
+import type { CreateUserDto, UpdateUserDto } from './users.schemas.js';
+import type { UserInsert } from '../../database/types.js';
 
 export async function createUser(user: CreateUserDto) {
   const result = CreateUserSchema.safeParse(user);
@@ -44,7 +46,15 @@ export async function createUser(user: CreateUserDto) {
     ]);
   }
 
-  const createdUser = await UserRepository.createUser(result.data);
+  const passwordHash = await bcrypt.hash(result.data.password, 10);
+
+  const userToInsert: UserInsert = {
+    username: result.data.username,
+    email: result.data.email,
+    password: passwordHash,
+  };
+
+  const createdUser = await UserRepository.createUser(userToInsert);
 
   return createdUser;
 }
