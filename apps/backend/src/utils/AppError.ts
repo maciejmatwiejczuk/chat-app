@@ -1,6 +1,10 @@
 import type { FieldError } from './mapFieldErrors.js';
 
-export type ErrorName = 'not_found' | 'bad_input' | 'entity_exists';
+export type ErrorName =
+  | 'not_found'
+  | 'bad_input'
+  | 'entity_exists'
+  | 'auth_failed';
 
 export default class AppError extends Error {
   public override readonly name: ErrorName;
