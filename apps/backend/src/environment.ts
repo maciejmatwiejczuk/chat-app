@@ -13,3 +13,5 @@ export const database = {
   DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
   DATABASE_MAX_CONNECTIONS: process.env.DATABASE_MAX_CONNECTIONS,
 } as const;
+
+export const SESSION_SECRET = process.env.SESSION_SECRET;
