@@ -1,12 +1,14 @@
 import express from 'express';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
+import session from 'express-session';
 import { registerChatEvents } from './events/chat.events.js';
 import { server as serverConfig } from './environment.js';
 import errorCatcher from './middlewares/errorCatcher.js';
 import userRouter from './modules/users/users.routes.js';
 import type { ServerEvents, ClientEvents } from '@chat-app/_common/types.ts';
 import ErrorHandler from './utils/ErrorHandler.js';
+import { sessionConfig } from './modules/sessions/sessions.config.js';
 
 const app = express();
 
@@ -18,6 +20,8 @@ const io = new Server<ClientEvents, ServerEvents>(server, {
 });
 
 app.use(express.json());
+
+app.use(session(sessionConfig));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
