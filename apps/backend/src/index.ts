@@ -6,6 +6,7 @@ import { registerChatEvents } from './events/chat.events.js';
 import { server as serverConfig } from './environment.js';
 import errorCatcher from './middlewares/errorCatcher.js';
 import userRouter from './modules/users/users.routes.js';
+import sessionRouter from './modules/sessions/sessions.routes.js';
 import type { ServerEvents, ClientEvents } from '@chat-app/_common/types.ts';
 import ErrorHandler from './utils/ErrorHandler.js';
 import { sessionConfig } from './modules/sessions/sessions.config.js';
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
+app.use('/', sessionRouter);
 app.use('/users', userRouter);
 
 app.use(errorCatcher);
