@@ -1,4 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
+import { CreateUserSchema, UpdateUserSchema } from './users.schemas.js';
+import AppError from '../../utils/AppError.js';
+import mapFieldErrors from '../../utils/mapFieldErrors.js';
 import * as UserService from './users.service.js';
 
 export async function createUser(
@@ -7,6 +10,18 @@ export async function createUser(
   next: NextFunction
 ) {
   try {
+    const result = CreateUserSchema.safeParse(req.body);
+
+    if (!result.success) {
+      throw new AppError(
+        'bad_input',
+        400,
+        'Invalid fields',
+        true,
+        mapFieldErrors(result.error.issues)
+      );
+    }
+
     const createdUser = await UserService.createUser(req.body);
 
     return res.status(201).send({
@@ -45,6 +60,10 @@ export async function getUserById(
   try {
     const id = Number(req.params.id);
 
+    if (isNaN(id)) {
+      throw new AppError('not_found', 404, 'User not found', true);
+    }
+
     const user = await UserService.getUserById(id);
 
     res.send({
@@ -64,9 +83,24 @@ export async function updateUser(
 ) {
   try {
     const id = Number(req.params.id);
-    const { body: userUpdate } = req;
 
-    const updatedUser = await UserService.updateUser(id, userUpdate);
+    if (isNaN(id)) {
+      throw new AppError('not_found', 404, 'User not found', true);
+    }
+
+    const result = UpdateUserSchema.safeParse(req.body);
+
+    if (!result.success) {
+      throw new AppError(
+        'bad_input',
+        400,
+        'Invalid fields',
+        true,
+        mapFieldErrors(result.error.issues)
+      );
+    }
+
+    const updatedUser = await UserService.updateUser(id, result.data);
 
     return res.send({
       success: true,
@@ -85,6 +119,10 @@ export async function deleteUser(
 ) {
   try {
     const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+      throw new AppError('not_found', 404, 'User not found', true);
+    }
 
     const deletedUser = await UserService.deleteUser(id);
 

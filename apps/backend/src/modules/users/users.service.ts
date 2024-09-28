@@ -1,27 +1,11 @@
 import bcrypt from 'bcrypt';
-import { CreateUserSchema, UpdateUserSchema } from './users.schemas.js';
 import * as UserRepository from './users.repository.js';
-import mapFieldErrors from '../../utils/mapFieldErrors.js';
 import AppError from '../../utils/AppError.js';
 import type { CreateUserDto, UpdateUserDto } from './users.schemas.js';
 import type { UserInsert } from '../../database/types.js';
 
 export async function createUser(user: CreateUserDto) {
-  const result = CreateUserSchema.safeParse(user);
-
-  if (!result.success) {
-    throw new AppError(
-      'bad_input',
-      400,
-      'Invalid fields',
-      true,
-      mapFieldErrors(result.error.issues)
-    );
-  }
-
-  const userFoundByEmail = await UserRepository.findUserByEmail(
-    result.data.email
-  );
+  const userFoundByEmail = await UserRepository.findUserByEmail(user.email);
 
   // This is not a good idea but it probably doesn't matter since it's only a practice project
   if (userFoundByEmail) {
@@ -34,7 +18,7 @@ export async function createUser(user: CreateUserDto) {
   }
 
   const userFoundByUsername = await UserRepository.findUserByUsername(
-    result.data.username
+    user.username
   );
 
   if (userFoundByUsername) {
@@ -46,11 +30,11 @@ export async function createUser(user: CreateUserDto) {
     ]);
   }
 
-  const passwordHash = await bcrypt.hash(result.data.password, 10);
+  const passwordHash = await bcrypt.hash(user.password, 10);
 
   const userToInsert: UserInsert = {
-    username: result.data.username,
-    email: result.data.email,
+    username: user.username,
+    email: user.email,
     password: passwordHash,
   };
 
@@ -66,10 +50,6 @@ export async function getUsers() {
 }
 
 export async function getUserById(id: number) {
-  if (isNaN(id)) {
-    throw new AppError('not_found', 404, 'User not found', true);
-  }
-
   const user = await UserRepository.findUserById(id);
 
   if (!user) {
@@ -80,27 +60,11 @@ export async function getUserById(id: number) {
 }
 
 export async function updateUser(id: number, userUpdate: UpdateUserDto) {
-  if (isNaN(id)) {
-    throw new AppError('not_found', 404, 'User not found', true);
-  }
-
   if (Object.keys(userUpdate).length === 0) {
     throw new AppError('bad_input', 400, 'No fields provided to update', true);
   }
 
-  const result = UpdateUserSchema.safeParse(userUpdate);
-
-  if (!result.success) {
-    throw new AppError(
-      'bad_input',
-      400,
-      'Invalid fields',
-      true,
-      mapFieldErrors(result.error.issues)
-    );
-  }
-
-  const updatedUser = await UserRepository.updateUser(id, result.data);
+  const updatedUser = await UserRepository.updateUser(id, userUpdate);
 
   if (!updatedUser) {
     throw new AppError('not_found', 404, 'User not found', true);
@@ -110,10 +74,6 @@ export async function updateUser(id: number, userUpdate: UpdateUserDto) {
 }
 
 export async function deleteUser(id: number) {
-  if (isNaN(id)) {
-    throw new AppError('not_found', 404, 'User not found', true);
-  }
-
   const deletedUser = await UserRepository.deleteUser(id);
 
   if (!deletedUser) {
