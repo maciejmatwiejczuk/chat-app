@@ -12,7 +12,8 @@ declare module 'express-session' {
 const pgSession = connectPgSimple(expressSession);
 
 export const sessionConfig = {
-  store: new pgSession({ pool }),
+  name: 'sessionId',
+  store: new pgSession({ pool, createTableIfMissing: true }),
   secret: String(SESSION_SECRET),
   saveUninitialized: false,
   resave: false,
