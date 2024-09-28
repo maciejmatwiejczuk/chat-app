@@ -1,11 +1,22 @@
 import type { NextFunction, Request, Response } from 'express';
+import AppError from '../../utils/AppError.js';
 import * as SessionService from './sessions.service.js';
+import { LoginSchema } from './sessions.schemas.js';
 
 export async function logIn(req: Request, res: Response, next: NextFunction) {
   try {
-    const { body: loginData } = req;
+    const result = LoginSchema.safeParse(req.body);
 
-    const userId = await SessionService.logIn(loginData);
+    if (!result.success) {
+      throw new AppError(
+        'auth_failed',
+        401,
+        'Incorrect username or password',
+        true
+      );
+    }
+
+    const userId = await SessionService.logIn(result.data);
 
     req.session.userId = userId;
 
