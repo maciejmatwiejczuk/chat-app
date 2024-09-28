@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import type { NextFunction, Request, Response } from 'express';
 import * as SessionService from './sessions.service.js';
+import { authenticate } from '../../middlewares/authenticate.js';
 
 const router = Router();
 
@@ -22,6 +23,19 @@ router
     } catch (err) {
       next(err);
     }
+  });
+
+router
+  .route('/logout')
+  .post(authenticate, async (req: Request, res: Response) => {
+    req.session.destroy((err) => {
+      if (err) throw err;
+
+      return res.clearCookie('sessionId').send({
+        success: true,
+        message: 'You have been log out',
+      });
+    });
   });
 
 export default router;
