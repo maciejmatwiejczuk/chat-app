@@ -52,6 +52,11 @@ function reducer(state: FormState, action: FormAction) {
 function SignUp() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  function onChange(actionType: FormAction['type']) {
+    return (e: React.ChangeEvent<HTMLInputElement>) =>
+      dispatch({ type: actionType, value: e.target.value });
+  }
+
   return (
     <div className={styles.container}>
       <form className={styles.form}>
@@ -60,7 +65,7 @@ function SignUp() {
         <div className={styles.inputWrapper}>
           <TextInput
             value={state.email}
-            setValue={(value) => dispatch({ type: 'email_change', value })}
+            onChange={onChange('email_change')}
             label="Email"
             type="email"
           />
@@ -68,14 +73,14 @@ function SignUp() {
         <div className={styles.inputWrapper}>
           <TextInput
             value={state.username}
-            setValue={(value) => dispatch({ type: 'username_change', value })}
+            onChange={onChange('username_change')}
             label="Username"
           />
         </div>
         <div className={styles.inputWrapper}>
           <TextInput
             value={state.password}
-            setValue={(value) => dispatch({ type: 'password_change', value })}
+            onChange={onChange('password_change')}
             label="Password"
             type="password"
           />
@@ -83,9 +88,7 @@ function SignUp() {
         <div className={styles.inputWrapper}>
           <TextInput
             value={state.confirmPassword}
-            setValue={(value) =>
-              dispatch({ type: 'confirm_password_change', value })
-            }
+            onChange={onChange('confirm_password_change')}
             label="Confirm password"
             type="password"
           />
