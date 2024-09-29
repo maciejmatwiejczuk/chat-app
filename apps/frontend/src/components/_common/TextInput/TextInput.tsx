@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { ChangeEventHandler, useId } from 'react';
 import PhosphorIcon from '../PhosphorIcon/PhosphorIcon';
 import styles from './text-input.module.css';
 
@@ -6,7 +6,7 @@ type TextInputType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url';
 
 interface TextInputProps {
   value: string;
-  setValue: (value: string) => void;
+  onChange: ChangeEventHandler<HTMLInputElement>;
   type?: TextInputType;
   label?: string;
   placeholder?: string;
@@ -15,7 +15,7 @@ interface TextInputProps {
 
 function TextInput({
   value,
-  setValue,
+  onChange,
   type = 'text',
   label = '',
   placeholder = '',
@@ -41,7 +41,7 @@ function TextInput({
           type={type}
           className={inputStyle}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={onChange}
           placeholder={placeholder}
         />
       </div>
