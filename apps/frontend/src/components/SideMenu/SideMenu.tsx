@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { AddressBook, Binoculars } from '@phosphor-icons/react';
 import AccountPreview from './AccountPreview/AccountPreview';
 import Dropdown from './Dropdown/Dropdown';
@@ -33,6 +33,10 @@ function SideMenu() {
   );
   const [searchValue, setSearchValue] = useState('');
 
+  function onChange(e: ChangeEvent<HTMLInputElement>) {
+    setSearchValue(e.target.value);
+  }
+
   return (
     <div className={styles.container}>
       <AccountPreview />
@@ -43,7 +47,7 @@ function SideMenu() {
             <Dropdown options={options} onSelect={setDropdownSelection} />
             <TextInput
               value={searchValue}
-              setValue={setSearchValue}
+              onChange={onChange}
               type="search"
               placeholder="search"
               iconName="MagnifyingGlass"
