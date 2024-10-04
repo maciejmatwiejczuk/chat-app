@@ -1,52 +1,72 @@
-import { ChangeEventHandler, useId } from 'react';
+import {
+  ChangeEventHandler,
+  FocusEventHandler,
+  forwardRef,
+  LegacyRef,
+  useId,
+} from 'react';
 import PhosphorIcon from '../PhosphorIcon/PhosphorIcon';
 import styles from './text-input.module.css';
+import classNames from 'classnames';
 
-type TextInputType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url';
+export type TextInputType =
+  | 'text'
+  | 'email'
+  | 'password'
+  | 'search'
+  | 'tel'
+  | 'url';
 
 interface TextInputProps {
-  value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  value?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onBlur?: FocusEventHandler<HTMLInputElement>;
+  ref?: LegacyRef<HTMLInputElement>;
   type?: TextInputType;
-  label?: string;
+  name?: string;
   placeholder?: string;
   iconName?: string;
+  isError?: string;
 }
 
-function TextInput({
-  value,
-  onChange,
-  type = 'text',
-  label = '',
-  placeholder = '',
-  iconName = '',
-}: TextInputProps) {
-  const inputStyle = iconName
-    ? `${styles.input} ${styles.inputWithIcon}`
-    : styles.input;
+const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+  (
+    {
+      value,
+      onChange,
+      onBlur,
+      type = 'text',
+      name,
+      placeholder,
+      iconName,
+      isError,
+    }: TextInputProps,
+    ref
+  ) => {
+    const inputStyle = classNames(styles.input, {
+      [styles.inputWithIcon]: iconName,
+      [styles.inputError]: isError,
+    });
 
-  const id = useId();
+    const id = useId();
 
-  return (
-    <>
-      {label && (
-        <label htmlFor={id} className={styles.label}>
-          {label}
-        </label>
-      )}
+    return (
       <div className={styles.inputWrapper}>
         {iconName && <PhosphorIcon name={iconName} size={24} weight="bold" />}
         <input
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          name={name}
+          ref={ref}
           id={id}
           type={type}
           className={inputStyle}
-          value={value}
-          onChange={onChange}
           placeholder={placeholder}
         />
       </div>
-    </>
-  );
-}
+    );
+  }
+);
 
 export default TextInput;
