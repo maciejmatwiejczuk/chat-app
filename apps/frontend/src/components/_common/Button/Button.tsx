@@ -10,6 +10,7 @@ interface ButtonProps {
   size?: ButtonSize;
   type?: ButtonType;
   isWide?: boolean;
+  isDisabled?: boolean;
 }
 
 function Button({
@@ -18,6 +19,7 @@ function Button({
   size = 'small',
   type = 'fill',
   isWide = false,
+  isDisabled = false,
 }: ButtonProps) {
   const buttonStyle = classNames(styles.button, {
     [styles.small]: size === 'small',
@@ -29,7 +31,7 @@ function Button({
   });
 
   return (
-    <button onClick={onClick} className={buttonStyle}>
+    <button onClick={onClick} className={buttonStyle} disabled={isDisabled}>
       {title}
     </button>
   );

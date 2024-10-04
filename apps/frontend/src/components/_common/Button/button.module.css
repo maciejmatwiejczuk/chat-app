@@ -53,3 +53,9 @@
 .wide {
   width: 100%;
 }
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+}
