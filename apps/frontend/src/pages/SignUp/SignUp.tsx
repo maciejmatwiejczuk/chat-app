@@ -23,8 +23,6 @@ function SignUp() {
     await new Promise((resolve) => setTimeout(resolve, 2000));
   }
 
-  console.log('isSubmitting: ', isSubmitting);
-
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
