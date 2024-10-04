@@ -1,5 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
-import { CreateUserSchema, UpdateUserSchema } from './users.schemas.js';
+import {
+  CreateUserSchema,
+  UpdateUserSchema,
+} from '@chat-app/_common/schemas/users.js';
 import AppError from '../../utils/AppError.js';
 import mapFieldErrors from '../../utils/mapFieldErrors.js';
 import * as UserService from './users.service.js';
