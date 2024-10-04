@@ -6,7 +6,7 @@
 }
 
 .form {
-  max-width: 500px;
+  width: 460px;
   height: max-content;
   padding: var(--size-px-2xl);
   border-radius: var(--border-radius-default);
@@ -20,7 +20,7 @@
 }
 
 .inputWrapper {
-  margin-bottom: var(--size-px-s);
+  margin-bottom: var(--size-px-m);
 }
 
 .inputWrapper:last-of-type {

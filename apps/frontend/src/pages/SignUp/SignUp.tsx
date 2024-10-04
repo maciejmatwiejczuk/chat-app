@@ -1,101 +1,78 @@
-import { useReducer } from 'react';
 import { Link } from 'react-router-dom';
-import TextInput from '../../components/_common/TextInput/TextInput';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  CreateUserDto,
+  CreateUserSchema,
+} from '@chat-app/_common/schemas/users';
 import Button from '../../components/_common/Button/Button';
 import styles from './sign-up.module.css';
-
-interface FormState {
-  email: string;
-  username: string;
-  password: string;
-  confirmPassword: string;
-}
-
-type FormActionType =
-  | 'email_change'
-  | 'username_change'
-  | 'password_change'
-  | 'confirm_password_change';
-
-interface FormAction {
-  type: FormActionType;
-  value: string;
-}
-
-const initialState: FormState = {
-  email: '',
-  username: '',
-  password: '',
-  confirmPassword: '',
-};
-
-function reducer(state: FormState, action: FormAction) {
-  switch (action.type) {
-    case 'email_change': {
-      return { ...state, email: action.value };
-    }
-    case 'username_change': {
-      return { ...state, username: action.value };
-    }
-    case 'password_change': {
-      return { ...state, password: action.value };
-    }
-    case 'confirm_password_change': {
-      return { ...state, confirmPassword: action.value };
-    }
-    default: {
-      return state;
-    }
-  }
-}
+import FormInput from '../../components/_common/FormInput/FormInput';
 
 function SignUp() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<CreateUserDto>({
+    mode: 'onBlur',
+    resolver: zodResolver(CreateUserSchema),
+  });
 
-  function onChange(actionType: FormAction['type']) {
-    return (e: React.ChangeEvent<HTMLInputElement>) =>
-      dispatch({ type: actionType, value: e.target.value });
+  async function onSubmit(data: CreateUserDto) {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
   }
+
+  console.log('isSubmitting: ', isSubmitting);
 
   return (
     <div className={styles.container}>
-      <form className={styles.form}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <h2 className={styles.heading}>Sign Up</h2>
 
         <div className={styles.inputWrapper}>
-          <TextInput
-            value={state.email}
-            onChange={onChange('email_change')}
-            label="Email"
-            type="email"
-          />
-        </div>
-        <div className={styles.inputWrapper}>
-          <TextInput
-            value={state.username}
-            onChange={onChange('username_change')}
+          <FormInput
+            {...register('username')}
             label="Username"
+            error={errors.username?.message}
+            isRequired={true}
           />
         </div>
         <div className={styles.inputWrapper}>
-          <TextInput
-            value={state.password}
-            onChange={onChange('password_change')}
+          <FormInput
+            {...register('email')}
+            label="Email"
+            error={errors.email?.message}
+            isRequired={true}
+          />
+        </div>
+        <div className={styles.inputWrapper}>
+          <FormInput
+            {...register('password')}
             label="Password"
             type="password"
+            error={errors.password?.message}
+            isRequired={true}
           />
         </div>
         <div className={styles.inputWrapper}>
-          <TextInput
-            value={state.confirmPassword}
-            onChange={onChange('confirm_password_change')}
+          <FormInput
+            {...register('confirmPassword')}
             label="Confirm password"
             type="password"
+            error={errors.confirmPassword?.message}
+            isRequired={true}
           />
         </div>
 
         <div className={styles.buttonWrapper}>
-          <Button title="Sign in" size="small" type="fill" isWide={true} />
+          <Button
+            title="Sign in"
+            size="small"
+            type="fill"
+            isWide={true}
+            isDisabled={isSubmitting}
+          />
         </div>
 
         <p className={styles.bottomText}>
