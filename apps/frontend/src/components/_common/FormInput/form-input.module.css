@@ -1,0 +1,15 @@
+.label {
+  display: block;
+  margin-bottom: var(--size-px-3xs);
+  color: var(--color-primary-700);
+  font-size: var(--size-rem-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.error {
+  margin-top: var(--size-px-3xs);
+  color: var(--color-error-foreground);
+}
