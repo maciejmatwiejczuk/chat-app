@@ -1,7 +1,7 @@
 import expressSession from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import { pool } from '../../database/connection.js';
-import { SESSION_SECRET } from '../../environment.js';
+import { SESSION_SECRET } from '../../constants/environment.js';
 
 declare module 'express-session' {
   interface SessionData {

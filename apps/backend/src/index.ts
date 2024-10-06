@@ -4,7 +4,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import session from 'express-session';
 import { registerChatEvents } from './events/chat.events.js';
-import { server as serverConfig } from './environment.js';
+import { server as serverEnv } from './constants/environment.js';
 import { corsConfig } from './config/cors.js';
 import errorCatcher from './middlewares/errorCatcher.js';
 import userRouter from './modules/users/users.routes.js';
@@ -45,8 +45,8 @@ process.on('uncaughtException', (error: Error) => {
   }
 });
 
-const HOST = serverConfig.SERVER_HOST;
-const PORT = Number(serverConfig.SERVER_PORT);
+const HOST = serverEnv.SERVER_HOST;
+const PORT = Number(serverEnv.SERVER_PORT);
 
 server.listen(PORT, HOST, () => {
   console.log('Server listening at http://localhost:8080');
