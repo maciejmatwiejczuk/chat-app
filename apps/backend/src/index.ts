@@ -1,9 +1,11 @@
 import express from 'express';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
+import cors from 'cors';
 import session from 'express-session';
 import { registerChatEvents } from './events/chat.events.js';
 import { server as serverConfig } from './environment.js';
+import { corsConfig } from './config/cors.js';
 import errorCatcher from './middlewares/errorCatcher.js';
 import userRouter from './modules/users/users.routes.js';
 import sessionRouter from './modules/sessions/sessions.routes.js';
@@ -15,13 +17,12 @@ const app = express();
 
 const server = createServer(app);
 const io = new Server<ClientEvents, ServerEvents>(server, {
-  cors: {
-    origin: 'http://localhost:5173',
-  },
+  cors: corsConfig,
 });
 
 app.use(express.json());
 
+app.use(cors(corsConfig));
 app.use(session(sessionConfig));
 
 app.get('/', (req, res) => {
