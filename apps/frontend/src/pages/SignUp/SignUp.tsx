@@ -26,7 +26,9 @@ function SignUp() {
   const navigate = useNavigate();
 
   async function onSubmit(data: CreateUserDto) {
-    createUser.mutate(data, { onSuccess: () => navigate('/sign-in') });
+    createUser.mutate(data, {
+      onSuccess: () => navigate('/sign-in', { state: { isRegistered: true } }),
+    });
   }
 
   function getErrorFromResponse(fieldName: keyof CreateUserDto) {
