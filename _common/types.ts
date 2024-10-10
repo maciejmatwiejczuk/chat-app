@@ -13,3 +13,8 @@ export interface ClientEvents {
 export interface ServerEvents {
   'chat_message:server': (msg: TransferredChatMessage) => void;
 }
+
+export interface FieldError {
+  field: string;
+  message: string;
+}
