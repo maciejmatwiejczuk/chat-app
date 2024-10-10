@@ -8,6 +8,9 @@ import {
 import Button from '../../components/_common/Button/Button';
 import styles from './sign-up.module.css';
 import FormInput from '../../components/_common/FormInput/FormInput';
+import { useCreateUser } from '../../api/users';
+import axios from 'axios';
+import { FieldError } from '@chat-app/_common/types';
 
 function SignUp() {
   const {
@@ -19,8 +22,26 @@ function SignUp() {
     resolver: zodResolver(CreateUserSchema),
   });
 
+  const createUser = useCreateUser();
+
   async function onSubmit(data: CreateUserDto) {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    createUser.mutate(data);
+  }
+
+  function getErrorFromResponse(fieldName: keyof CreateUserDto) {
+    if (axios.isAxiosError(createUser.error)) {
+      return createUser.error.response?.data?.errors.find(
+        (err: FieldError) => err.field === fieldName
+      )?.message;
+    }
+  }
+
+  function getErrorMessage(fieldName: keyof CreateUserDto) {
+    if (errors && Object.keys(errors).length !== 0) {
+      return errors[fieldName]?.message;
+    } else if (createUser.isError) {
+      return getErrorFromResponse(fieldName);
+    }
   }
 
   return (
@@ -32,7 +53,7 @@ function SignUp() {
           <FormInput
             {...register('username')}
             label="Username"
-            error={errors.username?.message}
+            error={getErrorMessage('username')}
             isRequired={true}
           />
         </div>
@@ -40,7 +61,7 @@ function SignUp() {
           <FormInput
             {...register('email')}
             label="Email"
-            error={errors.email?.message}
+            error={getErrorMessage('email')}
             isRequired={true}
           />
         </div>
@@ -49,7 +70,7 @@ function SignUp() {
             {...register('password')}
             label="Password"
             type="password"
-            error={errors.password?.message}
+            error={getErrorMessage('password')}
             isRequired={true}
           />
         </div>
@@ -58,7 +79,7 @@ function SignUp() {
             {...register('confirmPassword')}
             label="Confirm password"
             type="password"
-            error={errors.confirmPassword?.message}
+            error={getErrorMessage('confirmPassword')}
             isRequired={true}
           />
         </div>
@@ -69,7 +90,7 @@ function SignUp() {
             size="small"
             type="fill"
             isWide={true}
-            isDisabled={isSubmitting}
+            isDisabled={isSubmitting || createUser.isPending}
           />
         </div>
 
