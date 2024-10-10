@@ -1,7 +1,10 @@
 import bcrypt from 'bcrypt';
 import * as UserRepository from './users.repository.js';
 import AppError from '../../utils/AppError.js';
-import type { CreateUserDto, UpdateUserDto } from './users.schemas.js';
+import type {
+  CreateUserDto,
+  UpdateUserDto,
+} from '@chat-app/_common/schemas/users.js';
 import type { UserInsert } from '../../database/types.js';
 
 export async function createUser(user: CreateUserDto) {
