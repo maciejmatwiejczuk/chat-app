@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -23,9 +23,10 @@ function SignUp() {
   });
 
   const createUser = useCreateUser();
+  const navigate = useNavigate();
 
   async function onSubmit(data: CreateUserDto) {
-    createUser.mutate(data);
+    createUser.mutate(data, { onSuccess: () => navigate('/sign-in') });
   }
 
   function getErrorFromResponse(fieldName: keyof CreateUserDto) {
