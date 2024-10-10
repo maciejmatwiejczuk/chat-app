@@ -19,6 +19,15 @@
   text-align: center;
 }
 
+.infoBox {
+  padding: var(--size-px-xs);
+  margin-bottom: var(--size-px-l);
+  border: 1px solid #16a34a;
+  border-radius: var(--border-radius-default);
+  background-color: #f0fdf4;
+  color: #16a34a;
+}
+
 .inputWrapper {
   margin-bottom: var(--size-px-s);
 }
