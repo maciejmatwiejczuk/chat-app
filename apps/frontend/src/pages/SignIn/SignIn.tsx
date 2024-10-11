@@ -1,10 +1,12 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema, LoginDto } from '@chat-app/_common/schemas/sessions';
 import styles from './sign-in.module.css';
 import Button from '../../components/_common/Button/Button';
 import FormInput from '../../components/_common/FormInput/FormInput';
+import { useLogin } from '../../api/sessions';
+import axios from 'axios';
 
 function SignIn() {
   const {
@@ -12,14 +14,36 @@ function SignIn() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginDto>({
-    mode: 'onBlur',
+    mode: 'onSubmit',
     resolver: zodResolver(LoginSchema),
   });
 
+  const login = useLogin();
   const location = useLocation();
+  const navigate = useNavigate();
 
   async function onSubmit(data: LoginDto) {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    login.mutate(data, {
+      onSuccess: () => navigate('/'),
+    });
+  }
+
+  function didValidationFail() {
+    if (errors && Object.keys(errors).length !== 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function didAuthenticationFail() {
+    if (axios.isAxiosError(login.error)) {
+      if (login.error.status === 401) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   return (
@@ -29,15 +53,22 @@ function SignIn() {
 
         {location.state?.isRegistered && (
           <div className={styles.infoBox}>
-            Your account was successfully registered. &nbsp; You can login now.
+            Your account was successfully registered. <br />
+            You can login now.
           </div>
         )}
+
+        {didValidationFail() ||
+          (didAuthenticationFail() && (
+            <div className={styles.errorBox}>
+              Incorrect username or password.
+            </div>
+          ))}
 
         <div className={styles.inputWrapper}>
           <FormInput
             {...register('username')}
             label="Username"
-            error={errors.username?.message}
             isRequired={true}
           />
         </div>
@@ -46,7 +77,6 @@ function SignIn() {
             {...register('password')}
             label="Password"
             type="password"
-            error={errors.password?.message}
             isRequired={true}
           />
         </div>
