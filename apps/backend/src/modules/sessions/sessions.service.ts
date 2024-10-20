@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import AppError from '../../utils/AppError.js';
 import * as SessionRepository from './sessions.repository.js';
-import type { LoginDto } from './sessions.schemas.js';
+import type { LoginDto } from '@chat-app/_common/schemas/sessions.js';
 
 export async function logIn(loginData: LoginDto) {
   const user = await SessionRepository.findUserByUsername(loginData.username);
