@@ -8,26 +8,38 @@ import SignIn from './pages/SignIn/SignIn';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 import './index.css';
 import Chat from './components/Chat/Chat';
+import ProtectedRoute from './components/_common/ProtectedRoute/ProtectedRoute';
+import App from './App';
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <ChatPage />,
+    element: <App />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'chat/:chatId',
-        element: <Chat />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: '/',
+            element: <ChatPage />,
+            children: [
+              {
+                path: 'chat/:chatId',
+                element: <Chat />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: '/sign-in',
+        element: <SignIn />,
+      },
+      {
+        path: '/sign-up',
+        element: <SignUp />,
       },
     ],
-  },
-  {
-    path: '/sign-in',
-    element: <SignIn />,
-  },
-  {
-    path: '/sign-up',
-    element: <SignUp />,
   },
 ]);
 
