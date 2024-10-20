@@ -17,9 +17,10 @@ export const sessionConfig = {
   secret: String(SESSION_SECRET),
   saveUninitialized: false,
   resave: false,
+  rolling: true,
   cookie: {
     secure: false, // NEED TO BE TRUE ON PRODUCTION
     httpOnly: true,
-    maxAge: 1000 * 60 * 30,
+    maxAge: 1000 * 60 * 10,
   },
 };
