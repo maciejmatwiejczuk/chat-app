@@ -3,10 +3,12 @@ import Avatar from '../../_common/Avatar/Avatar';
 import Modal from '../../_common/Modal/Modal';
 import Button from '../../_common/Button/Button';
 import styles from './account-preview.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useLogout } from '../../../api/sessions';
 
 function AccountPreview() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const logout = useLogout();
 
   function openModal() {
     setIsModalOpen(true);
@@ -17,10 +19,8 @@ function AccountPreview() {
   }
 
   function onModalYesClick() {
-    navigate('/sign-in');
+    logout.mutate();
   }
-
-  const navigate = useNavigate();
 
   return (
     <div className={styles.container}>
