@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema, LoginDto } from '@chat-app/_common/schemas/sessions';
@@ -20,12 +20,9 @@ function SignIn() {
 
   const login = useLogin();
   const location = useLocation();
-  const navigate = useNavigate();
 
   async function onSubmit(data: LoginDto) {
-    login.mutate(data, {
-      onSuccess: () => navigate('/'),
-    });
+    login.mutate(data);
   }
 
   function didValidationFail() {
