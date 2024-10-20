@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface AuthContextValue {
@@ -17,10 +17,24 @@ export interface AuthProviderProps {
   children: ReactNode;
 }
 
+const AUTH_KEY = 'isAuthenticated';
+
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    const isAuth = localStorage.getItem(AUTH_KEY);
+
+    if (isAuth) {
+      return JSON.parse(isAuth);
+    } else {
+      return false;
+    }
+  });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem(AUTH_KEY, `${isAuthenticated}`);
+  }, [isAuthenticated]);
 
   function onLogin() {
     setIsAuthenticated(true);
