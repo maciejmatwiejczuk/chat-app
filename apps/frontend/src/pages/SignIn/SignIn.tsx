@@ -55,12 +55,9 @@ function SignIn() {
           </div>
         )}
 
-        {didValidationFail() ||
-          (didAuthenticationFail() && (
-            <div className={styles.errorBox}>
-              Incorrect username or password.
-            </div>
-          ))}
+        {(didValidationFail() || didAuthenticationFail()) && (
+          <div className={styles.errorBox}>Incorrect username or password.</div>
+        )}
 
         <div className={styles.inputWrapper}>
           <FormInput
