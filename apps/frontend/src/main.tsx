@@ -10,6 +10,7 @@ import './index.css';
 import Chat from './components/Chat/Chat';
 import ProtectedRoute from './components/_common/ProtectedRoute/ProtectedRoute';
 import App from './App';
+import AnonymousRoute from './components/_common/AnonymousRoute/AnonymousRoute';
 
 const router = createBrowserRouter([
   {
@@ -32,12 +33,17 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: '/sign-in',
-        element: <SignIn />,
-      },
-      {
-        path: '/sign-up',
-        element: <SignUp />,
+        element: <AnonymousRoute />,
+        children: [
+          {
+            path: '/sign-in',
+            element: <SignIn />,
+          },
+          {
+            path: '/sign-up',
+            element: <SignUp />,
+          },
+        ],
       },
     ],
   },
