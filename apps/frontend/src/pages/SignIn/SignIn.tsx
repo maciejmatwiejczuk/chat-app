@@ -43,6 +43,20 @@ function SignIn() {
     return false;
   }
 
+  function renderErrorBox() {
+    if (didValidationFail() || didAuthenticationFail()) {
+      return (
+        <div className={styles.errorBox}>Incorrect username or password.</div>
+      );
+    } else if (login.error) {
+      return (
+        <div className={styles.errorBox}>
+          Unexpected error. Try again later.
+        </div>
+      );
+    }
+  }
+
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -55,9 +69,7 @@ function SignIn() {
           </div>
         )}
 
-        {(didValidationFail() || didAuthenticationFail()) && (
-          <div className={styles.errorBox}>Incorrect username or password.</div>
-        )}
+        {renderErrorBox()}
 
         <div className={styles.inputWrapper}>
           <FormInput
