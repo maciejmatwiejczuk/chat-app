@@ -32,7 +32,11 @@ function SignUp() {
   }
 
   function getErrorFromResponse(fieldName: keyof CreateUserDto) {
-    if (axios.isAxiosError(createUser.error)) {
+    if (
+      axios.isAxiosError(createUser.error) &&
+      (createUser.error.response?.status === 400 ||
+        createUser.error.response?.status === 409)
+    ) {
       return createUser.error.response?.data?.errors.find(
         (err: FieldError) => err.field === fieldName
       )?.message;
@@ -47,10 +51,26 @@ function SignUp() {
     }
   }
 
+  function renderErrorBox() {
+    if (
+      axios.isAxiosError(createUser.error) &&
+      createUser.error.response?.status !== 400 &&
+      createUser.error.response?.status !== 409
+    ) {
+      return (
+        <div className={styles.errorBox}>
+          Unexpected error. Try again later.
+        </div>
+      );
+    }
+  }
+
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <h2 className={styles.heading}>Sign Up</h2>
+
+        {renderErrorBox()}
 
         <div className={styles.inputWrapper}>
           <FormInput
