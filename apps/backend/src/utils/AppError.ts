@@ -1,4 +1,4 @@
-import type { FieldError } from './mapFieldErrors.js';
+import type { FieldError } from '@chat-app/_common/types.js';
 
 export type ErrorName =
   | 'not_found'
