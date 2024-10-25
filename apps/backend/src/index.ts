@@ -16,7 +16,10 @@ import type { Session, SessionData } from 'express-session';
 const app = express();
 
 const server = createServer(app);
-const io = new Server<ClientEvents, ServerEvents>(server, {
+export const io: Server<ClientEvents, ServerEvents> = new Server<
+  ClientEvents,
+  ServerEvents
+>(server, {
   cors: corsConfig,
 });
 
