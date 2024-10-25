@@ -2,6 +2,8 @@ import type { Generated, Insertable, Selectable, Updateable } from 'kysely';
 
 export interface Database {
   user: User;
+  contact: Contact;
+  invitation: Invitation;
 }
 
 export interface User {
@@ -20,6 +22,7 @@ export interface Contact {
   username: string;
   owner_id: number;
   contact_id: number;
+  invitation_id: number;
 }
 
 export type ContactSelect = Selectable<Contact>;
@@ -30,7 +33,6 @@ export interface Invitation {
   id: Generated<number>;
   sender_id: number;
   receiver_id: number;
-  is_accepted: boolean;
 }
 
 export type InvitationSelect = Selectable<Invitation>;
