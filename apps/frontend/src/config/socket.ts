@@ -5,5 +5,6 @@ export const socket: Socket<ServerEvents, ClientEvents> = io(
   'http://localhost:8080',
   {
     autoConnect: true,
+    withCredentials: true,
   }
 );
