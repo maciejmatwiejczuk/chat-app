@@ -25,3 +25,14 @@ export interface Contact {
 export type ContactSelect = Selectable<Contact>;
 export type ContactInsert = Insertable<Contact>;
 export type ContactUpdate = Updateable<Contact>;
+
+export interface Invitation {
+  id: Generated<number>;
+  sender_id: number;
+  receiver_id: number;
+  is_accepted: boolean;
+}
+
+export type InvitationSelect = Selectable<Invitation>;
+export type InvitationInsert = Insertable<Invitation>;
+export type InvitationUpdate = Updateable<Invitation>;
