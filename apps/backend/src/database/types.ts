@@ -14,3 +14,14 @@ export interface User {
 export type UserSelect = Selectable<User>;
 export type UserInsert = Insertable<User>;
 export type UserUpdate = Updateable<User>;
+
+export interface Contact {
+  id: Generated<number>;
+  username: string;
+  owner_id: number;
+  contact_id: number;
+}
+
+export type ContactSelect = Selectable<Contact>;
+export type ContactInsert = Insertable<Contact>;
+export type ContactUpdate = Updateable<Contact>;
