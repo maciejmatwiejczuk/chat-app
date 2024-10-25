@@ -2,7 +2,6 @@ import express from 'express';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import cors from 'cors';
-import session from 'express-session';
 import { registerChatEvents } from './events/chat.events.js';
 import { server as serverEnv } from './constants/environment.js';
 import { corsConfig } from './config/cors.js';
@@ -11,7 +10,8 @@ import userRouter from './modules/users/users.routes.js';
 import sessionRouter from './modules/sessions/sessions.routes.js';
 import type { ServerEvents, ClientEvents } from '@chat-app/_common/types.ts';
 import ErrorHandler from './utils/ErrorHandler.js';
-import { sessionConfig } from './modules/sessions/sessions.config.js';
+import sessionMiddleware from './middlewares/sessionMiddleware.js';
+import type { Session, SessionData } from 'express-session';
 
 const app = express();
 
@@ -23,7 +23,8 @@ const io = new Server<ClientEvents, ServerEvents>(server, {
 app.use(express.json());
 
 app.use(cors(corsConfig));
-app.use(session(sessionConfig));
+
+app.use(sessionMiddleware);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -34,7 +35,21 @@ app.use('/users', userRouter);
 
 app.use(errorCatcher);
 
+declare module 'http' {
+  interface IncomingMessage {
+    session: Session & SessionData;
+  }
+}
+
+io.engine.use(sessionMiddleware);
 io.on('connection', (socket) => {
+  const session = socket.request.session;
+
+  if (!session.userId) {
+    return;
+  }
+
+  socket.join(String(session.userId));
   registerChatEvents(io, socket);
 });
 
