@@ -1,3 +1,9 @@
+export interface ChatMessageClient {
+  message: string;
+  senderId: number;
+  receiverId: number;
+}
+
 export interface TransferredChatMessage {
   message: string;
   date: string;
