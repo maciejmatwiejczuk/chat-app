@@ -33,6 +33,7 @@ export interface Invitation {
   id: Generated<number>;
   sender_id: number;
   receiver_id: number;
+  sender_message_count: number;
 }
 
 export type InvitationSelect = Selectable<Invitation>;
