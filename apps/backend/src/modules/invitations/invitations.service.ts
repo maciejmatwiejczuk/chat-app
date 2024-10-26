@@ -5,6 +5,7 @@ export async function createInvitation(senderId: number, receiverId: number) {
   const createdInvitation = await InvitationRepository.createInvitation({
     sender_id: senderId,
     receiver_id: receiverId,
+    sender_message_count: 1,
   });
 
   return createdInvitation;
