@@ -16,10 +16,18 @@ export async function findInvitationById(id: number) {
     .selectAll()
     .executeTakeFirst();
 }
-
 export async function deleteInvitation(id: number) {
   return await db
     .deleteFrom('invitation')
+    .where('id', '=', id)
+    .returningAll()
+    .executeTakeFirst();
+}
+
+export async function incrementSenderMessageCountOfInvitation(id: number) {
+  return await db
+    .updateTable('invitation')
+    .set((eb) => ({ sender_message_count: eb('sender_message_count', '+', 1) }))
     .where('id', '=', id)
     .returningAll()
     .executeTakeFirst();

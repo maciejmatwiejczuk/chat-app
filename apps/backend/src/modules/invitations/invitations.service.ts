@@ -20,7 +20,6 @@ export async function getInvitationById(id: number) {
 
   return invitation;
 }
-
 export async function deleteInvitation(id: number) {
   const deletedInvitation = await InvitationRepository.deleteInvitation(id);
 
@@ -29,4 +28,15 @@ export async function deleteInvitation(id: number) {
   }
 
   return deletedInvitation;
+}
+
+export async function incrementSenderMessageCountOfInvitation(id: number) {
+  const updatedInvitation =
+    InvitationRepository.incrementSenderMessageCountOfInvitation(id);
+
+  if (!updatedInvitation) {
+    throw new AppError('not_found', 404, 'Invitation not found', true);
+  }
+
+  return updatedInvitation;
 }
