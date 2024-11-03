@@ -22,4 +22,4 @@ export const sessionConfig = {
     httpOnly: true,
     maxAge: 1000 * 60 * 10,
   },
-};
+} as const;
