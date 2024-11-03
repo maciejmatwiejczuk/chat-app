@@ -3,7 +3,7 @@ import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import { registerChatEvents } from './events/chat.events.js';
-import { server as serverEnv } from './constants/environment.js';
+import { serverConfig } from './config/server.js';
 import { corsConfig } from './config/cors.js';
 import errorCatcher from './middlewares/errorCatcher.js';
 import userRouter from './modules/users/users.routes.js';
@@ -63,8 +63,8 @@ process.on('uncaughtException', (error: Error) => {
   }
 });
 
-const HOST = serverEnv.SERVER_HOST;
-const PORT = Number(serverEnv.SERVER_PORT);
+const HOST = serverConfig.host;
+const PORT = serverConfig.port;
 
 server.listen(PORT, HOST, () => {
   console.log('Server listening at http://localhost:8080');

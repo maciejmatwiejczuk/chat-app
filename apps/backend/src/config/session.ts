@@ -1,7 +1,6 @@
 import expressSession from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import { pool } from '../database/db.js';
-import { SESSION_SECRET } from '../constants/environment.js';
 
 declare module 'express-session' {
   interface SessionData {
@@ -14,7 +13,7 @@ const pgSession = connectPgSimple(expressSession);
 export const sessionConfig = {
   name: 'sessionId',
   store: new pgSession({ pool, createTableIfMissing: true }),
-  secret: String(SESSION_SECRET),
+  secret: String(process.env.SESSION_SECRET),
   saveUninitialized: false,
   resave: false,
   rolling: true,
