@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import * as UserRepository from './users.repository.js';
+import { db } from '../../database/db.js';
 import AppError from '../../utils/AppError.js';
 import type {
   CreateUserDto,
@@ -8,7 +8,7 @@ import type {
 import type { UserInsert } from '../../database/types.js';
 
 export async function createUser(user: CreateUserDto) {
-  const userFoundByEmail = await UserRepository.findUserByEmail(user.email);
+  const userFoundByEmail = await db.user.findByEmail(user.email);
 
   // This is not a good idea but it probably doesn't matter since it's only a practice project
   if (userFoundByEmail) {
@@ -20,9 +20,7 @@ export async function createUser(user: CreateUserDto) {
     ]);
   }
 
-  const userFoundByUsername = await UserRepository.findUserByUsername(
-    user.username
-  );
+  const userFoundByUsername = await db.user.findByUsername(user.username);
 
   if (userFoundByUsername) {
     throw new AppError('entity_exists', 409, 'Could not register user', true, [
@@ -41,19 +39,19 @@ export async function createUser(user: CreateUserDto) {
     password: passwordHash,
   };
 
-  const createdUser = await UserRepository.createUser(userToInsert);
+  const createdUser = await db.user.create(userToInsert);
 
   return createdUser;
 }
 
 export async function getUsers() {
-  const users = await UserRepository.findUsers({});
+  const users = await db.user.findMany({});
 
   return users;
 }
 
 export async function getUserById(id: number) {
-  const user = await UserRepository.findUserById(id);
+  const user = await db.user.findById(id);
 
   if (!user) {
     throw new AppError('not_found', 404, 'User not found', true);
@@ -67,7 +65,7 @@ export async function updateUser(id: number, userUpdate: UpdateUserDto) {
     throw new AppError('bad_input', 400, 'No fields provided to update', true);
   }
 
-  const updatedUser = await UserRepository.updateUser(id, userUpdate);
+  const updatedUser = await db.user.update(id, userUpdate);
 
   if (!updatedUser) {
     throw new AppError('not_found', 404, 'User not found', true);
@@ -77,7 +75,7 @@ export async function updateUser(id: number, userUpdate: UpdateUserDto) {
 }
 
 export async function deleteUser(id: number) {
-  const deletedUser = await UserRepository.deleteUser(id);
+  const deletedUser = await db.user.delete(id);
 
   if (!deletedUser) {
     throw new AppError('not_found', 404, 'User not found', true);

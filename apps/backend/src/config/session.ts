@@ -1,6 +1,6 @@
 import expressSession from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
-import { pool } from '../database/connection.js';
+import { pool } from '../database/db.js';
 import { SESSION_SECRET } from '../constants/environment.js';
 
 declare module 'express-session' {

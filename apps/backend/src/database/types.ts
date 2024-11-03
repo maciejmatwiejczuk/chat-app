@@ -1,4 +1,10 @@
-import type { Generated, Insertable, Selectable, Updateable } from 'kysely';
+import type {
+  Generated,
+  Insertable,
+  Selectable,
+  Updateable,
+  Transaction,
+} from 'kysely';
 
 export interface Database {
   user: User;
@@ -39,3 +45,7 @@ export interface Invitation {
 export type InvitationSelect = Selectable<Invitation>;
 export type InvitationInsert = Insertable<Invitation>;
 export type InvitationUpdate = Updateable<Invitation>;
+
+export interface TransactionalRepository {
+  transacting: (trx: Transaction<Database>) => TransactionalRepository;
+}
