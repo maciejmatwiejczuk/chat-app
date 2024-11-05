@@ -4,7 +4,8 @@ export type ErrorName =
   | 'not_found'
   | 'bad_input'
   | 'entity_exists'
-  | 'auth_failed';
+  | 'auth_failed'
+  | 'not_allowed';
 
 export default class AppError extends Error {
   public override readonly name: ErrorName;
