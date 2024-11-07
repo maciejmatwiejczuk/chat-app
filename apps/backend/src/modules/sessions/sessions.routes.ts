@@ -8,4 +8,6 @@ router.route('/login').post(SessionController.logIn);
 
 router.route('/logout').post(authenticate, SessionController.logOut);
 
+router.route('/me').get(authenticate, SessionController.getMe);
+
 export default router;

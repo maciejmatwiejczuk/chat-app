@@ -43,3 +43,13 @@ export async function logOut(req: Request, res: Response) {
     });
   });
 }
+
+export async function getMe(req: Request, res: Response) {
+  const me = req.session.user;
+
+  return res.send({
+    success: true,
+    message: 'Your data was successfully retrieved',
+    data: { me },
+  });
+}
