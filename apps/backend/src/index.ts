@@ -3,7 +3,7 @@ import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import 'dotenv/config';
-import { registerChatEvents } from './events/chat.events.js';
+import { registerMessagingSubscribers } from './modules/messages/messages.subscribers.js';
 import { serverConfig } from './config/server.js';
 import { corsConfig } from './config/cors.js';
 import errorCatcher from './middlewares/errorCatcher.js';
@@ -49,12 +49,12 @@ io.engine.use(sessionMiddleware);
 io.on('connection', (socket) => {
   const session = socket.request.session;
 
-  if (!session.userId) {
+  if (!session.user) {
     return;
   }
 
-  socket.join(String(session.userId));
-  registerChatEvents(io, socket);
+  socket.join(String(session.user.id));
+  registerMessagingSubscribers(socket);
 });
 
 process.on('uncaughtException', (error: Error) => {

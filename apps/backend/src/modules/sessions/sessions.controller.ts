@@ -17,14 +17,14 @@ export async function logIn(req: Request, res: Response, next: NextFunction) {
       );
     }
 
-    const userId = await SessionService.logIn(result.data);
+    const user = await SessionService.logIn(result.data);
 
-    req.session.userId = userId;
+    req.session.user = user;
 
     res.send({
       success: true,
       message: 'You have logged in successfully',
-      data: { userId },
+      data: { user },
     });
   } catch (err) {
     next(err);
@@ -35,7 +35,7 @@ export async function logOut(req: Request, res: Response) {
   req.session.destroy((err) => {
     if (err) throw err;
 
-    io.in(String(req.session.userId)).disconnectSockets();
+    io.in(String(req.session.user)).disconnectSockets();
 
     return res.clearCookie('sessionId').send({
       success: true,

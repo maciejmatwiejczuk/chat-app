@@ -26,5 +26,5 @@ export async function logIn(loginData: LoginDto) {
     );
   }
 
-  return user.id;
+  return { id: user.id, username: user.username, email: user.email };
 }
