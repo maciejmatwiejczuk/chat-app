@@ -2,6 +2,7 @@ import express from 'express';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import 'dotenv/config';
 import { registerChatEvents } from './events/chat.events.js';
 import { serverConfig } from './config/server.js';
 import { corsConfig } from './config/cors.js';
