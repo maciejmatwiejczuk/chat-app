@@ -24,7 +24,7 @@ export async function logIn(req: Request, res: Response, next: NextFunction) {
     res.send({
       success: true,
       message: 'You have logged in successfully',
-      data: { user },
+      user,
     });
   } catch (err) {
     next(err);
@@ -32,10 +32,10 @@ export async function logIn(req: Request, res: Response, next: NextFunction) {
 }
 
 export async function logOut(req: Request, res: Response) {
+  io.in(String(req.session.user)).disconnectSockets();
+
   req.session.destroy((err) => {
     if (err) throw err;
-
-    io.in(String(req.session.user)).disconnectSockets();
 
     return res.clearCookie('sessionId').send({
       success: true,
@@ -50,6 +50,6 @@ export async function getMe(req: Request, res: Response) {
   return res.send({
     success: true,
     message: 'Your data was successfully retrieved',
-    data: { me },
+    me,
   });
 }
