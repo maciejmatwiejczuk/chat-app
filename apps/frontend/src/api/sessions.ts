@@ -1,27 +1,48 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { LoginDto } from '@chat-app/_common/schemas/sessions.ts';
 import axios from '../config/axios.ts';
-import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext.tsx';
+import { useNavigate } from 'react-router-dom';
 
 const LOGIN_ENDPOINT = 'login';
 
 export function useLogin() {
-  const { onLogin } = useContext(AuthContext);
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: (data: LoginDto) => axios.post(LOGIN_ENDPOINT, data),
-    onSuccess: () => onLogin && onLogin(),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['me'],
+        refetchType: 'all',
+      });
+      navigate('/');
+    },
   });
 }
 
 const LOGOUT_ENDPOINT = 'logout';
 
 export function useLogout() {
-  const { onLogout } = useContext(AuthContext);
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: () => axios.post(LOGOUT_ENDPOINT),
-    onSuccess: () => onLogout && onLogout(),
+    onSuccess: () => {
+      queryClient.clear();
+      navigate('/sign-in');
+    },
+  });
+}
+
+const ME_ENDPOINT = 'me';
+
+export function useMe() {
+  return useQuery({
+    queryKey: ['me'],
+    queryFn: () => axios.get(ME_ENDPOINT),
+    select: (response) => response.data.me,
+    staleTime: Infinity,
   });
 }

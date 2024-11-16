@@ -1,15 +1,14 @@
-import { useContext } from 'react';
-import { AuthContext } from '../../../context/AuthContext';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useMe } from '../../../api/sessions';
 
 interface ProtectedRouteProps {
   redirectPath?: string;
 }
 
 function ProtectedRoute({ redirectPath = '/sign-in' }: ProtectedRouteProps) {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { data } = useMe();
 
-  if (!isAuthenticated) {
+  if (!data) {
     return <Navigate to={redirectPath} />;
   }
 
