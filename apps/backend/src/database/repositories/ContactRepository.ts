@@ -12,6 +12,7 @@ export class ContactRepository implements TransactionalRepository {
     return await this.kysely
       .insertInto('contact')
       .values(contact)
+      .returningAll()
       .executeTakeFirstOrThrow();
   }
 
