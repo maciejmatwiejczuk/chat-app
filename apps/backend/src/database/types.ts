@@ -10,6 +10,7 @@ export interface Database {
   user: User;
   contact: Contact;
   invitation: Invitation;
+  message: Message;
 }
 
 export interface User {
@@ -45,6 +46,18 @@ export interface Invitation {
 export type InvitationSelect = Selectable<Invitation>;
 export type InvitationInsert = Insertable<Invitation>;
 export type InvitationUpdate = Updateable<Invitation>;
+
+export interface Message {
+  id: Generated<number>;
+  sender_id: number;
+  receiver_id: number;
+  message: string;
+  date: string;
+}
+
+export type MessageSelect = Selectable<Message>;
+export type MessageInsert = Insertable<Message>;
+export type MessageUpdate = Updateable<Message>;
 
 export interface TransactionalRepository {
   transacting: (trx: Transaction<Database>) => TransactionalRepository;

@@ -6,6 +6,7 @@ import type { Database } from './types.js';
 import { UserRepository } from './repositories/UserRepository.js';
 import { InvitationRepository } from './repositories/InvitationRepository.js';
 import { ContactRepository } from './repositories/ContactRepository.js';
+import { MessageRepository } from './repositories/MessageRepository.js';
 
 const { Pool } = pg;
 
@@ -30,6 +31,7 @@ export const db = {
   user: new UserRepository(kysely),
   contact: new ContactRepository(kysely),
   invitation: new InvitationRepository(kysely),
+  message: new MessageRepository(kysely),
 
   async transaction<T>(callback: (trx: Transaction<Database>) => Promise<T>) {
     return await kysely.transaction().execute(async (trx) => {
