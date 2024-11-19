@@ -3,7 +3,7 @@ import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import 'dotenv/config';
-import { registerMessagingSubscribers } from './modules/messages/messages.subscribers.js';
+import { registerMessageSubscribers } from './modules/messages/messages.subscribers.js';
 import { serverConfig } from './config/server.js';
 import { corsConfig } from './config/cors.js';
 import errorCatcher from './middlewares/errorCatcher.js';
@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
   }
 
   socket.join(String(session.user.id));
-  registerMessagingSubscribers(socket);
+  registerMessageSubscribers(socket);
 });
 
 process.on('uncaughtException', (error: Error) => {
