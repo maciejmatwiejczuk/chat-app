@@ -1,5 +1,3 @@
-import type { Socket } from 'socket.io';
-
 export interface ChatMessageClient {
   message: string;
   senderId: number;
@@ -18,7 +16,6 @@ export interface ErrorServer {
 export interface ClientEvents {
   'chat_message:client': (
     msg: ChatMessageClient,
-    socket: Socket<ClientEvents, ServerEvents>,
     callback: (date: string) => void
   ) => void;
 }
