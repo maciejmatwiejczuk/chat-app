@@ -1,6 +1,6 @@
 import pg from 'pg';
 import { databaseConfig } from '../config/database.js';
-import { Transaction } from 'kysely';
+import { CamelCasePlugin, Transaction } from 'kysely';
 import { Kysely, PostgresDialect } from 'kysely';
 import type { Database } from './types.js';
 import { UserRepository } from './repositories/UserRepository.js';
@@ -25,6 +25,7 @@ export const dialect = new PostgresDialect({
 
 const kysely = new Kysely<Database>({
   dialect,
+  plugins: [new CamelCasePlugin()],
 });
 
 export const db = {

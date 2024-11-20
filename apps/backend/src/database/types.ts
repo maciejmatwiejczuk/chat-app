@@ -27,9 +27,9 @@ export type UserUpdate = Updateable<User>;
 export interface Contact {
   id: Generated<number>;
   username: string;
-  owner_id: number;
-  contact_id: number;
-  invitation_id: number;
+  ownerId: number;
+  contactId: number;
+  invitationId: number;
 }
 
 export type ContactSelect = Selectable<Contact>;
@@ -38,9 +38,9 @@ export type ContactUpdate = Updateable<Contact>;
 
 export interface Invitation {
   id: Generated<number>;
-  sender_id: number;
-  receiver_id: number;
-  sender_message_count: number;
+  senderId: number;
+  receiverId: number;
+  senderMessageCount: number;
 }
 
 export type InvitationSelect = Selectable<Invitation>;
@@ -49,8 +49,8 @@ export type InvitationUpdate = Updateable<Invitation>;
 
 export interface Message {
   id: Generated<number>;
-  sender_id: number;
-  receiver_id: number;
+  senderId: number;
+  receiverId: number;
   message: string;
   date: string;
 }

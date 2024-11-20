@@ -19,8 +19,8 @@ export class ContactRepository implements TransactionalRepository {
   async findByOwnerAndContact(ownerId: number, contactId: number) {
     return await this.kysely
       .selectFrom('contact')
-      .where('owner_id', '=', ownerId)
-      .where('contact_id', '=', contactId)
+      .where('ownerId', '=', ownerId)
+      .where('contactId', '=', contactId)
       .selectAll()
       .executeTakeFirst();
   }

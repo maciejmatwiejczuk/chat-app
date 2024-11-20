@@ -35,7 +35,7 @@ export class InvitationRepository implements TransactionalRepository {
     return await this.kysely
       .updateTable('invitation')
       .set((eb) => ({
-        sender_message_count: eb('sender_message_count', '+', 1),
+        senderMessageCount: eb('senderMessageCount', '+', 1),
       }))
       .where('id', '=', id)
       .returningAll()

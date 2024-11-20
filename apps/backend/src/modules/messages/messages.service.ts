@@ -26,26 +26,26 @@ export const messageService = {
 
       const savedMessage = await db.transaction(async (trx) => {
         const invitation = await db.invitation.transacting(trx).create({
-          sender_id: msg.senderId,
-          receiver_id: msg.receiverId,
-          sender_message_count: 1,
+          senderId: msg.senderId,
+          receiverId: msg.receiverId,
+          senderMessageCount: 1,
         });
         await db.contact.transacting(trx).create({
           username: receiverUser.username,
-          owner_id: msg.senderId,
-          contact_id: msg.receiverId,
-          invitation_id: invitation.id,
+          ownerId: msg.senderId,
+          contactId: msg.receiverId,
+          invitationId: invitation.id,
         });
         await db.contact.transacting(trx).create({
           username: senderUser.username,
-          owner_id: msg.receiverId,
-          contact_id: msg.senderId,
-          invitation_id: invitation.id,
+          ownerId: msg.receiverId,
+          contactId: msg.senderId,
+          invitationId: invitation.id,
         });
 
         return await db.message.transacting(trx).create({
-          sender_id: msg.senderId,
-          receiver_id: msg.receiverId,
+          senderId: msg.senderId,
+          receiverId: msg.receiverId,
           message: msg.message,
           date: new Date().toISOString(),
         });
@@ -55,16 +55,16 @@ export const messageService = {
     }
 
     // contact exists and has a reference to invitation
-    if (contact?.invitation_id) {
-      const invitation = await db.invitation.findById(contact.invitation_id);
+    if (contact?.invitationId) {
+      const invitation = await db.invitation.findById(contact.invitationId);
 
       if (!invitation) {
         throw new AppError('not_found', 404, 'Invitation not found', true);
       }
 
-      const isReceiver = invitation.receiver_id === msg.receiverId;
+      const isReceiver = invitation.receiverId === msg.receiverId;
 
-      if (!isReceiver && invitation.sender_message_count >= MESSAGE_LIMIT) {
+      if (!isReceiver && invitation.senderMessageCount >= MESSAGE_LIMIT) {
         throw new AppError('not_allowed', 400, 'Message limit reached', true);
       } else if (isReceiver) {
         const savedMessage = await db.transaction(async (trx) => {
@@ -75,8 +75,8 @@ export const messageService = {
           }
 
           return await db.message.transacting(trx).create({
-            sender_id: msg.senderId,
-            receiver_id: msg.receiverId,
+            senderId: msg.senderId,
+            receiverId: msg.receiverId,
             message: msg.message,
             date: new Date().toISOString(),
           });
@@ -93,8 +93,8 @@ export const messageService = {
           }
 
           return await db.message.transacting(trx).create({
-            sender_id: msg.senderId,
-            receiver_id: msg.receiverId,
+            senderId: msg.senderId,
+            receiverId: msg.receiverId,
             message: msg.message,
             date: new Date().toISOString(),
           });
@@ -105,8 +105,8 @@ export const messageService = {
     }
 
     const savedMessage = await db.message.create({
-      sender_id: msg.senderId,
-      receiver_id: msg.receiverId,
+      senderId: msg.senderId,
+      receiverId: msg.receiverId,
       message: msg.message,
       date: new Date().toISOString(),
     });
