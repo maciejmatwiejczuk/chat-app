@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.label {
+  margin-top: var(--size-px-xs);
+  font-size: var(--size-rem-s);
+}
