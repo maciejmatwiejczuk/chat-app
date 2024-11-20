@@ -3,12 +3,13 @@ import Avatar from '../../_common/Avatar/Avatar';
 import Modal from '../../_common/Modal/Modal';
 import Button from '../../_common/Button/Button';
 import styles from './account-preview.module.css';
-import { useLogout } from '../../../api/sessions';
+import { useLogout, useMe } from '../../../api/sessions';
 
 function AccountPreview() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const logout = useLogout();
+  const { data } = useMe();
 
   function openModal() {
     setIsModalOpen(true);
@@ -26,7 +27,7 @@ function AccountPreview() {
     <div className={styles.container}>
       <div className={styles.usernameAvatarWrapper}>
         <Avatar />
-        <h3 className={styles.username}>Username</h3>
+        <h3 className={styles.username}>{data.username}</h3>
       </div>
       <Button title="Log out" onClick={openModal} size="small" type="fill" />
       {isModalOpen && (
