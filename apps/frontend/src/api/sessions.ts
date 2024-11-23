@@ -1,7 +1,13 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { LoginDto } from '@chat-app/_common/schemas/sessions.ts';
 import axios from '../config/axios.ts';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 const LOGIN_ENDPOINT = 'login';
 
@@ -44,5 +50,18 @@ export function useMe() {
     queryFn: () => axios.get(ME_ENDPOINT),
     select: (response) => response.data.me,
     staleTime: Infinity,
+    retry: (failCount, err) => {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 401) {
+          return false;
+        }
+      }
+
+      const defaultRetry = new QueryClient().getDefaultOptions().queries?.retry;
+
+      return typeof defaultRetry === 'number'
+        ? failCount < defaultRetry
+        : false;
+    },
   });
 }
