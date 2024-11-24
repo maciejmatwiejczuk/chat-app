@@ -18,6 +18,7 @@ export function useLogin() {
   return useMutation({
     mutationFn: (data: LoginDto) => axios.post(LOGIN_ENDPOINT, data),
     onSuccess: async () => {
+      localStorage.setItem('didLogIn', 'true');
       await queryClient.invalidateQueries({
         queryKey: ['me'],
         refetchType: 'all',
@@ -37,6 +38,7 @@ export function useLogout() {
     mutationFn: () => axios.post(LOGOUT_ENDPOINT),
     onSuccess: () => {
       queryClient.clear();
+      localStorage.removeItem('didLogIn');
       navigate('/sign-in');
     },
   });
@@ -47,12 +49,20 @@ const ME_ENDPOINT = 'me';
 export function useMe() {
   return useQuery({
     queryKey: ['me'],
-    queryFn: () => axios.get(ME_ENDPOINT),
-    select: (response) => response.data.me,
+    queryFn: () => {
+      // eslint-disable-next-line no-extra-boolean-cast
+      if (!Boolean(localStorage.getItem('didLogIn'))) {
+        return null;
+      }
+
+      return axios.get(ME_ENDPOINT);
+    },
+    select: (response) => response?.data.me,
     staleTime: Infinity,
     retry: (failCount, err) => {
       if (err instanceof AxiosError) {
         if (err.response?.status === 401) {
+          localStorage.removeItem('didLogIn');
           return false;
         }
       }
