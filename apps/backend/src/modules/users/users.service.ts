@@ -44,8 +44,8 @@ export async function createUser(user: CreateUserDto) {
   return createdUser;
 }
 
-export async function getUsers() {
-  const users = await db.user.findMany({});
+export async function getUsers(usernameSearch?: string) {
+  const users = await db.user.findMany({ username: usernameSearch });
 
   return users;
 }

@@ -43,7 +43,21 @@ export async function getUsers(
   next: NextFunction
 ) {
   try {
-    const users = await UserService.getUsers();
+    const usernameSearch = req.query.username;
+
+    if (
+      typeof usernameSearch !== 'string' &&
+      typeof usernameSearch !== 'undefined'
+    ) {
+      throw new AppError(
+        'bad_input',
+        400,
+        'Query parameter "username" must be of type string',
+        true
+      );
+    }
+
+    const users = await UserService.getUsers(usernameSearch);
 
     res.send({
       success: true,

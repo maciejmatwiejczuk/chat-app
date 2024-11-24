@@ -47,7 +47,7 @@ export class UserRepository implements TransactionalRepository {
       .selectFrom('user')
       .select(['id', 'username', 'email'])
       .$if(Boolean(criteria.username), (q) =>
-        q.where('username', '=', String(criteria.username))
+        q.where('username', 'like', `%${criteria.username}%`)
       )
       .execute();
   }
