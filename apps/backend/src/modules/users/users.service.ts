@@ -44,8 +44,13 @@ export async function createUser(user: CreateUserDto) {
   return createdUser;
 }
 
-export async function getUsers(usernameSearch?: string) {
-  const users = await db.user.findMany({ username: usernameSearch });
+export async function getUsers(page: number, usernameSearch?: string) {
+  const PAGE_LIMIT = 3;
+  const offset = page * PAGE_LIMIT;
+
+  const users = await db.user.findMany(PAGE_LIMIT, offset, {
+    username: usernameSearch,
+  });
 
   return users;
 }

@@ -52,12 +52,24 @@ export async function getUsers(
       throw new AppError(
         'bad_input',
         400,
-        'Query parameter "username" must be of type string',
+        'Incorrect "username" parameter',
         true
       );
     }
 
-    const users = await UserService.getUsers(usernameSearch);
+    const pageParam = req.query.page;
+
+    if (typeof pageParam !== 'string') {
+      throw new AppError('bad_input', 400, 'Incorrect "page" parameter', true);
+    }
+
+    const page = Number(pageParam) - 1;
+
+    if (page < 0) {
+      throw new AppError('bad_input', 400, 'Incorrect "page" parameter', true);
+    }
+
+    const users = await UserService.getUsers(page, usernameSearch);
 
     res.send({
       success: true,

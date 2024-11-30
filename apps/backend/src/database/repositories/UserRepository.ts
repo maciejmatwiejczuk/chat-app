@@ -42,13 +42,16 @@ export class UserRepository implements TransactionalRepository {
       .executeTakeFirst();
   }
 
-  async findMany(criteria: Partial<UserSelect>) {
+  async findMany(limit: number, offset: number, criteria: Partial<UserSelect>) {
     return await this.kysely
       .selectFrom('user')
       .select(['id', 'username', 'email'])
       .$if(Boolean(criteria.username), (q) =>
         q.where('username', 'like', `%${criteria.username}%`)
       )
+      .orderBy('id')
+      .limit(limit)
+      .offset(offset)
       .execute();
   }
 
