@@ -50,11 +50,11 @@ function ChatList({ dropdownSelection, searchValue }: ChatListProps) {
             user.username.toLowerCase().includes(searchValue.toLowerCase())
           );
 
-        return foundUsers.map((contact) => (
+        return foundUsers.map((user) => (
           <ChatListItem
-            socketId={contact.socketId}
-            name={contact.username}
-            isOpen={isChatOpen(contact.socketId)}
+            socketId={user.socketId}
+            name={user.username}
+            isOpen={isChatOpen(user.socketId)}
           />
         ));
       }
