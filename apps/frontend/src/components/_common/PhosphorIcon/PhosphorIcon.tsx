@@ -1,4 +1,4 @@
-import { lazy, Suspense, forwardRef } from 'react';
+import { lazy, Suspense, forwardRef, memo } from 'react';
 import type { IconProps } from '@phosphor-icons/react';
 
 type ImportMap = Record<
@@ -23,8 +23,8 @@ function relativePathForIcon(name: string): string {
   return `../../../../../../node_modules/@phosphor-icons/react/dist/ssr/${name}.mjs`;
 }
 
-const PhosphorIcon = forwardRef<SVGSVGElement, IconProps & { name: string }>(
-  (props, ref) => {
+const PhosphorIcon = memo(
+  forwardRef<SVGSVGElement, IconProps & { name: string }>((props, ref) => {
     const { name, ...iconProps } = props;
 
     const Icon = lazy(() => importMap[relativePathForIcon(name)](name));
@@ -34,7 +34,7 @@ const PhosphorIcon = forwardRef<SVGSVGElement, IconProps & { name: string }>(
         <Icon {...iconProps} ref={ref} />
       </Suspense>
     );
-  }
+  })
 );
 
 export default PhosphorIcon;
