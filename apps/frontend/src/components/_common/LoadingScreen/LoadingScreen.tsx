@@ -5,7 +5,7 @@ function LoadingScreen() {
   return (
     <div className={styles.container}>
       <div>
-        <Loader />
+        <Loader size="large" />
         <p className={styles.label}>Loading...</p>
       </div>
     </div>
