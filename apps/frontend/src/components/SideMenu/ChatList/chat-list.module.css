@@ -102,3 +102,10 @@
   position: relative;
   top: 3px;
 }
+
+.loaderWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--size-px-l);
+}
