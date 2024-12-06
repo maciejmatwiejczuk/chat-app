@@ -5,7 +5,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { LoginDto } from '@chat-app/_common/schemas/sessions.ts';
-import axios from '../config/axios.ts';
+import { api } from '../config/axios.ts';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
@@ -16,7 +16,7 @@ export function useLogin() {
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: (data: LoginDto) => axios.post(LOGIN_ENDPOINT, data),
+    mutationFn: (data: LoginDto) => api.post(LOGIN_ENDPOINT, data),
     onSuccess: async () => {
       localStorage.setItem('didLogIn', 'true');
       await queryClient.invalidateQueries({
@@ -35,7 +35,7 @@ export function useLogout() {
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: () => axios.post(LOGOUT_ENDPOINT),
+    mutationFn: () => api.post(LOGOUT_ENDPOINT),
     onSuccess: () => {
       queryClient.clear();
       localStorage.removeItem('didLogIn');
@@ -55,7 +55,7 @@ export function useMe() {
         return null;
       }
 
-      return axios.get(ME_ENDPOINT);
+      return api.get(ME_ENDPOINT);
     },
     select: (response) => response?.data.me,
     staleTime: Infinity,
