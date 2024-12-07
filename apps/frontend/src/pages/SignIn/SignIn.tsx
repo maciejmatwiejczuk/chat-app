@@ -69,6 +69,10 @@ function SignIn() {
           </div>
         )}
 
+        {location.state?.message && (
+          <div className={styles.infoBox}>{location.state.message}</div>
+        )}
+
         {renderErrorBox()}
 
         <div className={styles.inputWrapper}>

@@ -8,17 +8,19 @@ import { LoginDto } from '@chat-app/_common/schemas/sessions.ts';
 import { api } from '../config/axios.ts';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
+import { useAuthContext } from '../context/AuthContext/useAuthContext.ts';
 
 const LOGIN_ENDPOINT = 'login';
 
 export function useLogin() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { confirmAuth } = useAuthContext();
 
   return useMutation({
     mutationFn: (data: LoginDto) => api.post(LOGIN_ENDPOINT, data),
     onSuccess: async () => {
-      localStorage.setItem('didLogIn', 'true');
+      confirmAuth();
       await queryClient.invalidateQueries({
         queryKey: ['me'],
         refetchType: 'all',
@@ -33,12 +35,13 @@ const LOGOUT_ENDPOINT = 'logout';
 export function useLogout() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { invalidateAuth } = useAuthContext();
 
   return useMutation({
     mutationFn: () => api.post(LOGOUT_ENDPOINT),
     onSuccess: () => {
       queryClient.clear();
-      localStorage.removeItem('didLogIn');
+      invalidateAuth();
       navigate('/sign-in');
     },
   });
@@ -47,11 +50,12 @@ export function useLogout() {
 const ME_ENDPOINT = 'me';
 
 export function useMe() {
+  const { invalidateAuth, getLocalStorageAuthValue } = useAuthContext();
+
   return useQuery({
     queryKey: ['me'],
     queryFn: () => {
-      // eslint-disable-next-line no-extra-boolean-cast
-      if (!Boolean(localStorage.getItem('didLogIn'))) {
+      if (!getLocalStorageAuthValue()) {
         return null;
       }
 
@@ -62,7 +66,7 @@ export function useMe() {
     retry: (failCount, err) => {
       if (err instanceof AxiosError) {
         if (err.response?.status === 401) {
-          localStorage.removeItem('didLogIn');
+          invalidateAuth();
           return false;
         }
       }
