@@ -2,6 +2,7 @@ import type { Kysely, Transaction } from 'kysely';
 import type {
   Database,
   InvitationInsert,
+  InvitationSelect,
   TransactionalRepository,
 } from '../types.js';
 
@@ -23,6 +24,23 @@ export class InvitationRepository implements TransactionalRepository {
       .selectAll()
       .executeTakeFirst();
   }
+
+  async findMany(criteria: Partial<InvitationSelect>) {
+    return await this.kysely
+      .selectFrom('invitation')
+      .$if(Boolean(criteria.senderId), (q) =>
+        q.where('senderId', '=', Number(criteria.senderId))
+      )
+      .$if(Boolean(criteria.receiverId), (q) =>
+        q.where('receiverId', '=', Number(criteria.receiverId))
+      )
+      .$if(Boolean(criteria.senderMessageCount), (q) =>
+        q.where('senderMessageCount', '=', Number(criteria.senderMessageCount))
+      )
+      .selectAll()
+      .execute();
+  }
+
   async delete(id: number) {
     return await this.kysely
       .deleteFrom('invitation')
