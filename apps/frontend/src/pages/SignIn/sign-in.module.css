@@ -6,7 +6,8 @@
 }
 
 .form {
-  max-width: 500px;
+  min-width: 420px;
+  max-width: 420px;
   height: max-content;
   padding: var(--size-px-2xl);
   border-radius: var(--border-radius-default);
