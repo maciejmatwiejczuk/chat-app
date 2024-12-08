@@ -62,13 +62,6 @@ function SignIn() {
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <h2 className={styles.heading}>Sign In</h2>
 
-        {location.state?.isRegistered && (
-          <div className={styles.infoBox}>
-            Your account was successfully registered. <br />
-            You can login now.
-          </div>
-        )}
-
         {location.state?.message && (
           <div className={styles.infoBox}>{location.state.message}</div>
         )}

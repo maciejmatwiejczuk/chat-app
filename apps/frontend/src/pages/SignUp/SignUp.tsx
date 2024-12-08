@@ -27,7 +27,13 @@ function SignUp() {
 
   async function onSubmit(data: CreateUserDto) {
     createUser.mutate(data, {
-      onSuccess: () => navigate('/sign-in', { state: { isRegistered: true } }),
+      onSuccess: () =>
+        navigate('/sign-in', {
+          state: {
+            message:
+              'Your account was successfully registered. You can login now.',
+          },
+        }),
     });
   }
 
