@@ -9,6 +9,8 @@ import { corsConfig } from './config/cors.js';
 import errorCatcher from './middlewares/errorCatcher.js';
 import userRouter from './modules/users/users.routes.js';
 import sessionRouter from './modules/sessions/sessions.routes.js';
+import { invitationRouter } from './modules/invitations/invitations.routes.js';
+import { contactRouter } from './modules/contacts/contacts.routes.js';
 import type { ServerEvents, ClientEvents } from '@chat-app/_common/types.ts';
 import ErrorHandler from './utils/ErrorHandler.js';
 import sessionMiddleware from './middlewares/sessionMiddleware.js';
@@ -36,6 +38,8 @@ app.get('/', (req, res) => {
 
 app.use('/', sessionRouter);
 app.use('/users', userRouter);
+app.use('/invitations', invitationRouter);
+app.use('/contacts', contactRouter);
 
 app.use(errorCatcher);
 
