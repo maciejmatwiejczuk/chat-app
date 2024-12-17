@@ -22,9 +22,8 @@ export const contactController = {
       const contacts = await contactService.getMany(zodResult.data);
 
       res.send({
-        status: 'success',
-        message: 'Contacts returned successfully',
-        contacts,
+        success: true,
+        items: { contacts },
       });
     } catch (err) {
       next(err);

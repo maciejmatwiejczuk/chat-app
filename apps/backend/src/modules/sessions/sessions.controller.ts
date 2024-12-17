@@ -23,8 +23,7 @@ export async function logIn(req: Request, res: Response, next: NextFunction) {
 
     res.send({
       success: true,
-      message: 'You have logged in successfully',
-      user,
+      items: { user },
     });
   } catch (err) {
     next(err);
@@ -39,7 +38,6 @@ export async function logOut(req: Request, res: Response) {
 
     return res.clearCookie('sessionId').send({
       success: true,
-      message: 'You have been log out',
     });
   });
 }
@@ -49,7 +47,6 @@ export async function getMe(req: Request, res: Response) {
 
   return res.send({
     success: true,
-    message: 'Your data was successfully retrieved',
-    me,
+    items: { me },
   });
 }

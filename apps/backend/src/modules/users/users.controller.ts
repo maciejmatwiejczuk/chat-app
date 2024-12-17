@@ -29,8 +29,7 @@ export async function createUser(
 
     return res.status(201).send({
       success: true,
-      message: 'User updated successfuly',
-      user: createdUser,
+      items: { user: createdUser },
     });
   } catch (err) {
     next(err);
@@ -73,8 +72,7 @@ export async function getUsers(
 
     res.send({
       success: true,
-      message: 'Users returned successfuly',
-      users,
+      items: { users },
     });
   } catch (err) {
     next(err);
@@ -97,8 +95,7 @@ export async function getUserById(
 
     res.send({
       success: true,
-      message: 'User with specified id returned successfuly',
-      user,
+      items: { user },
     });
   } catch (err) {
     next(err);
@@ -133,8 +130,7 @@ export async function updateUser(
 
     return res.send({
       success: true,
-      message: 'User updated successfuly',
-      user: updatedUser,
+      items: { user: updatedUser },
     });
   } catch (err) {
     next(err);
@@ -157,8 +153,7 @@ export async function deleteUser(
 
     res.send({
       success: true,
-      message: 'User deleted successfuly',
-      user: deletedUser,
+      items: { user: deletedUser },
     });
   } catch (err) {
     next(err);

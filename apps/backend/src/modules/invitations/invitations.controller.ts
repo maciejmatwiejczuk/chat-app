@@ -24,9 +24,8 @@ export const invitationController = {
       const invitations = await invitationService.getMany(zodResult.data);
 
       res.send({
-        status: 'success',
-        message: 'Invitation returned successfully',
-        invitations,
+        success: true,
+        items: { invitations },
       });
     } catch (err) {
       next(err);

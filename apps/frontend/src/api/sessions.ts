@@ -61,7 +61,7 @@ export function useMe() {
 
       return api.get(ME_ENDPOINT);
     },
-    select: (response) => response?.data.me,
+    select: (response) => response?.data.items.me,
     staleTime: Infinity,
     retry: (failCount, err) => {
       if (err instanceof AxiosError) {

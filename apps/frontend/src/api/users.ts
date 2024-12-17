@@ -21,11 +21,11 @@ export function useGetUsers(search?: string) {
         },
       });
 
-      return response.data;
+      return response.data.items.users;
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, _pages, lastPageParam) => {
-      return lastPage.users.length > 0 ? lastPageParam + 1 : undefined;
+      return lastPage.length > 0 ? lastPageParam + 1 : undefined;
     },
   });
 }
