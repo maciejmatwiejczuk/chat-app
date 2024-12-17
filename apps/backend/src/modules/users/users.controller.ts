@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import {
   CreateUserSchema,
+  GetUsersSchema,
   UpdateUserSchema,
 } from '@chat-app/_common/schemas/users.js';
 import AppError from '../../utils/AppError.js';
@@ -42,33 +43,19 @@ export async function getUsers(
   next: NextFunction
 ) {
   try {
-    const usernameSearch = req.query.username;
+    const zodResult = GetUsersSchema.safeParse(req.query);
 
-    if (
-      typeof usernameSearch !== 'string' &&
-      typeof usernameSearch !== 'undefined'
-    ) {
+    if (!zodResult.success) {
       throw new AppError(
         'bad_input',
         400,
-        'Incorrect "username" parameter',
-        true
+        'Invalid parameters',
+        true,
+        mapFieldErrors(zodResult.error.issues)
       );
     }
 
-    const pageParam = req.query.page;
-
-    if (typeof pageParam !== 'string') {
-      throw new AppError('bad_input', 400, 'Incorrect "page" parameter', true);
-    }
-
-    const page = Number(pageParam) - 1;
-
-    if (page < 0) {
-      throw new AppError('bad_input', 400, 'Incorrect "page" parameter', true);
-    }
-
-    const users = await UserService.getUsers(page, usernameSearch);
+    const users = await UserService.getUsers(zodResult.data);
 
     res.send({
       success: true,

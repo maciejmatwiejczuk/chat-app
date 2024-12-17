@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+export const GetUsersSchema = z.object({
+  page: z.coerce.number().gt(0, 'page must be greater than 0'),
+  username: z.undefined().or(z.string()),
+  email: z.undefined().or(z.string()),
+});
+
 export const CreateUserSchema = z
   .object({
     username: z
@@ -47,3 +53,4 @@ export const UpdateUserSchema = z
 
 export type CreateUserDto = z.infer<typeof CreateUserSchema>;
 export type UpdateUserDto = z.infer<typeof UpdateUserSchema>;
+export type GetUsersDto = z.infer<typeof GetUsersSchema>;

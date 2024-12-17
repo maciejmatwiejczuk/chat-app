@@ -3,6 +3,7 @@ import { db } from '../../database/db.js';
 import AppError from '../../utils/AppError.js';
 import type {
   CreateUserDto,
+  GetUsersDto,
   UpdateUserDto,
 } from '@chat-app/_common/schemas/users.js';
 import type { UserInsert } from '../../database/types.js';
@@ -44,15 +45,11 @@ export async function createUser(user: CreateUserDto) {
   return createdUser;
 }
 
-export async function getUsers(page: number, usernameSearch?: string) {
+export async function getUsers(params: GetUsersDto) {
   const PAGE_LIMIT = 10;
-  const offset = page * PAGE_LIMIT;
+  const offset = (params.page - 1) * PAGE_LIMIT;
 
-  const users = await db.user.findMany(PAGE_LIMIT, offset, {
-    username: usernameSearch,
-  });
-
-  return users;
+  return await db.user.findMany(PAGE_LIMIT, offset, params);
 }
 
 export async function getUserById(id: number) {

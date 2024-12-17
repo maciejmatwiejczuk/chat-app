@@ -49,6 +49,9 @@ export class UserRepository implements TransactionalRepository {
       .$if(Boolean(criteria.username), (q) =>
         q.where('username', 'like', `%${criteria.username}%`)
       )
+      .$if(Boolean(criteria.email), (q) =>
+        q.where('email', 'like', `%${criteria.email}%`)
+      )
       .orderBy('id')
       .limit(limit)
       .offset(offset)
