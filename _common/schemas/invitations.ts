@@ -8,4 +8,4 @@ export const GetInvitationsSchema = z
   })
   .partial();
 
-export type InvitationDto = z.infer<typeof GetInvitationsSchema>;
+export type GetInvitationsDto = z.infer<typeof GetInvitationsSchema>;
