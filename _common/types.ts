@@ -29,3 +29,8 @@ export interface FieldError {
   field: string;
   message: string;
 }
+
+export interface ApiResponse<T> {
+  success: boolean;
+  items: Record<string, T>;
+}
