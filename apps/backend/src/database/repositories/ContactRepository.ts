@@ -41,7 +41,7 @@ export class ContactRepository implements TransactionalRepository {
         q.where('contact.contactId', '=', Number(criteria.contactId))
       )
       .$if(Boolean(criteria.username), (q) =>
-        q.where('contact.username', '=', String(criteria.username))
+        q.where('contact.username', 'like', `%${criteria.username}%`)
       )
       .$if(Boolean(criteria.invitationId), (q) =>
         q.where('contact.invitationId', '=', Number(criteria.invitationId))
