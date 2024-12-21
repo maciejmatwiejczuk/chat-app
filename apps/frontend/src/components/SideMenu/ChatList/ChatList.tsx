@@ -1,6 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
 import { MagnifyingGlass } from '@phosphor-icons/react';
-import { contacts } from '../../../data';
 import Avatar from '../../_common/Avatar/Avatar';
 import type { OptionValue } from '../SideMenu';
 import styles from './chat-list.module.css';
@@ -8,6 +7,10 @@ import { useGetUsers } from '../../../api/users';
 import { forwardRef, useCallback, useRef } from 'react';
 import { useDebounce } from '../../../hooks/useDebounce';
 import Loader from '../../_common/Loader/Loader';
+import { useGetContacts } from '../../../api/contacts';
+import { useMe } from '../../../api/sessions';
+import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
+import { Contact } from '@chat-app/_common/schemas/contacts';
 
 interface ChatListProps {
   dropdownSelection: OptionValue;
@@ -15,51 +18,11 @@ interface ChatListProps {
 }
 
 function ChatList({ dropdownSelection, searchValue }: ChatListProps) {
-  const { chatId } = useParams();
-
-  function isChatOpen(id: number) {
-    return Number(chatId) === id;
-  }
-
   const debouncedSearch = useDebounce(searchValue, 500);
 
   function renderItems() {
     if (dropdownSelection === 'my_contacts') {
-      if (debouncedSearch) {
-        const foundContacts = contacts.filter((contact) =>
-          contact.username.toLowerCase().includes(debouncedSearch.toLowerCase())
-        );
-
-        return (
-          <div className={styles.container}>
-            <ul className={styles.list}>
-              {foundContacts.map((contact) => (
-                <ChatListItem
-                  socketId={contact.socketId}
-                  name={contact.username}
-                  lastMessage={contact.last_message}
-                  isOpen={isChatOpen(contact.socketId)}
-                />
-              ))}
-            </ul>
-          </div>
-        );
-      }
-
-      return (
-        <div className={styles.container}>
-          <ul className={styles.list}>
-            {contacts.map((contact) => (
-              <ChatListItem
-                socketId={contact.socketId}
-                name={contact.username}
-                lastMessage={contact.last_message}
-                isOpen={isChatOpen(contact.socketId)}
-              />
-            ))}
-          </ul>
-        </div>
-      );
+      return <ContactsList searchValue={debouncedSearch} />;
     } else {
       if (debouncedSearch) {
         return <SearchUsersList searchValue={debouncedSearch} />;
@@ -78,25 +41,40 @@ function ChatList({ dropdownSelection, searchValue }: ChatListProps) {
   return renderItems();
 }
 
+interface ContactsListProps {
+  searchValue?: string;
+}
+
+function ContactsList({ searchValue }: ContactsListProps) {
+  const { data: me } = useMe();
+  const getContactsQuery = useGetContacts({
+    username: searchValue,
+    ownerId: me.id,
+  });
+
+  return <InfiniteChatList query={getContactsQuery} />;
+}
+
 interface SearchUsersListProps {
   searchValue?: string;
 }
 
 function SearchUsersList({ searchValue }: SearchUsersListProps) {
-  const {
-    data,
-    fetchNextPage,
-    isFetchingNextPage,
-    hasNextPage,
-    isPending,
-    isError,
-  } = useGetUsers(searchValue);
+  const getUsersQuery = useGetUsers(searchValue);
 
+  return <InfiniteChatList query={getUsersQuery} />;
+}
+
+interface InfiniteChatListProps {
+  query: UseInfiniteQueryResult<InfiniteData<Contact[]>>;
+}
+
+function InfiniteChatList({ query }: InfiniteChatListProps) {
   const intObserver = useRef<IntersectionObserver>();
   const observerRootRef = useRef<HTMLDivElement>(null);
   const lastUserRef = useCallback(
-    (user: HTMLLIElement) => {
-      if (isFetchingNextPage) {
+    (item: HTMLLIElement) => {
+      if (query.isFetchingNextPage) {
         return;
       }
 
@@ -105,10 +83,9 @@ function SearchUsersList({ searchValue }: SearchUsersListProps) {
       }
 
       intObserver.current = new IntersectionObserver(
-        (users) => {
-          console.log(users);
-          if (users[0].isIntersecting && hasNextPage) {
-            fetchNextPage();
+        (items) => {
+          if (items[0].isIntersecting && query.hasNextPage) {
+            query.fetchNextPage();
           }
         },
         {
@@ -116,9 +93,9 @@ function SearchUsersList({ searchValue }: SearchUsersListProps) {
         }
       );
 
-      if (user) intObserver.current.observe(user);
+      if (item) intObserver.current.observe(item);
     },
-    [fetchNextPage, isFetchingNextPage, hasNextPage, observerRootRef]
+    [query]
   );
 
   const { chatId } = useParams();
@@ -127,7 +104,7 @@ function SearchUsersList({ searchValue }: SearchUsersListProps) {
     return Number(chatId) === id;
   }
 
-  if (isPending) {
+  if (query.isPending) {
     return (
       <div className={styles.loaderWrapper}>
         <Loader size="medium" />
@@ -135,11 +112,11 @@ function SearchUsersList({ searchValue }: SearchUsersListProps) {
     );
   }
 
-  if (isError) {
+  if (query.isError) {
     return <p className={styles.placeholder}>Failed to find users</p>;
   }
 
-  if (data.pages[0].users.length === 0) {
+  if (query.data.pages[0].length === 0) {
     return (
       <p className={styles.placeholder}>
         No users found matching the searched name
@@ -147,8 +124,8 @@ function SearchUsersList({ searchValue }: SearchUsersListProps) {
     );
   }
 
-  const items = data?.pages.map(({ users }) => {
-    return users.map((user: { id: number; username: string }, i: number) => {
+  const items = query.data?.pages.map((users: Contact[]) => {
+    return users.map((user: Contact, i: number) => {
       if (i === users.length - 1) {
         return (
           <ChatListItem
@@ -174,7 +151,7 @@ function SearchUsersList({ searchValue }: SearchUsersListProps) {
     <div className={styles.container} ref={observerRootRef}>
       <ul className={styles.list}>{items}</ul>
       <div className={styles.loaderWrapper}>
-        {isFetchingNextPage && <Loader size="medium" />}
+        {query.isFetchingNextPage && <Loader size="medium" />}
       </div>
     </div>
   );

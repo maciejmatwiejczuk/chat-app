@@ -6,6 +6,8 @@ import ChatHeader from './ChatHeader/ChatHeader';
 import MessageList from './MessageList/MessageList';
 import MessageInput from './MessageInput/MessageInput';
 import styles from './chat.module.css';
+import { useMe } from '../../api/sessions';
+import { useParams } from 'react-router-dom';
 
 export interface ChatMessage {
   id: string;
@@ -50,6 +52,12 @@ function Chat() {
     };
   }, []);
 
+  const { data: me } = useMe();
+  const { chatId } = useParams();
+  const userId = Number(chatId);
+
+  // if receiver sends message invitation gets deleted
+
   function onMessageSend() {
     const messageId = uuid();
 
@@ -58,9 +66,12 @@ function Chat() {
         ...prev,
         { id: messageId, isMe: true, message, date: new Date() },
       ]);
-      socket.emit('chat_message:client', message, (date) => {
+
+      const msg = { senderId: me.id, receiverId: Number(userId), message };
+
+      socket.emit('chat_message:client', msg, (date: string) => {
         setChatMessages((prev) => {
-          const filtered = prev.filter((msg) => msg.id !== messageId);
+          const filtered = prev.filter((message) => message.id !== messageId);
           return [
             ...filtered,
             { id: messageId, isMe: true, message, date: new Date(date) },
@@ -75,6 +86,7 @@ function Chat() {
     <div className={styles.container}>
       <ChatHeader />
       <MessageList chatMessages={chatMessages} />
+      {/* disable button when senderMessageCount === 3 (only for sender)*/}
       <MessageInput
         message={message}
         setMessage={setMessage}
@@ -84,4 +96,33 @@ function Chat() {
   );
 }
 
+function InvitationInfo({ isSender }) {
+  function onReject() {
+    //delete contact
+  }
+
+  if (isSender) {
+    return (
+      <div>
+        The user you are sending messages to is outside of your contacts. Until
+        they accept you as a contact the number of messges you can send is
+        limited to 3.
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <p>
+        [username] is trying to contact you. Send the message to accept them as
+        your contact or reject the conversation using button on the left.
+      </p>
+      <button onClick={onReject}>Reject</button>
+    </div>
+  );
+}
+
 export default Chat;
+
+// uzytkownik wchodzi w czat
+//
