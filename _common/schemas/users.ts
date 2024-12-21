@@ -54,3 +54,4 @@ export const UpdateUserSchema = z
 export type CreateUserDto = z.infer<typeof CreateUserSchema>;
 export type UpdateUserDto = z.infer<typeof UpdateUserSchema>;
 export type GetUsersDto = z.infer<typeof GetUsersSchema>;
+export type UserDto = { id: number } & Required<Omit<GetUsersDto, 'page'>>;

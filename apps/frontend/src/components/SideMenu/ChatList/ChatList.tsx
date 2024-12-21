@@ -11,6 +11,7 @@ import { useGetContacts } from '../../../api/contacts';
 import { useMe } from '../../../api/sessions';
 import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
 import { Contact } from '@chat-app/_common/schemas/contacts';
+import { UserDto } from '@chat-app/_common/schemas/users';
 
 interface ChatListProps {
   dropdownSelection: OptionValue;
@@ -47,6 +48,11 @@ interface ContactsListProps {
 
 function ContactsList({ searchValue }: ContactsListProps) {
   const { data: me } = useMe();
+
+  if (!me) {
+    throw new Error('Cannot get data of logged in user');
+  }
+
   const getContactsQuery = useGetContacts({
     username: searchValue,
     ownerId: me.id,
@@ -66,7 +72,7 @@ function SearchUsersList({ searchValue }: SearchUsersListProps) {
 }
 
 interface InfiniteChatListProps {
-  query: UseInfiniteQueryResult<InfiniteData<Contact[]>>;
+  query: UseInfiniteQueryResult<InfiniteData<Contact[] | UserDto[]>>;
 }
 
 function InfiniteChatList({ query }: InfiniteChatListProps) {
@@ -124,8 +130,8 @@ function InfiniteChatList({ query }: InfiniteChatListProps) {
     );
   }
 
-  const items = query.data?.pages.map((users: Contact[]) => {
-    return users.map((user: Contact, i: number) => {
+  const items = query.data?.pages.map((users: Contact[] | UserDto[]) => {
+    return users.map((user: Contact | UserDto, i: number) => {
       if (i === users.length - 1) {
         return (
           <ChatListItem

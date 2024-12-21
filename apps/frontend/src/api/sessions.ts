@@ -9,6 +9,8 @@ import { api } from '../config/axios.ts';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { useAuthContext } from '../context/AuthContext/useAuthContext.ts';
+import { UserDto } from '@chat-app/_common/schemas/users.ts';
+import { ApiResponse } from '@chat-app/_common/types.ts';
 
 const LOGIN_ENDPOINT = 'login';
 
@@ -18,7 +20,8 @@ export function useLogin() {
   const { confirmAuth } = useAuthContext();
 
   return useMutation({
-    mutationFn: (data: LoginDto) => api.post(LOGIN_ENDPOINT, data),
+    mutationFn: (data: LoginDto) =>
+      api.post<LoginDto, ApiResponse<UserDto>>(LOGIN_ENDPOINT, data),
     onSuccess: async () => {
       confirmAuth();
       await queryClient.invalidateQueries({
@@ -38,7 +41,7 @@ export function useLogout() {
   const { invalidateAuth } = useAuthContext();
 
   return useMutation({
-    mutationFn: () => api.post(LOGOUT_ENDPOINT),
+    mutationFn: () => api.post<never, ApiResponse<never>>(LOGOUT_ENDPOINT),
     onSuccess: () => {
       queryClient.clear();
       invalidateAuth();
@@ -54,14 +57,15 @@ export function useMe() {
 
   return useQuery({
     queryKey: ['me'],
-    queryFn: () => {
+    queryFn: async () => {
       if (!getLocalStorageAuthValue()) {
         return null;
       }
 
-      return api.get(ME_ENDPOINT);
+      const response = await api.get<ApiResponse<UserDto>>(ME_ENDPOINT);
+
+      return response.data.items.me;
     },
-    select: (response) => response?.data.items.me,
     staleTime: Infinity,
     retry: (failCount, err) => {
       if (err instanceof AxiosError) {

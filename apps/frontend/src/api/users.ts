@@ -1,12 +1,14 @@
 import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
-import { CreateUserDto } from '@chat-app/_common/schemas/users';
+import { CreateUserDto, UserDto } from '@chat-app/_common/schemas/users';
 import { api } from '../config/axios.ts';
+import { ApiResponse } from '@chat-app/_common/types.ts';
 
 const ENDPOINT = 'users';
 
 export function useCreateUser() {
   return useMutation({
-    mutationFn: (data: CreateUserDto) => api.post(ENDPOINT, data),
+    mutationFn: (data: CreateUserDto) =>
+      api.post<CreateUserDto, ApiResponse<UserDto>>(ENDPOINT, data),
   });
 }
 
@@ -14,7 +16,7 @@ export function useGetUsers(search?: string) {
   return useInfiniteQuery({
     queryKey: ['users', search],
     queryFn: async ({ pageParam }) => {
-      const response = await api.get(ENDPOINT, {
+      const response = await api.get<ApiResponse<UserDto[]>>(ENDPOINT, {
         params: {
           page: pageParam,
           username: search,
