@@ -5,3 +5,4 @@ import { authenticate } from '../../middlewares/authenticate.js';
 export const contactRouter = Router();
 
 contactRouter.route('/').get(authenticate, contactController.getMany);
+contactRouter.route('/:id').get(authenticate, contactController.getById);

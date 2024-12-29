@@ -29,4 +29,23 @@ export const contactController = {
       next(err);
     }
   },
+
+  async getById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+
+      if (isNaN(id)) {
+        throw new AppError('not_found', 404, 'Contact not found', true);
+      }
+
+      const contact = await contactService.getById(id);
+
+      res.send({
+        success: true,
+        items: { contact },
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
 };

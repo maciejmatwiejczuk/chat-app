@@ -17,6 +17,14 @@ export class ContactRepository implements TransactionalRepository {
       .executeTakeFirstOrThrow();
   }
 
+  async findById(id: number) {
+    return await this.kysely
+      .selectFrom('contact')
+      .where('id', '=', id)
+      .selectAll()
+      .executeTakeFirst();
+  }
+
   async findByOwnerAndContact(ownerId: number, contactId: number) {
     return await this.kysely
       .selectFrom('contact')
