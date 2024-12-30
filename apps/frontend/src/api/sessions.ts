@@ -11,6 +11,7 @@ import { AxiosError } from 'axios';
 import { useAuthContext } from '../context/AuthContext/useAuthContext.ts';
 import { UserDto } from '@chat-app/_common/schemas/users.ts';
 import { ApiResponse } from '@chat-app/_common/types.ts';
+import { socket } from '../config/socket.ts';
 
 const LOGIN_ENDPOINT = 'login';
 
@@ -23,6 +24,7 @@ export function useLogin() {
     mutationFn: (data: LoginDto) =>
       api.post<LoginDto, ApiResponse<UserDto>>(LOGIN_ENDPOINT, data),
     onSuccess: async () => {
+      socket.connect();
       confirmAuth();
       await queryClient.invalidateQueries({
         queryKey: ['me'],
