@@ -24,7 +24,6 @@ export function useLogin() {
     mutationFn: (data: LoginDto) =>
       api.post<LoginDto, ApiResponse<UserDto>>(LOGIN_ENDPOINT, data),
     onSuccess: async () => {
-      socket.connect();
       confirmAuth();
       await queryClient.invalidateQueries({
         queryKey: ['me'],
@@ -45,6 +44,7 @@ export function useLogout() {
   return useMutation({
     mutationFn: () => api.post<never, ApiResponse<never>>(LOGOUT_ENDPOINT),
     onSuccess: () => {
+      socket.disconnect();
       queryClient.clear();
       invalidateAuth();
       navigate('/sign-in');

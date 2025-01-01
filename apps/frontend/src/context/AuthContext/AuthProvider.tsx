@@ -3,6 +3,7 @@ import { AuthContext } from './useAuthContext';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../config/axios';
 import { useQueryClient } from '@tanstack/react-query';
+import { socket } from '../../config/socket';
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [didLogIn, setDidLogIn] = useState(getLocalStorageAuthValue);
@@ -26,9 +27,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
-    console.log('RUN');
-    console.log(didLogIn);
-
     if (!didLogIn) {
       return;
     }
@@ -38,6 +36,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       (error) => {
         if (error.status === 401) {
           queryClient.clear();
+          socket.disconnect();
           invalidateAuth();
           navigate('/sign-in', {
             state: { message: 'Your session has expired.' },
