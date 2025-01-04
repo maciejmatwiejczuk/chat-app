@@ -48,4 +48,23 @@ export const contactController = {
       next(err);
     }
   },
+
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+
+      if (isNaN(id)) {
+        throw new AppError('not_found', 404, 'Contact not found', true);
+      }
+
+      const deletedContacts = await contactService.delete(id);
+
+      res.send({
+        success: true,
+        items: { deletedContacts },
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
 };

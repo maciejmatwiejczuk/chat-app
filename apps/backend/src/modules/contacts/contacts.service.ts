@@ -19,4 +19,24 @@ export const contactService = {
 
     return contact;
   },
+
+  async delete(id: number) {
+    const { ownerId: user1, contactId: user2 } = await this.getById(id);
+    const twin = (
+      await this.getMany({ page: 1, ownerId: user2, contactId: user1 })
+    )[0];
+
+    if (!twin) {
+      throw new AppError('not_found', 404, 'Twin contact not found', true);
+    }
+
+    const deletedContacts = db.transaction(async (trx) => {
+      const contact1 = await db.contact.transacting(trx).delete(id);
+      const contact2 = await db.contact.transacting(trx).delete(twin.id);
+
+      return [contact1, contact2];
+    });
+
+    return deletedContacts;
+  },
 };

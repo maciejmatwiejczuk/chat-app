@@ -60,6 +60,14 @@ export class ContactRepository implements TransactionalRepository {
       .execute();
   }
 
+  async delete(id: number) {
+    return await this.kysely
+      .deleteFrom('contact')
+      .where('id', '=', id)
+      .returningAll()
+      .executeTakeFirst();
+  }
+
   transacting(trx: Transaction<Database>) {
     return new ContactRepository(trx);
   }
