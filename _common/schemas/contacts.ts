@@ -10,4 +10,4 @@ export const GetContactsSchema = z.object({
 
 export type GetContactsDto = z.infer<typeof GetContactsSchema>;
 export type ContactsCriteria = Omit<GetContactsDto, 'page'>;
-export type Contact = { id: number } & Required<ContactsCriteria>;
+export type ContactDto = { id: number } & Required<ContactsCriteria>;
