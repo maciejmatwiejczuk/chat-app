@@ -5,13 +5,21 @@ interface MessageInputProps {
   message: string;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
   onMessageSend: () => void;
+  isDisabled?: boolean | undefined;
 }
 
 function MessageInput({
   message,
   setMessage,
   onMessageSend,
+  isDisabled,
 }: MessageInputProps) {
+  function onEnterDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!isDisabled && e.key === 'Enter') {
+      onMessageSend();
+    }
+  }
+
   return (
     <div className={styles.container}>
       <input
@@ -20,9 +28,13 @@ function MessageInput({
         className={styles.inputBox}
         type="text"
         placeholder="Write a message"
-        onKeyDown={(e) => e.key === 'Enter' && onMessageSend()}
+        onKeyDown={onEnterDown}
       />
-      <button className={styles.sendButton} onClick={onMessageSend}>
+      <button
+        className={styles.sendButton}
+        onClick={onMessageSend}
+        disabled={isDisabled}
+      >
         <PaperPlaneTilt size={24} weight="fill" />
       </button>
     </div>

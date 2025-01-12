@@ -21,6 +21,7 @@ export function messageController(socket: Socket<ClientEvents, ServerEvents>) {
           socket.emit(event, data.invitation);
         } else if (event === 'invitation_accepted') {
           socket.to(String(msg.receiverId)).emit(event);
+          socket.emit(event);
         }
 
         socket

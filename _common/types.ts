@@ -1,3 +1,5 @@
+import type { InvitationDto } from './schemas/invitations.js';
+
 export interface ChatMessageClient {
   message: string;
   senderId: number;
@@ -23,6 +25,8 @@ export interface ClientEvents {
 export interface ServerEvents {
   'chat_message:server': (msg: TransferredChatMessage) => void;
   'error:server': (err: ErrorServer) => void;
+  invitation_sent: (invitation: InvitationDto) => void;
+  invitation_accepted: () => void;
 }
 
 export interface FieldError {

@@ -4,14 +4,25 @@ import { ChatMessage } from '../Chat';
 import { groupMessagesByTime } from '../../../helpers/chat.helpers';
 import { formatDate } from '../../../helpers/date.helpers';
 import styles from './message-list.module.css';
+import ReceiverInvitationInfo from '../ReceiverInvitationInfo/ReceiverInvitationInfo';
+import { useGetContacts } from '../../../api/contacts';
 
 interface MessageListProps {
   chatMessages: ChatMessage[];
+  isInvitationSenderMe: boolean;
+  doesContactInfoShow: boolean;
+  contactData?: { ownerId: number; contactId: number };
 }
 
-function MessageList({ chatMessages }: MessageListProps) {
-  const listEndRef = useRef<HTMLDivElement>(null);
+function MessageList({
+  chatMessages,
+  isInvitationSenderMe,
+  doesContactInfoShow,
+  contactData,
+}: MessageListProps) {
+  const getContactsQuery = useGetContacts(contactData, Boolean(contactData));
 
+  const listEndRef = useRef<HTMLDivElement>(null);
   const isScrolledToBottomRef = useRef(true);
 
   useEffect(() => {
@@ -26,6 +37,14 @@ function MessageList({ chatMessages }: MessageListProps) {
     const container = e.target as HTMLDivElement;
     isScrolledToBottomRef.current =
       container.scrollHeight - container.clientHeight <= container.scrollTop;
+  }
+
+  if (Boolean(contactData) && getContactsQuery.isPending) {
+    return <p>loading</p>;
+  }
+
+  if (getContactsQuery.isError) {
+    return <p>Error loading contact</p>;
   }
 
   function renderMessages() {
@@ -45,8 +64,31 @@ function MessageList({ chatMessages }: MessageListProps) {
     return messageGroups;
   }
 
+  function renderInvitationInfo() {
+    if (doesContactInfoShow) {
+      if (isInvitationSenderMe) {
+        return (
+          <div>
+            The user you are sending messages to is outside of your contacts.
+            Until they accept you as a contact you can send them only one
+            message.
+          </div>
+        );
+      } else if (contactData && getContactsQuery.isSuccess) {
+        return (
+          <ReceiverInvitationInfo
+            contactId={getContactsQuery.data.pages[0][0].id}
+          />
+        );
+      }
+    } else {
+      return null;
+    }
+  }
+
   return (
     <div className={styles.container} onScroll={calculateIsScrolledToBottom}>
+      {renderInvitationInfo()}
       {chatMessages.length > 0 ? (
         renderMessages()
       ) : (

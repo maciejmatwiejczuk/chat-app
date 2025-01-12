@@ -4,10 +4,7 @@ import { authenticate } from '../../middlewares/authenticate.js';
 
 const router = Router();
 
-router
-  .route('/')
-  .post(UserController.createUser)
-  .get(authenticate, UserController.getUsers);
+router.route('/').post(UserController.createUser).get(UserController.getUsers);
 
 router
   .route('/:id')

@@ -30,11 +30,11 @@ const options: Option[] = [
 function SideMenu() {
   const [dropdownSelection, setDropdownSelection] = useState<OptionValue>(
     options[0].value
-  );
-  const [searchValue, setSearchValue] = useState('');
+  ); // może kontrolować query
+  const [search, setSearch] = useState('');
 
   function onChange(e: ChangeEvent<HTMLInputElement>) {
-    setSearchValue(e.target.value);
+    setSearch(e.target.value);
   }
 
   return (
@@ -46,7 +46,7 @@ function SideMenu() {
           <div className={styles.dropdownSearchWrapper}>
             <Dropdown options={options} onSelect={setDropdownSelection} />
             <TextInput
-              value={searchValue}
+              value={search}
               onChange={onChange}
               type="search"
               placeholder="search"
@@ -54,10 +54,7 @@ function SideMenu() {
             />
           </div>
         </div>
-        <ChatList
-          dropdownSelection={dropdownSelection}
-          searchValue={searchValue}
-        />
+        <ChatList dropdownSelection={dropdownSelection} search={search} />
       </div>
     </div>
   );

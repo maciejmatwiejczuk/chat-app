@@ -7,7 +7,10 @@ import MessageList from './MessageList/MessageList';
 import MessageInput from './MessageInput/MessageInput';
 import styles from './chat.module.css';
 import { useMe } from '../../api/sessions';
-import { useParams } from 'react-router-dom';
+import { useGetInvitationById } from '../../api/invitations';
+import { useQueryClient } from '@tanstack/react-query';
+import { InvitationDto } from '@chat-app/_common/schemas/invitations';
+import { useChatContext } from '../../context/ChatContext/useChatContext';
 
 export interface ChatMessage {
   id: string;
@@ -17,8 +20,27 @@ export interface ChatMessage {
 }
 
 function Chat() {
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const { data: me } = useMe();
+
+  if (!me) {
+    throw new Error('Cannot get data of logged in user');
+  }
+
+  const { activeChat, setActiveChat } = useChatContext();
+
+  if (!activeChat) {
+    throw new Error('No chat is active');
+  }
+
+  useEffect(() => {
+    console.log('[Chat.tsx]: activeChat = ', activeChat);
+  }, [activeChat]);
+
+  const invitationQuery = useGetInvitationById(activeChat.invitationId);
+  const queryClient = useQueryClient();
+
   const [message, setMessage] = useState('');
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
     function onConnect() {
@@ -41,22 +63,54 @@ function Chat() {
       ]);
     }
 
+    function onInvitationSent(invitation: InvitationDto) {
+      console.log('[Chat.tsx]: Event invitation_sent received');
+
+      setActiveChat((prev) => {
+        if (!prev) {
+          return undefined;
+        }
+
+        return {
+          ...prev,
+          isContact: true,
+          invitationId: invitation.id,
+        };
+      });
+      queryClient.setQueryData(['invitation', invitation.id], invitation);
+    }
+
+    function onInvitationAccepted() {
+      console.log('[Chat.tsx]: Event invitation_accepted received');
+
+      setActiveChat((prev) => {
+        if (!prev) {
+          return undefined;
+        }
+
+        return {
+          ...prev,
+          isContact: true,
+          invitationId: undefined,
+        };
+      });
+      queryClient.resetQueries({ queryKey: ['invitation'] });
+    }
+
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('chat_message:server', onChatMessageEvent);
+    socket.on('invitation_sent', onInvitationSent);
+    socket.on('invitation_accepted', onInvitationAccepted);
 
     return () => {
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
-      socket.off('chat_message:server', onChatMessageEvent);
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('chat_message:server');
+      socket.off('invitation_sent');
+      socket.off('invitation_accepted');
     };
-  }, []);
-
-  const { data: me } = useMe();
-  const { chatId } = useParams();
-  const userId = Number(chatId);
-
-  // if receiver sends message invitation gets deleted
+  }, [queryClient, setActiveChat]);
 
   function onMessageSend() {
     const messageId = uuid();
@@ -67,7 +121,11 @@ function Chat() {
         { id: messageId, isMe: true, message, date: new Date() },
       ]);
 
-      const msg = { senderId: me.id, receiverId: Number(userId), message };
+      const msg = {
+        senderId: me!.id,
+        receiverId: activeChat!.user.id,
+        message,
+      };
 
       socket.emit('chat_message:client', msg, (date: string) => {
         setChatMessages((prev) => {
@@ -82,47 +140,45 @@ function Chat() {
     }
   }
 
+  if (invitationQuery.isFetching) {
+    return <p>Loading</p>;
+  }
+
+  if (invitationQuery.isError) {
+    return <p>Something went wrong</p>;
+  }
+
+  if (invitationQuery.isSuccess) {
+    console.log('invitation retrieved successfully');
+  }
+
+  const isInvitationSenderMe = activeChat.isContact
+    ? invitationQuery.data?.senderId === me.id
+    : true;
+  const doesInvitationInfoShow = activeChat.isContact
+    ? Boolean(activeChat.invitationId)
+    : true;
+  const contactData = activeChat.isContact
+    ? { ownerId: me.id, contactId: activeChat.user.id }
+    : undefined;
+
   return (
     <div className={styles.container}>
       <ChatHeader />
-      <MessageList chatMessages={chatMessages} />
-      {/* disable button when senderMessageCount === 3 (only for sender)*/}
+      <MessageList
+        chatMessages={chatMessages}
+        isInvitationSenderMe={isInvitationSenderMe}
+        doesContactInfoShow={doesInvitationInfoShow}
+        contactData={contactData}
+      />
       <MessageInput
         message={message}
         setMessage={setMessage}
         onMessageSend={onMessageSend}
+        isDisabled={invitationQuery.data?.senderId === me.id}
       />
     </div>
   );
 }
 
-function InvitationInfo({ isSender }) {
-  function onReject() {
-    //delete contact
-  }
-
-  if (isSender) {
-    return (
-      <div>
-        The user you are sending messages to is outside of your contacts. Until
-        they accept you as a contact the number of messges you can send is
-        limited to 3.
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <p>
-        [username] is trying to contact you. Send the message to accept them as
-        your contact or reject the conversation using button on the left.
-      </p>
-      <button onClick={onReject}>Reject</button>
-    </div>
-  );
-}
-
 export default Chat;
-
-// uzytkownik wchodzi w czat
-//

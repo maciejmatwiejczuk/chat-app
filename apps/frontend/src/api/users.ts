@@ -12,7 +12,7 @@ export function useCreateUser() {
   });
 }
 
-export function useGetUsers(search?: string) {
+export function useGetUsers(search?: string, isEnabled = true) {
   return useInfiniteQuery({
     queryKey: ['users', search],
     queryFn: async ({ pageParam }) => {
@@ -29,5 +29,6 @@ export function useGetUsers(search?: string) {
     getNextPageParam: (lastPage, _pages, lastPageParam) => {
       return lastPage.length > 0 ? lastPageParam + 1 : undefined;
     },
+    enabled: isEnabled,
   });
 }
