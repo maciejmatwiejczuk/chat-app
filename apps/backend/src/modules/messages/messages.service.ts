@@ -24,7 +24,7 @@ export const messageService = {
         throw new AppError('not_found', 404, 'Receiver not found', true);
       }
 
-      const savedMessage = await db.transaction(async (trx) => {
+      const { savedMessage, invitation } = await db.transaction(async (trx) => {
         const invitation = await db.invitation.transacting(trx).create({
           senderId: msg.senderId,
           receiverId: msg.receiverId,
@@ -35,23 +35,29 @@ export const messageService = {
           ownerId: msg.senderId,
           contactId: msg.receiverId,
           invitationId: invitation.id,
+          lastMessage: msg.message,
+          lastMessageSenderId: msg.senderId,
         });
         await db.contact.transacting(trx).create({
           username: senderUser.username,
           ownerId: msg.receiverId,
           contactId: msg.senderId,
           invitationId: invitation.id,
+          lastMessage: msg.message,
+          lastMessageSenderId: msg.senderId,
         });
 
-        return await db.message.transacting(trx).create({
+        const savedMessage = await db.message.transacting(trx).create({
           senderId: msg.senderId,
           receiverId: msg.receiverId,
           message: msg.message,
           date: new Date().toISOString(),
         });
+
+        return { savedMessage, invitation };
       });
 
-      return savedMessage;
+      return { data: { savedMessage, invitation }, event: 'invitation_sent' };
     }
 
     // contact exists and has a reference to invitation
@@ -61,19 +67,39 @@ export const messageService = {
       if (!invitation) {
         throw new AppError('not_found', 404, 'Invitation not found', true);
       }
+      console.log('invitation object:', invitation);
 
-      const isReceiver = invitation.receiverId === msg.receiverId;
+      const isReceiver = invitation.receiverId === msg.senderId;
 
       if (!isReceiver && invitation.senderMessageCount >= MESSAGE_LIMIT) {
         throw new AppError('not_allowed', 400, 'Message limit reached', true);
       } else if (isReceiver) {
         const savedMessage = await db.transaction(async (trx) => {
-          const deletedInvitation = await db.invitation.delete(invitation.id);
+          const deletedInvitation = await db.invitation
+            .transacting(trx)
+            .delete(invitation.id);
 
           if (!deletedInvitation) {
             throw new AppError('not_found', 404, 'Invitation not found', true);
           }
 
+          const contactTwin = await db.contact
+            .transacting(trx)
+            .findByOwnerAndContact(msg.receiverId, msg.senderId);
+
+          if (!contactTwin) {
+            throw new AppError('not_found', 404, 'Contact not found', true);
+          }
+
+          await db.contact.transacting(trx).update(contact.id, {
+            lastMessage: msg.message,
+            lastMessageSenderId: msg.senderId,
+          });
+          await db.contact.transacting(trx).update(contactTwin.id, {
+            lastMessage: msg.message,
+            lastMessageSenderId: msg.senderId,
+          });
+
           return await db.message.transacting(trx).create({
             senderId: msg.senderId,
             receiverId: msg.receiverId,
@@ -82,16 +108,34 @@ export const messageService = {
           });
         });
 
-        return savedMessage;
+        return { data: { savedMessage }, event: 'invitation_accepted' };
       } else {
         const savedMessage = await db.transaction(async (trx) => {
-          const updatedInvitation =
-            await db.invitation.incrementSenderMessageCount(invitation.id);
+          const updatedInvitation = await db.invitation
+            .transacting(trx)
+            .incrementSenderMessageCount(invitation.id);
 
           if (!updatedInvitation) {
             throw new AppError('not_found', 404, 'Invitation not found', true);
           }
 
+          const contactTwin = await db.contact
+            .transacting(trx)
+            .findByOwnerAndContact(msg.receiverId, msg.senderId);
+
+          if (!contactTwin) {
+            throw new AppError('not_found', 404, 'Contact not found', true);
+          }
+
+          await db.contact.transacting(trx).update(contact.id, {
+            lastMessage: msg.message,
+            lastMessageSenderId: msg.senderId,
+          });
+          await db.contact.transacting(trx).update(contactTwin.id, {
+            lastMessage: msg.message,
+            lastMessageSenderId: msg.senderId,
+          });
+
           return await db.message.transacting(trx).create({
             senderId: msg.senderId,
             receiverId: msg.receiverId,
@@ -100,17 +144,36 @@ export const messageService = {
           });
         });
 
-        return savedMessage;
+        return { data: { savedMessage }, event: undefined };
       }
     }
 
-    const savedMessage = await db.message.create({
-      senderId: msg.senderId,
-      receiverId: msg.receiverId,
-      message: msg.message,
-      date: new Date().toISOString(),
+    const savedMessage = await db.transaction(async (trx) => {
+      const contactTwin = await db.contact
+        .transacting(trx)
+        .findByOwnerAndContact(msg.receiverId, msg.senderId);
+
+      if (!contactTwin) {
+        throw new AppError('not_found', 404, 'Contact not found', true);
+      }
+
+      await db.contact.transacting(trx).update(contact.id, {
+        lastMessage: msg.message,
+        lastMessageSenderId: msg.senderId,
+      });
+      await db.contact.transacting(trx).update(contactTwin.id, {
+        lastMessage: msg.message,
+        lastMessageSenderId: msg.senderId,
+      });
+
+      return await db.message.transacting(trx).create({
+        senderId: msg.senderId,
+        receiverId: msg.receiverId,
+        message: msg.message,
+        date: new Date().toISOString(),
+      });
     });
 
-    return savedMessage;
+    return { data: { savedMessage }, event: undefined };
   },
 } as const;

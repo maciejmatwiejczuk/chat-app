@@ -30,6 +30,8 @@ export interface Contact {
   ownerId: number;
   contactId: number;
   invitationId: number;
+  lastMessage: string;
+  lastMessageSenderId: number;
 }
 
 export type ContactSelect = Selectable<Contact>;

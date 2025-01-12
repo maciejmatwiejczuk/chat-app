@@ -6,6 +6,8 @@ export const GetContactsSchema = z.object({
   contactId: z.undefined().or(z.coerce.number()),
   invitationId: z.undefined().or(z.coerce.number()),
   username: z.undefined().or(z.string()),
+  lastMessage: z.undefined().or(z.string()),
+  lastMessageSenderId: z.undefined().or(z.coerce.number()),
 });
 
 export type GetContactsDto = z.infer<typeof GetContactsSchema>;

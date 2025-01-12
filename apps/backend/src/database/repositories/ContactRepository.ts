@@ -2,6 +2,7 @@ import type { Kysely, Transaction } from 'kysely';
 import type {
   ContactInsert,
   ContactSelect,
+  ContactUpdate,
   Database,
   TransactionalRepository,
 } from '../types.js';
@@ -54,6 +55,16 @@ export class ContactRepository implements TransactionalRepository {
       .$if(Boolean(criteria.invitationId), (q) =>
         q.where('contact.invitationId', '=', Number(criteria.invitationId))
       )
+      .$if(Boolean(criteria.lastMessage), (q) =>
+        q.where('contact.lastMessage', '=', String(criteria.lastMessage))
+      )
+      .$if(Boolean(criteria.lastMessageSenderId), (q) =>
+        q.where(
+          'contact.lastMessageSenderId',
+          '=',
+          Number(criteria.lastMessageSenderId)
+        )
+      )
       .orderBy('id')
       .limit(limit)
       .offset(offset)
@@ -63,6 +74,15 @@ export class ContactRepository implements TransactionalRepository {
   async delete(id: number) {
     return await this.kysely
       .deleteFrom('contact')
+      .where('id', '=', id)
+      .returningAll()
+      .executeTakeFirst();
+  }
+
+  async update(id: number, update: ContactUpdate) {
+    return await this.kysely
+      .updateTable('contact')
+      .set(update)
       .where('id', '=', id)
       .returningAll()
       .executeTakeFirst();
