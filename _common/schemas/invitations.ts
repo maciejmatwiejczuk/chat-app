@@ -9,3 +9,4 @@ export const GetInvitationsSchema = z
   .partial();
 
 export type GetInvitationsDto = z.infer<typeof GetInvitationsSchema>;
+export type InvitationDto = { id: number } & Required<GetInvitationsDto>;
