@@ -8,7 +8,10 @@ interface ChatItemProps {
   invitationId?: number;
   contactId?: number;
   username: string;
-  lastMessage?: string;
+  lastMessage?: {
+    isSenderMe: boolean;
+    message: string;
+  };
   isOpen: boolean;
   onOpen: () => void;
 }
@@ -25,7 +28,13 @@ const ChatItem = forwardRef<HTMLLIElement, ChatItemProps>(
           <Avatar />
           <div>
             <h4 className={styles.chatName}>{username}</h4>
-            <p className={styles.lastMessage}>{lastMessage}</p>
+            {lastMessage && (
+              <p className={styles.lastMessage}>
+                {lastMessage.isSenderMe
+                  ? `You: ${lastMessage.message}`
+                  : lastMessage.message}
+              </p>
+            )}
           </div>
         </Link>
       </li>

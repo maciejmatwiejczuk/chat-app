@@ -69,6 +69,10 @@ function ContactsList({ search }: ContactsListProps) {
                   invitationId: contact.invitationId,
                 })
               }
+              lastMessage={{
+                isSenderMe: me.id === contact.lastMessageSenderId,
+                message: contact.lastMessage,
+              }}
               ref={lastItemRef}
             />
           );
@@ -91,6 +95,10 @@ function ContactsList({ search }: ContactsListProps) {
                 invitationId: contact.invitationId,
               })
             }
+            lastMessage={{
+              isSenderMe: me.id === contact.lastMessageSenderId,
+              message: contact.lastMessage,
+            }}
           />
         );
       });
