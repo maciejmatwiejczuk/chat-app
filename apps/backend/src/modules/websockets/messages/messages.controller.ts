@@ -5,7 +5,7 @@ import type {
   ChatMessageClient,
 } from '@chat-app/_common/types.js';
 import { messageService } from './messages.service.js';
-import AppError from '../../utils/AppError.js';
+import AppError from '../../../utils/AppError.js';
 
 export function messageController(socket: Socket<ClientEvents, ServerEvents>) {
   return {

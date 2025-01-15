@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticate } from '../../middlewares/authenticate.js';
+import { authenticate } from '../../../middlewares/authenticate.js';
 import * as SessionController from './sessions.controller.js';
 
 const router = Router();

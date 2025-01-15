@@ -1,6 +1,6 @@
 import type { GetContactsDto } from '@chat-app/_common/schemas/contacts.js';
-import { db } from '../../database/db.js';
-import AppError from '../../utils/AppError.js';
+import { db } from '../../../database/db.js';
+import AppError from '../../../utils/AppError.js';
 
 export const contactService = {
   async getMany(params: GetContactsDto) {

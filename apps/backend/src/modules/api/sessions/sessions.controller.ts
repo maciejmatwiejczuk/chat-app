@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
-import AppError from '../../utils/AppError.js';
+import AppError from '../../../utils/AppError.js';
 import * as SessionService from './sessions.service.js';
 import { LoginSchema } from '@chat-app/_common/schemas/sessions.js';
-import { io } from '../../index.js';
+import { io } from '../../../index.js';
 
 export async function logIn(req: Request, res: Response, next: NextFunction) {
   try {

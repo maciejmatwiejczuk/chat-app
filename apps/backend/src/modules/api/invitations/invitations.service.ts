@@ -1,6 +1,6 @@
-import { db } from '../../database/db.js';
+import { db } from '../../../database/db.js';
 import type { GetInvitationsDto } from '@chat-app/_common/schemas/invitations.js';
-import AppError from '../../utils/AppError.js';
+import AppError from '../../../utils/AppError.js';
 
 export const invitationService = {
   async getMany(criteria: GetInvitationsDto) {

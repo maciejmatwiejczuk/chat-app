@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
-import { db } from '../../database/db.js';
-import AppError from '../../utils/AppError.js';
+import { db } from '../../../database/db.js';
+import AppError from '../../../utils/AppError.js';
 import type {
   CreateUserDto,
   GetUsersDto,
   UpdateUserDto,
 } from '@chat-app/_common/schemas/users.js';
-import type { UserInsert } from '../../database/types.js';
+import type { UserInsert } from '../../../database/types.js';
 
 export async function createUser(user: CreateUserDto) {
   const userFoundByEmail = await db.user.findByEmail(user.email);

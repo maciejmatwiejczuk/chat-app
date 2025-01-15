@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { contactController } from './contacts.controller.js';
-import { authenticate } from '../../middlewares/authenticate.js';
+import { authenticate } from '../../../middlewares/authenticate.js';
 
 export const contactRouter = Router();
 

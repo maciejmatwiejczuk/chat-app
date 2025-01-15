@@ -1,7 +1,7 @@
 import { GetContactsSchema } from '@chat-app/_common/schemas/contacts.js';
 import type { Request, Response, NextFunction } from 'express';
-import AppError from '../../utils/AppError.js';
-import mapFieldErrors from '../../utils/mapFieldErrors.js';
+import AppError from '../../../utils/AppError.js';
+import mapFieldErrors from '../../../utils/mapFieldErrors.js';
 import { contactService } from './contacts.service.js';
 
 export const contactController = {

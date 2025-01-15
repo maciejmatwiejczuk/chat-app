@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { invitationController } from './invitations.controller.js';
-import { authenticate } from '../../middlewares/authenticate.js';
+import { authenticate } from '../../../middlewares/authenticate.js';
 
 export const invitationRouter = Router();
 

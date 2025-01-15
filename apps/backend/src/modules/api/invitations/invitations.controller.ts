@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
-import AppError from '../../utils/AppError.js';
+import AppError from '../../../utils/AppError.js';
 import { invitationService } from './invitations.service.js';
 import { GetInvitationsSchema } from '@chat-app/_common/schemas/invitations.js';
-import mapFieldErrors from '../../utils/mapFieldErrors.js';
+import mapFieldErrors from '../../../utils/mapFieldErrors.js';
 
 export const invitationController = {
   async getMany(req: Request, res: Response, next: NextFunction) {

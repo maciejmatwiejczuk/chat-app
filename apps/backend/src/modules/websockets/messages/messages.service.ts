@@ -1,6 +1,6 @@
 import type { ChatMessageClient } from '@chat-app/_common/types.js';
-import { db } from '../../database/db.js';
-import AppError from '../../utils/AppError.js';
+import { db } from '../../../database/db.js';
+import AppError from '../../../utils/AppError.js';
 
 export const messageService = {
   async onClientMessage(msg: ChatMessageClient) {
