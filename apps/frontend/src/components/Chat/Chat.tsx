@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { socket } from '../../config/socket';
 import { v4 as uuid } from 'uuid';
-import { TransferredChatMessage } from '@chat-app/_common/types';
 import ChatHeader from './ChatHeader/ChatHeader';
 import MessageList from './MessageList/MessageList';
 import MessageInput from './MessageInput/MessageInput';
@@ -26,7 +25,8 @@ function Chat() {
     throw new Error('Cannot get data of logged in user');
   }
 
-  const { activeChat, setActiveChat } = useChatContext();
+  const { activeChat, setActiveChat, chatMessages, setChatMessages } =
+    useChatContext();
 
   if (!activeChat) {
     throw new Error('No chat is active');
@@ -40,7 +40,6 @@ function Chat() {
   const queryClient = useQueryClient();
 
   const [message, setMessage] = useState('');
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
     function onConnect() {
@@ -49,18 +48,6 @@ function Chat() {
 
     function onDisconnect() {
       console.log('disconnected');
-    }
-
-    function onChatMessageEvent(msgObj: TransferredChatMessage) {
-      setChatMessages((prev) => [
-        ...prev,
-        {
-          id: uuid(),
-          isMe: false,
-          message: msgObj.message,
-          date: new Date(msgObj.date),
-        },
-      ]);
     }
 
     function onInvitationSent(invitation: InvitationDto) {
@@ -99,14 +86,12 @@ function Chat() {
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
-    socket.on('chat_message:server', onChatMessageEvent);
     socket.on('invitation_sent', onInvitationSent);
     socket.on('invitation_accepted', onInvitationAccepted);
 
     return () => {
       socket.off('connect');
       socket.off('disconnect');
-      socket.off('chat_message:server');
       socket.off('invitation_sent');
       socket.off('invitation_accepted');
     };
