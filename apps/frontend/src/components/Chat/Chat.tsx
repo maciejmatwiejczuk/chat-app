@@ -120,6 +120,7 @@ function Chat() {
             { id: messageId, isMe: true, message, date: new Date(date) },
           ];
         });
+        queryClient.invalidateQueries({ queryKey: ['contacts'] });
       });
       setMessage('');
     }

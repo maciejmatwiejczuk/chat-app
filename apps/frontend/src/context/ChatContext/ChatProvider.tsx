@@ -4,10 +4,13 @@ import { ChatContext } from './useChatContext';
 import type { ChatInfo, ChatMessage } from './useChatContext';
 import { socket } from '../../config/socket';
 import { TransferredChatMessage } from '@chat-app/_common/types';
+import { useQueryClient } from '@tanstack/react-query';
 
 function ChatProvider({ children }: PropsWithChildren) {
   const [activeChat, setActiveChat] = useState<ChatInfo | undefined>(undefined);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     function onChatMessage(msg: TransferredChatMessage) {
@@ -20,6 +23,7 @@ function ChatProvider({ children }: PropsWithChildren) {
           date: new Date(msg.date),
         },
       ]);
+      queryClient.invalidateQueries({ queryKey: ['contacts'] });
     }
 
     socket.on('chat_message:server', onChatMessage);
@@ -27,7 +31,7 @@ function ChatProvider({ children }: PropsWithChildren) {
     return () => {
       socket.off('chat_message:server');
     };
-  }, []);
+  }, [queryClient]);
 
   return (
     <ChatContext.Provider

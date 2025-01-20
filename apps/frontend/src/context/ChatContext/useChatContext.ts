@@ -9,10 +9,19 @@ export interface ChatInfo {
   invitationId: number | undefined;
 }
 
+export interface ChatMessage {
+  id: string;
+  isMe: boolean;
+  message: string;
+  date: Date;
+}
+
 export const ChatContext = createContext<
   | {
       activeChat: ChatInfo | undefined;
       setActiveChat: React.Dispatch<React.SetStateAction<ChatInfo | undefined>>;
+      chatMessages: ChatMessage[];
+      setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
     }
   | undefined
 >(undefined);
