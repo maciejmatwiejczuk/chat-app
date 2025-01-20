@@ -16,6 +16,14 @@ export class MessageRepository implements TransactionalRepository {
       .executeTakeFirstOrThrow();
   }
 
+  async findById(id: number) {
+    return await this.kysely
+      .selectFrom('message')
+      .where('id', '=', id)
+      .selectAll()
+      .executeTakeFirst();
+  }
+
   transacting(trx: Transaction<Database>) {
     return new MessageRepository(trx);
   }

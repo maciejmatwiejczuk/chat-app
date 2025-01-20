@@ -7,7 +7,15 @@ export const contactService = {
     const PAGE_LIMIT = 10;
     const offset = PAGE_LIMIT * (params.page - 1);
 
-    return await db.contact.findMany(PAGE_LIMIT, offset, params);
+    const contacts = await db.contact.findMany(PAGE_LIMIT, offset, params);
+
+    return await Promise.all(
+      contacts.map(async (contact) => {
+        const lastMessage = await db.message.findById(contact.lastMessageId);
+
+        return { ...contact, lastMessage, lastMessageId: undefined };
+      })
+    );
   },
 
   async getById(id: number) {
@@ -25,12 +33,13 @@ export const contactService = {
     const twin = (
       await this.getMany({ page: 1, ownerId: user2, contactId: user1 })
     )[0];
+    console.log(twin);
 
     if (!twin) {
       throw new AppError('not_found', 404, 'Twin contact not found', true);
     }
 
-    const deletedContacts = db.transaction(async (trx) => {
+    const deletedContacts = await db.transaction(async (trx) => {
       const contact1 = await db.contact.transacting(trx).delete(id);
       const contact2 = await db.contact.transacting(trx).delete(twin.id);
 

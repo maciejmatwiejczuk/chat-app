@@ -55,15 +55,8 @@ export class ContactRepository implements TransactionalRepository {
       .$if(Boolean(criteria.invitationId), (q) =>
         q.where('contact.invitationId', '=', Number(criteria.invitationId))
       )
-      .$if(Boolean(criteria.lastMessage), (q) =>
-        q.where('contact.lastMessage', '=', String(criteria.lastMessage))
-      )
-      .$if(Boolean(criteria.lastMessageSenderId), (q) =>
-        q.where(
-          'contact.lastMessageSenderId',
-          '=',
-          Number(criteria.lastMessageSenderId)
-        )
+      .$if(Boolean(criteria.lastMessageId), (q) =>
+        q.where('contact.lastMessageId', '=', Number(criteria.lastMessageId))
       )
       .orderBy('id')
       .limit(limit)

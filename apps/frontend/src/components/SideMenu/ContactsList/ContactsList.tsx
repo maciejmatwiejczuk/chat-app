@@ -70,8 +70,8 @@ function ContactsList({ search }: ContactsListProps) {
                 })
               }
               lastMessage={{
-                isSenderMe: me.id === contact.lastMessageSenderId,
-                message: contact.lastMessage,
+                isSenderMe: me.id === contact.lastMessage.senderId,
+                message: contact.lastMessage.message,
               }}
               ref={lastItemRef}
             />
@@ -96,8 +96,8 @@ function ContactsList({ search }: ContactsListProps) {
               })
             }
             lastMessage={{
-              isSenderMe: me.id === contact.lastMessageSenderId,
-              message: contact.lastMessage,
+              isSenderMe: me.id === contact.lastMessage.senderId,
+              message: contact.lastMessage.message,
             }}
           />
         );

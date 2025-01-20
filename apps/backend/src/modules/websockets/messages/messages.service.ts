@@ -30,28 +30,25 @@ export const messageService = {
           receiverId: msg.receiverId,
           senderMessageCount: 1,
         });
-        await db.contact.transacting(trx).create({
-          username: receiverUser.username,
-          ownerId: msg.senderId,
-          contactId: msg.receiverId,
-          invitationId: invitation.id,
-          lastMessage: msg.message,
-          lastMessageSenderId: msg.senderId,
-        });
-        await db.contact.transacting(trx).create({
-          username: senderUser.username,
-          ownerId: msg.receiverId,
-          contactId: msg.senderId,
-          invitationId: invitation.id,
-          lastMessage: msg.message,
-          lastMessageSenderId: msg.senderId,
-        });
-
         const savedMessage = await db.message.transacting(trx).create({
           senderId: msg.senderId,
           receiverId: msg.receiverId,
           message: msg.message,
           date: new Date().toISOString(),
+        });
+        await db.contact.transacting(trx).create({
+          username: receiverUser.username,
+          ownerId: savedMessage.senderId,
+          contactId: savedMessage.receiverId,
+          invitationId: invitation.id,
+          lastMessageId: savedMessage.id,
+        });
+        await db.contact.transacting(trx).create({
+          username: senderUser.username,
+          ownerId: savedMessage.receiverId,
+          contactId: savedMessage.senderId,
+          invitationId: invitation.id,
+          lastMessageId: savedMessage.id,
         });
 
         return { savedMessage, invitation };
@@ -91,21 +88,20 @@ export const messageService = {
             throw new AppError('not_found', 404, 'Contact not found', true);
           }
 
-          await db.contact.transacting(trx).update(contact.id, {
-            lastMessage: msg.message,
-            lastMessageSenderId: msg.senderId,
-          });
-          await db.contact.transacting(trx).update(contactTwin.id, {
-            lastMessage: msg.message,
-            lastMessageSenderId: msg.senderId,
-          });
-
-          return await db.message.transacting(trx).create({
+          const savedMessage = await db.message.transacting(trx).create({
             senderId: msg.senderId,
             receiverId: msg.receiverId,
             message: msg.message,
             date: new Date().toISOString(),
           });
+          await db.contact.transacting(trx).update(contact.id, {
+            lastMessageId: savedMessage.id,
+          });
+          await db.contact.transacting(trx).update(contactTwin.id, {
+            lastMessageId: savedMessage.id,
+          });
+
+          return savedMessage;
         });
 
         return { data: { savedMessage }, event: 'invitation_accepted' };
@@ -127,21 +123,20 @@ export const messageService = {
             throw new AppError('not_found', 404, 'Contact not found', true);
           }
 
-          await db.contact.transacting(trx).update(contact.id, {
-            lastMessage: msg.message,
-            lastMessageSenderId: msg.senderId,
-          });
-          await db.contact.transacting(trx).update(contactTwin.id, {
-            lastMessage: msg.message,
-            lastMessageSenderId: msg.senderId,
-          });
-
-          return await db.message.transacting(trx).create({
+          const savedMessage = await db.message.transacting(trx).create({
             senderId: msg.senderId,
             receiverId: msg.receiverId,
             message: msg.message,
             date: new Date().toISOString(),
           });
+          await db.contact.transacting(trx).update(contact.id, {
+            lastMessageId: savedMessage.id,
+          });
+          await db.contact.transacting(trx).update(contactTwin.id, {
+            lastMessageId: savedMessage.id,
+          });
+
+          return savedMessage;
         });
 
         return { data: { savedMessage }, event: undefined };
@@ -157,21 +152,20 @@ export const messageService = {
         throw new AppError('not_found', 404, 'Contact not found', true);
       }
 
-      await db.contact.transacting(trx).update(contact.id, {
-        lastMessage: msg.message,
-        lastMessageSenderId: msg.senderId,
-      });
-      await db.contact.transacting(trx).update(contactTwin.id, {
-        lastMessage: msg.message,
-        lastMessageSenderId: msg.senderId,
-      });
-
-      return await db.message.transacting(trx).create({
+      const savedMessage = await db.message.transacting(trx).create({
         senderId: msg.senderId,
         receiverId: msg.receiverId,
         message: msg.message,
         date: new Date().toISOString(),
       });
+      await db.contact.transacting(trx).update(contact.id, {
+        lastMessageId: savedMessage.id,
+      });
+      await db.contact.transacting(trx).update(contactTwin.id, {
+        lastMessageId: savedMessage.id,
+      });
+
+      return savedMessage;
     });
 
     return { data: { savedMessage }, event: undefined };
