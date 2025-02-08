@@ -2,42 +2,54 @@
   flex: 1;
   display: grid;
   grid-template-rows: 1fr;
-  padding: var(--size-px-m);
   margin-bottom: var(--size-px-2xs);
-  border-radius: var(--border-radius-default);
-  background-color: #fff;
   overflow-y: auto;
 }
 
-.container::-webkit-scrollbar {
+.messageContainer {
+  display: flex;
+  flex-direction: column-reverse;
+  padding: var(--size-px-m);
+  border-radius: var(--border-radius-default);
+  background-color: #fff;
+  overflow-y: auto;
+  overflow-anchor: none;
+}
+
+.messageContainerEmpty {
+  align-items: center;
+  justify-content: center;
+}
+
+.messageContainer::-webkit-scrollbar {
   width: 8px;
 }
 
-.container::-webkit-scrollbar-thumb {
+.messageContainer::-webkit-scrollbar-thumb {
   background-color: var(--color-primary-300);
 
   border-radius: 8px;
 }
 
-.container::-webkit-scrollbar-thumb:hover {
+.messageContainer::-webkit-scrollbar-thumb:hover {
   background-color: var(--color-primary-400);
 }
 
-.container::-webkit-scrollbar-thumb:active {
+.messageContainer::-webkit-scrollbar-thumb:active {
   background-color: var(--color-secondary-400);
 }
 
-.container::-webkit-scrollbar-track {
+.messageContainer::-webkit-scrollbar-track {
   border-radius: 8px;
 }
 
-.container::-webkit-scrollbar-track:hover {
+.messageContainer::-webkit-scrollbar-track:hover {
   background-color: var(--color-primary-200);
 }
 
 @supports not selector(::-webkit-scrollbar) {
-  .container {
-    scrollbar-width: thin;
+  .messageContainer {
+    scrollbar-width: auto;
     scrollbar-color: var(--color-secondary-400) var(--color-primary-200);
   }
 }
@@ -110,9 +122,14 @@
 }
 
 .placeholder {
-  align-self: center;
-  justify-self: center;
   color: var(--color-primary-200);
   font-size: var(--size-rem-l);
   font-weight: 600;
+}
+
+.loaderWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--size-px-l);
 }

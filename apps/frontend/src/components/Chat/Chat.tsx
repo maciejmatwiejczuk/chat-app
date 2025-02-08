@@ -25,8 +25,7 @@ function Chat() {
     throw new Error('Cannot get data of logged in user');
   }
 
-  const { activeChat, setActiveChat, chatMessages, setChatMessages } =
-    useChatContext();
+  const { activeChat, setActiveChat, setChatMessages } = useChatContext();
 
   if (!activeChat) {
     throw new Error('No chat is active');
@@ -152,7 +151,8 @@ function Chat() {
     <div className={styles.container}>
       <ChatHeader />
       <MessageList
-        chatMessages={chatMessages}
+        myId={me.id}
+        otherUserId={activeChat.user.id}
         isInvitationSenderMe={isInvitationSenderMe}
         doesContactInfoShow={doesInvitationInfoShow}
         contactData={contactData}

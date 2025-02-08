@@ -1,26 +1,61 @@
-import { ReactElement, useRef, useEffect } from 'react';
+import { ReactElement, useRef, useEffect, forwardRef } from 'react';
 import { v4 as uuid } from 'uuid';
-import { ChatMessage } from '../Chat';
 import { groupMessagesByTime } from '../../../helpers/chat.helpers';
 import { formatDate } from '../../../helpers/date.helpers';
 import styles from './message-list.module.css';
 import ReceiverInvitationInfo from '../ReceiverInvitationInfo/ReceiverInvitationInfo';
 import { useGetContacts } from '../../../api/contacts';
+import { useGetChatMessages } from '../../../api/messages';
+import { useChatContext } from '../../../context/ChatContext/useChatContext';
+import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver';
+import Loader from '../../_common/Loader/Loader';
+import classNames from 'classnames';
 
 interface MessageListProps {
-  chatMessages: ChatMessage[];
+  myId: number;
+  otherUserId: number;
   isInvitationSenderMe: boolean;
   doesContactInfoShow: boolean;
   contactData?: { ownerId: number; contactId: number };
 }
 
 function MessageList({
-  chatMessages,
+  myId,
+  otherUserId,
   isInvitationSenderMe,
   doesContactInfoShow,
   contactData,
 }: MessageListProps) {
   const getContactsQuery = useGetContacts(contactData, Boolean(contactData));
+  const getChatMessagesQuery = useGetChatMessages(myId, otherUserId);
+
+  const { chatMessages, setChatMessages } = useChatContext();
+
+  useEffect(() => {
+    if (getChatMessagesQuery.isSuccess) {
+      const messages = getChatMessagesQuery.data.pages
+        .flat()
+        .reverse()
+        .map((msg) => ({
+          id: uuid(),
+          isMe: msg.senderId === myId,
+          message: msg.message,
+          date: new Date(msg.date),
+        }));
+
+      setChatMessages(messages);
+    }
+  }, [
+    getChatMessagesQuery.isSuccess,
+    getChatMessagesQuery.data,
+    myId,
+    setChatMessages,
+  ]);
+
+  const { lastItemRef, observerRootRef } = useIntersectionObserver<
+    HTMLDivElement,
+    HTMLDivElement
+  >(getChatMessagesQuery);
 
   const listEndRef = useRef<HTMLDivElement>(null);
   const isScrolledToBottomRef = useRef(true);
@@ -35,8 +70,7 @@ function MessageList({
     e: React.UIEvent<HTMLDivElement, UIEvent>
   ) {
     const container = e.target as HTMLDivElement;
-    isScrolledToBottomRef.current =
-      container.scrollHeight - container.clientHeight <= container.scrollTop;
+    isScrolledToBottomRef.current = -container.scrollTop <= 150;
   }
 
   if (Boolean(contactData) && getContactsQuery.isPending) {
@@ -50,18 +84,34 @@ function MessageList({
   function renderMessages() {
     const chatMessagesMap = chatMessages && groupMessagesByTime(chatMessages);
 
-    const messageGroups: ReactElement<
-      MessageGroupProps,
-      typeof MessageGroup
-    >[] = [];
+    const messageGroups: ReactElement[] = [];
 
+    let isOldestGroup = true;
     for (const [date, messages] of chatMessagesMap) {
       messageGroups.push(
-        <MessageGroup key={uuid()} date={date} messages={messages} />
+        <div className={styles.messageGroup}>
+          <p className={styles.date}>{formatDate(date)}</p>
+          {messages.map((msg, i) => {
+            if (i === 0 && isOldestGroup) {
+              return (
+                <MessageBubble ref={lastItemRef} key={msg.id} isMe={msg.isMe}>
+                  {msg.message}
+                </MessageBubble>
+              );
+            }
+
+            return (
+              <MessageBubble key={msg.id} isMe={msg.isMe}>
+                {msg.message}
+              </MessageBubble>
+            );
+          })}
+        </div>
       );
+      isOldestGroup = false;
     }
 
-    return messageGroups;
+    return messageGroups.reverse();
   }
 
   function renderInvitationInfo() {
@@ -86,34 +136,30 @@ function MessageList({
     }
   }
 
+  const messageContainerStyle = classNames(styles.messageContainer, {
+    [styles.messageContainerEmpty]: chatMessages.length <= 0,
+  });
+
   return (
-    <div className={styles.container} onScroll={calculateIsScrolledToBottom}>
+    <div className={styles.container}>
       {renderInvitationInfo()}
-      {chatMessages.length > 0 ? (
-        renderMessages()
-      ) : (
-        // a <p> for know, probably should be some kind of <h_> tag
-        <p className={styles.placeholder}>Send your first message!</p>
+      {getChatMessagesQuery.isFetchingNextPage && (
+        <div className={styles.loaderWrapper}>
+          <Loader size="medium" />
+        </div>
       )}
+      <div
+        onScroll={calculateIsScrolledToBottom}
+        ref={observerRootRef}
+        className={messageContainerStyle}
+      >
+        {chatMessages.length > 0 ? (
+          renderMessages()
+        ) : (
+          <p className={styles.placeholder}>Send your first message!</p>
+        )}
+      </div>
       <div ref={listEndRef} />
-    </div>
-  );
-}
-
-interface MessageGroupProps {
-  date: Date;
-  messages: ChatMessage[];
-}
-
-function MessageGroup({ date, messages }: MessageGroupProps) {
-  return (
-    <div className={styles.messageGroup}>
-      <p className={styles.date}>{formatDate(date)}</p>
-      {messages.map((msg) => (
-        <MessageBubble key={msg.id} isMe={msg.isMe}>
-          {msg.message}
-        </MessageBubble>
-      ))}
     </div>
   );
 }
@@ -124,10 +170,16 @@ interface MessageBubbleProps {
   hasTopMargin?: boolean;
 }
 
-function MessageBubble({ children, isMe }: MessageBubbleProps) {
-  const bubbleStyle = isMe ? styles.sentMessage : styles.receivedMessage;
+const MessageBubble = forwardRef<HTMLDivElement, MessageBubbleProps>(
+  ({ children, isMe }: MessageBubbleProps, ref) => {
+    const bubbleStyle = isMe ? styles.sentMessage : styles.receivedMessage;
 
-  return <div className={`${styles.message} ${bubbleStyle}`}>{children}</div>;
-}
+    return (
+      <div className={`${styles.message} ${bubbleStyle}`} ref={ref}>
+        {children}
+      </div>
+    );
+  }
+);
 
 export default MessageList;
