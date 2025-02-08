@@ -20,6 +20,7 @@ export const ChatContext = createContext<
   | {
       activeChat: ChatInfo | undefined;
       setActiveChat: React.Dispatch<React.SetStateAction<ChatInfo | undefined>>;
+      changeChat: (chat: ChatInfo) => void;
       chatMessages: ChatMessage[];
       setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
     }

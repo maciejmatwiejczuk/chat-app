@@ -26,7 +26,7 @@ function ContactsList({ search }: ContactsListProps) {
     HTMLLIElement,
     HTMLDivElement
   >(getContactsQuery);
-  const { activeChat, setActiveChat } = useChatContext();
+  const { activeChat, changeChat } = useChatContext();
 
   if (getContactsQuery.isPending) {
     return (
@@ -51,6 +51,8 @@ function ContactsList({ search }: ContactsListProps) {
   const chatItems = getContactsQuery.data?.pages.map(
     (contacts: ContactDto[]) => {
       return contacts.map((contact: ContactDto, i: number) => {
+        const isOpen = activeChat?.user.id === contact.contactId;
+
         if (i === contacts.length - 1) {
           return (
             <ChatItem
@@ -58,17 +60,19 @@ function ContactsList({ search }: ContactsListProps) {
               invitationId={contact.invitationId}
               contactId={contact.id}
               username={contact.username}
-              isOpen={activeChat?.user.id === contact.contactId}
-              onOpen={() =>
-                setActiveChat({
-                  user: {
-                    id: contact.contactId,
-                    username: contact.username,
-                  },
-                  isContact: true,
-                  invitationId: contact.invitationId,
-                })
-              }
+              isOpen={isOpen}
+              onOpen={() => {
+                if (!isOpen) {
+                  changeChat({
+                    user: {
+                      id: contact.contactId,
+                      username: contact.username,
+                    },
+                    isContact: true,
+                    invitationId: contact.invitationId,
+                  });
+                }
+              }}
               lastMessage={{
                 isSenderMe: me.id === contact.lastMessage.senderId,
                 message: contact.lastMessage.message,
@@ -84,17 +88,19 @@ function ContactsList({ search }: ContactsListProps) {
             invitationId={contact.invitationId}
             contactId={contact.id}
             username={contact.username}
-            isOpen={activeChat?.user.id === contact.contactId}
-            onOpen={() =>
-              setActiveChat({
-                user: {
-                  id: contact.contactId,
-                  username: contact.username,
-                },
-                isContact: true,
-                invitationId: contact.invitationId,
-              })
-            }
+            isOpen={isOpen}
+            onOpen={() => {
+              if (!isOpen) {
+                changeChat({
+                  user: {
+                    id: contact.contactId,
+                    username: contact.username,
+                  },
+                  isContact: true,
+                  invitationId: contact.invitationId,
+                });
+              }
+            }}
             lastMessage={{
               isSenderMe: me.id === contact.lastMessage.senderId,
               message: contact.lastMessage.message,

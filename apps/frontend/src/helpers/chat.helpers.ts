@@ -1,4 +1,4 @@
-import { ChatMessage } from '../App';
+import { ChatMessage } from '../context/ChatContext/useChatContext';
 
 /**
  * This helper function puts messages into the map

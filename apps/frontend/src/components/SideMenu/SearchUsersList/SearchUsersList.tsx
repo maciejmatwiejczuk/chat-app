@@ -16,7 +16,7 @@ function SearchUsersList({ search }: SearchUsersListProps) {
     HTMLLIElement,
     HTMLDivElement
   >(getUsersQuery);
-  const { activeChat, setActiveChat } = useChatContext();
+  const { activeChat, changeChat } = useChatContext();
 
   if (getUsersQuery.isPending) {
     return (
@@ -40,22 +40,26 @@ function SearchUsersList({ search }: SearchUsersListProps) {
 
   const chatItems = getUsersQuery.data?.pages.map((users: UserDto[]) => {
     return users.map((user: UserDto, i: number) => {
+      const isOpen = activeChat?.user.id === user.id;
+
       if (i === users.length - 1) {
         return (
           <ChatItem
             userId={user.id}
             username={user.username}
-            isOpen={activeChat?.user.id === user.id}
-            onOpen={() =>
-              setActiveChat({
-                user: {
-                  id: user.id,
-                  username: user.username,
-                },
-                isContact: false,
-                invitationId: undefined,
-              })
-            }
+            isOpen={isOpen}
+            onOpen={() => {
+              if (!isOpen) {
+                changeChat({
+                  user: {
+                    id: user.id,
+                    username: user.username,
+                  },
+                  isContact: false,
+                  invitationId: undefined,
+                });
+              }
+            }}
             ref={lastItemRef}
           />
         );
@@ -65,17 +69,19 @@ function SearchUsersList({ search }: SearchUsersListProps) {
         <ChatItem
           userId={user.id}
           username={user.username}
-          isOpen={activeChat?.user.id === user.id}
-          onOpen={() =>
-            setActiveChat({
-              user: {
-                id: user.id,
-                username: user.username,
-              },
-              isContact: false,
-              invitationId: undefined,
-            })
-          }
+          isOpen={isOpen}
+          onOpen={() => {
+            if (!isOpen) {
+              changeChat({
+                user: {
+                  id: user.id,
+                  username: user.username,
+                },
+                isContact: false,
+                invitationId: undefined,
+              });
+            }
+          }}
         />
       );
     });

@@ -7,6 +7,11 @@ import { TransferredChatMessage } from '@chat-app/_common/types';
 import { useQueryClient } from '@tanstack/react-query';
 
 function ChatProvider({ children }: PropsWithChildren) {
+  function changeChat(chat: ChatInfo) {
+    setActiveChat(chat);
+    setChatMessages([]);
+  }
+
   const [activeChat, setActiveChat] = useState<ChatInfo | undefined>(undefined);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
@@ -35,7 +40,13 @@ function ChatProvider({ children }: PropsWithChildren) {
 
   return (
     <ChatContext.Provider
-      value={{ activeChat, setActiveChat, chatMessages, setChatMessages }}
+      value={{
+        activeChat,
+        setActiveChat,
+        changeChat,
+        chatMessages,
+        setChatMessages,
+      }}
     >
       {children}
     </ChatContext.Provider>
