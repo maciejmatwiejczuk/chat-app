@@ -24,6 +24,33 @@ export class MessageRepository implements TransactionalRepository {
       .executeTakeFirst();
   }
 
+  async findByChat(
+    firstUserId: number,
+    secondUserId: number,
+    limit: number,
+    offset: number
+  ) {
+    return await this.kysely
+      .selectFrom('message')
+      .selectAll()
+      .where((eb) =>
+        eb.or([
+          eb.and({
+            senderId: firstUserId,
+            receiverId: secondUserId,
+          }),
+          eb.and({
+            senderId: secondUserId,
+            receiverId: firstUserId,
+          }),
+        ])
+      )
+      .orderBy('date', 'desc')
+      .limit(limit)
+      .offset(offset)
+      .execute();
+  }
+
   transacting(trx: Transaction<Database>) {
     return new MessageRepository(trx);
   }

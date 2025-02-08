@@ -15,6 +15,7 @@ import type { ServerEvents, ClientEvents } from '@chat-app/_common/types.ts';
 import ErrorHandler from './utils/ErrorHandler.js';
 import sessionMiddleware from './middlewares/sessionMiddleware.js';
 import type { Session, SessionData } from 'express-session';
+import { messageRouter } from './modules/api/messages/messages.routes.js';
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use('/', sessionRouter);
 app.use('/users', userRouter);
 app.use('/invitations', invitationRouter);
 app.use('/contacts', contactRouter);
+app.use('/messages', messageRouter);
 
 app.use(errorCatcher);
 
