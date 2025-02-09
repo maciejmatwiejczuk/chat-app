@@ -10,6 +10,7 @@ import { useGetInvitationById } from '../../api/invitations';
 import { useQueryClient } from '@tanstack/react-query';
 import { InvitationDto } from '@chat-app/_common/schemas/invitations';
 import { useChatContext } from '../../context/ChatContext/useChatContext';
+import { Navigate } from 'react-router-dom';
 
 export interface ChatMessage {
   id: string;
@@ -27,15 +28,7 @@ function Chat() {
 
   const { activeChat, setActiveChat, setChatMessages } = useChatContext();
 
-  if (!activeChat) {
-    throw new Error('No chat is active');
-  }
-
-  useEffect(() => {
-    console.log('[Chat.tsx]: activeChat = ', activeChat);
-  }, [activeChat]);
-
-  const invitationQuery = useGetInvitationById(activeChat.invitationId);
+  const invitationQuery = useGetInvitationById(activeChat?.invitationId);
   const queryClient = useQueryClient();
 
   const [message, setMessage] = useState('');
@@ -123,6 +116,10 @@ function Chat() {
       });
       setMessage('');
     }
+  }
+
+  if (!activeChat) {
+    return <Navigate to="/" />;
   }
 
   if (invitationQuery.isFetching) {
