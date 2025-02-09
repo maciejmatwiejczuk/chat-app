@@ -40,7 +40,7 @@ function ContactsList({ search }: ContactsListProps) {
     return <p className={styles.placeholder}>Failed to find users</p>;
   }
 
-  if (getContactsQuery.data.pages[0].length === 0) {
+  if (search && getContactsQuery.data.pages[0].length === 0) {
     return (
       <p className={styles.placeholder}>
         No users found matching the searched name
