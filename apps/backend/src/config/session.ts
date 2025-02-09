@@ -20,6 +20,6 @@ export const sessionConfig = {
   cookie: {
     secure: false, // NEED TO BE TRUE ON PRODUCTION
     httpOnly: true,
-    maxAge: 1000 * 60 * 10,
+    maxAge: 1000 * 60 * 15,
   },
 } as const;
