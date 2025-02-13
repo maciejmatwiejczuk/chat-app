@@ -26,9 +26,16 @@
   --color-secondary-600: #132190;
   --color-secondary-700: #0d1663;
 
-  --color-error-background: #fff8f8;
-  --color-error-foreground: #dc2626;
-  --color-error-foreground-active: #991b1b;
+  --color-danger-100: #fff5f5;
+  --color-danger-200: #ffe3e3;
+  --color-danger-300: #ffc9c9;
+  --color-danger-400: #ffa8a8;
+  --color-danger-500: #ff8787;
+  --color-danger-600: #ff6b6b;
+  --color-danger-700: #fa5252;
+  --color-danger-800: #f03e3e;
+  --color-danger-900: #e03131;
+  --color-danger-950: #c92a2a;
 
   --size-rem-3xs: 0.25rem;
   --size-rem-2xs: 0.5rem;

@@ -23,10 +23,10 @@
 .errorBox {
   padding: var(--size-px-xs);
   margin-bottom: var(--size-px-l);
-  border: 1px solid var(--color-error-foreground);
+  border: 1px solid var(--color-danger-900);
   border-radius: var(--border-radius-default);
-  background-color: var(--color-error-background);
-  color: var(--color-error-foreground);
+  background-color: var(--color-danger-100);
+  color: var(--color-danger-900);
 }
 
 .inputWrapper {
