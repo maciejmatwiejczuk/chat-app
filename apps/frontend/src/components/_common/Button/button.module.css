@@ -6,33 +6,63 @@
   cursor: pointer;
 }
 
-.fill {
+.fillDefault {
   background-color: var(--color-secondary-400);
   color: var(--color-primary-50);
   transition: opacity 0.3s ease-out;
 }
 
-.fill:hover {
-  opacity: 0.9;
+.fillDefault:hover {
+  opacity: 0.8;
 }
 
-.fill:active {
+.fillDefault:active {
   background-color: var(--color-secondary-500);
 }
 
-.outline {
-  border: 1px solid var(--color-secondary-400);
+.outlineDefault {
+  border: 2px solid var(--color-secondary-400);
   background-color: var(--color-primary-50);
   color: var(--color-secondary-400);
   transition: background-color 0.3s ease-out;
 }
 
-.outline:hover {
-  background-color: var(--color-secondary-100);
+.outlineDefault:hover {
+  opacity: 0.8;
 }
 
-.outline:active {
+.outlineDefault:active {
   background-color: var(--color-secondary-200);
+}
+
+.fillDanger {
+  background-color: var(--color-danger-800);
+  color: var(--color-primary-50);
+  transition: opacity 0.3s ease-out;
+}
+
+.fillDanger:hover {
+  opacity: 0.8;
+}
+
+.fillDanger:active {
+  opacity: 1;
+  background-color: var(--color-danger-900);
+}
+
+.outlineDanger {
+  border: 2px solid var(--color-danger-900);
+  background-color: var(--color-primary-50);
+  color: var(--color-danger-900);
+  transition: background-color 0.3s ease-out;
+}
+
+.outlineDanger:hover {
+  opacity: 0.8;
+}
+
+.outlineDanger:active {
+  background-color: var(--color-danger-200);
 }
 
 .small {

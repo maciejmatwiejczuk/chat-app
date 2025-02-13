@@ -3,12 +3,14 @@ import styles from './button.module.css';
 
 type ButtonSize = 'small' | 'medium' | 'large';
 type ButtonType = 'fill' | 'outline';
+type ButtonStyle = 'default' | 'danger';
 
 interface ButtonProps {
   title: string;
   onClick?: () => void;
   size?: ButtonSize;
   type?: ButtonType;
+  style?: ButtonStyle;
   isWide?: boolean;
   isDisabled?: boolean;
 }
@@ -18,6 +20,7 @@ function Button({
   onClick,
   size = 'small',
   type = 'fill',
+  style = 'default',
   isWide = false,
   isDisabled = false,
 }: ButtonProps) {
@@ -25,8 +28,10 @@ function Button({
     [styles.small]: size === 'small',
     [styles.medium]: size === 'medium',
     [styles.large]: size === 'large',
-    [styles.fill]: type === 'fill',
-    [styles.outline]: type === 'outline',
+    [styles.fillDefault]: style === 'default' && type === 'fill',
+    [styles.outlineDefault]: style === 'default' && type === 'outline',
+    [styles.fillDanger]: style === 'danger' && type === 'fill',
+    [styles.outlineDanger]: style === 'danger' && type === 'outline',
     [styles.wide]: isWide,
   });
 
