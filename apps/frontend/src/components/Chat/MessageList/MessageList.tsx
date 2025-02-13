@@ -74,7 +74,7 @@ function MessageList({
   }
 
   if (Boolean(contactData) && getContactsQuery.isPending) {
-    return <p>loading</p>;
+    return <Loader size="medium" />;
   }
 
   if (getContactsQuery.isError) {
@@ -118,7 +118,7 @@ function MessageList({
     if (doesContactInfoShow) {
       if (isInvitationSenderMe) {
         return (
-          <div>
+          <div className={styles.invitationInfo}>
             The user you are sending messages to is outside of your contacts.
             Until they accept you as a contact you can send them only one
             message.

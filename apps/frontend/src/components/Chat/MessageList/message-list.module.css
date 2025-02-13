@@ -5,6 +5,7 @@
   margin-bottom: var(--size-px-2xs);
   border-radius: var(--border-radius-default);
   overflow-y: auto;
+  position: relative;
 }
 
 .messageContainer {
@@ -132,4 +133,11 @@
   justify-content: center;
   align-items: center;
   padding: var(--size-px-l);
+}
+
+.invitationInfo {
+  position: absolute;
+  width: 100%;
+  padding: var(--size-px-m);
+  box-shadow: 0px 1px 12px 1px rgba(0, 0, 0, 0.2);
 }

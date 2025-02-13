@@ -1,5 +1,7 @@
 import { useDeleteContact } from '../../../api/contacts';
 import { useNavigate } from 'react-router-dom';
+import styles from './receiver-invitation-info.module.css';
+import Button from '../../_common/Button/Button';
 
 interface ReceiverInvitationInfoProps {
   contactId: number;
@@ -16,12 +18,18 @@ function ReceiverInvitationInfo({ contactId }: ReceiverInvitationInfoProps) {
   }
 
   return (
-    <div>
-      <p>
+    <div className={styles.container}>
+      <p className={styles.info}>
         This user is trying to contact you. Send the message to accept them as
         your contact or reject the conversation using button on the right.
       </p>
-      <button onClick={onReject}>Reject</button>
+      <Button
+        title="Reject"
+        onClick={onReject}
+        size="small"
+        type="outline"
+        style="danger"
+      />
     </div>
   );
 }
