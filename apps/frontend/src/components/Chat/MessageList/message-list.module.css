@@ -135,6 +135,21 @@
   padding: var(--size-px-l);
 }
 
+.loaderErrorContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--size-px-2xs);
+  border-radius: var(--border-radius-default);
+  background-color: #fff;
+}
+
+.error {
+  font-weight: 600;
+  color: var(--color-primary-600);
+}
+
 .invitationInfo {
   position: absolute;
   width: 100%;

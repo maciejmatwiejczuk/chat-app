@@ -73,12 +73,23 @@ function MessageList({
     isScrolledToBottomRef.current = -container.scrollTop <= 150;
   }
 
-  if (Boolean(contactData) && getContactsQuery.isPending) {
-    return <Loader size="medium" />;
+  if (
+    (Boolean(contactData) && getContactsQuery.isPending) ||
+    getChatMessagesQuery.isPending
+  ) {
+    return (
+      <div className={styles.loaderErrorContainer}>
+        <Loader size="medium" />
+      </div>
+    );
   }
 
-  if (getContactsQuery.isError) {
-    return <p>Error loading contact</p>;
+  if (getContactsQuery.isError || getChatMessagesQuery.isError) {
+    return (
+      <div className={styles.loaderErrorContainer}>
+        <p className={styles.error}>There was an error loading chat</p>
+      </div>
+    );
   }
 
   function renderMessages() {
