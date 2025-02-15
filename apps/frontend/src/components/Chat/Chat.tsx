@@ -94,11 +94,6 @@ function Chat() {
     const messageId = uuid();
 
     if (message) {
-      setChatMessages((prev) => [
-        ...prev,
-        { id: messageId, isMe: true, message, date: new Date() },
-      ]);
-
       const msg = {
         senderId: me!.id,
         receiverId: activeChat!.user.id,
