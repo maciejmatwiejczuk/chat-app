@@ -1,4 +1,10 @@
-import { ReactElement, useRef, useEffect, forwardRef } from 'react';
+import {
+  ReactElement,
+  useRef,
+  forwardRef,
+  useLayoutEffect,
+  useEffect,
+} from 'react';
 import { v4 as uuid } from 'uuid';
 import { groupMessagesByTime } from '../../../helpers/chat.helpers';
 import { formatDate } from '../../../helpers/date.helpers';
@@ -32,7 +38,7 @@ function MessageList({
 
   const { chatMessages, setChatMessages } = useChatContext();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (getChatMessagesQuery.isSuccess) {
       const messages = getChatMessagesQuery.data.pages
         .flat()
