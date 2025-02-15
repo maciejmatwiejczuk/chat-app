@@ -12,6 +12,7 @@ import Chat from './components/Chat/Chat';
 import ProtectedRoute from './components/_common/ProtectedRoute/ProtectedRoute';
 import App from './App';
 import AnonymousRoute from './components/_common/AnonymousRoute/AnonymousRoute';
+import ChatPlaceholder from './components/Chat/ChatPlaceholder/ChatPlaceholder';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
             path: '/',
             element: <ChatPage />,
             children: [
+              {
+                path: '/',
+                element: <ChatPlaceholder />,
+              },
               {
                 path: 'chat/:chatId',
                 element: <Chat />,

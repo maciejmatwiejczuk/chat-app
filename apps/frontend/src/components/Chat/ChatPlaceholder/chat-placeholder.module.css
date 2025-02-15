@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--size-rem-s);
+  flex: 3;
+  height: 100%;
+  background: none;
+  color: var(--color-primary-400);
+}
+
+.placeholderText {
+  font-size: var(--size-rem-l);
+  font-weight: 500;
+}
