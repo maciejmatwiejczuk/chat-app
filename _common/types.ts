@@ -6,7 +6,7 @@ export interface ChatMessageClient {
   receiverId: number;
 }
 
-export interface TransferredChatMessage {
+export interface ChatMessageServer {
   message: string;
   date: string;
 }
@@ -23,7 +23,7 @@ export interface ClientEvents {
 }
 
 export interface ServerEvents {
-  'chat_message:server': (msg: TransferredChatMessage) => void;
+  'chat_message:server': (msg: ChatMessageServer) => void;
   'error:server': (err: ErrorServer) => void;
   invitation_sent: (invitation: InvitationDto) => void;
   invitation_accepted: () => void;
