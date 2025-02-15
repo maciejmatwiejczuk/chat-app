@@ -122,10 +122,19 @@
   margin-bottom: var(--size-px-2xl);
 }
 
+.placeholderWrapper {
+  color: var(--color-primary-400);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-px-l);
+}
+
 .placeholder {
-  color: var(--color-primary-200);
+  color: var(--color-primary-400);
   font-size: var(--size-rem-l);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .loaderWrapper {

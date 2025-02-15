@@ -10,6 +10,7 @@ import { useChatContext } from '../../../context/ChatContext/useChatContext';
 import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver';
 import Loader from '../../_common/Loader/Loader';
 import classNames from 'classnames';
+import { HandWaving } from '@phosphor-icons/react';
 
 interface MessageListProps {
   myId: number;
@@ -167,7 +168,10 @@ function MessageList({
         {chatMessages.length > 0 ? (
           renderMessages()
         ) : (
-          <p className={styles.placeholder}>Send your first message!</p>
+          <div className={styles.placeholderWrapper}>
+            <HandWaving size={64} weight="fill" />
+            <p className={styles.placeholder}>Write your first message!</p>
+          </div>
         )}
       </div>
       <div ref={listEndRef} />
