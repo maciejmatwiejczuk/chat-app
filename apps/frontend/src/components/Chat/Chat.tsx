@@ -11,6 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { InvitationDto } from '@chat-app/_common/schemas/invitations';
 import { useChatContext } from '../../context/ChatContext/useChatContext';
 import { Navigate } from 'react-router-dom';
+import Loader from '../_common/Loader/Loader';
 
 export interface ChatMessage {
   id: string;
@@ -123,11 +124,19 @@ function Chat() {
   }
 
   if (invitationQuery.isFetching) {
-    return <p>Loading</p>;
+    return (
+      <div className={styles.loaderErrorContainer}>
+        <Loader size="medium" />
+      </div>
+    );
   }
 
   if (invitationQuery.isError) {
-    return <p>Something went wrong</p>;
+    return (
+      <div className={styles.loaderErrorContainer}>
+        <p className={styles.error}>There was an error loading chat</p>
+      </div>
+    );
   }
 
   if (invitationQuery.isSuccess) {
