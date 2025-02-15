@@ -146,7 +146,7 @@ function Chat() {
 
   return (
     <div className={styles.container}>
-      <ChatHeader />
+      <ChatHeader username={activeChat.user.username} />
       <MessageList
         myId={me.id}
         otherUserId={activeChat.user.id}
