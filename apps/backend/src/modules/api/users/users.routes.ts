@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import * as UserController from './users.controller.js';
+import { userController } from './users.controller.js';
 import { authenticate } from '../../../middlewares/authenticate.js';
 
 const router = Router();
 
-router.route('/').post(UserController.createUser).get(UserController.getUsers);
+router.route('/').post(userController.createUser).get(userController.getUsers);
 
 router
   .route('/:id')
-  .get(authenticate, UserController.getUserById)
-  .patch(authenticate, UserController.updateUser)
-  .delete(authenticate, UserController.deleteUser);
+  .get(authenticate, userController.getUserById)
+  .patch(authenticate, userController.updateUser)
+  .delete(authenticate, userController.deleteUser);
 
 export default router;

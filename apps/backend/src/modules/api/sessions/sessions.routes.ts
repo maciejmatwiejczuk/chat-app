@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { authenticate } from '../../../middlewares/authenticate.js';
-import * as SessionController from './sessions.controller.js';
+import { sessionController } from './sessions.controller.js';
 
 const router = Router();
 
-router.route('/login').post(SessionController.logIn);
+router.route('/login').post(sessionController.logIn);
 
-router.route('/logout').post(authenticate, SessionController.logOut);
+router.route('/logout').post(authenticate, sessionController.logOut);
 
-router.route('/me').get(authenticate, SessionController.getMe);
+router.route('/me').get(authenticate, sessionController.getMe);
 
 export default router;
