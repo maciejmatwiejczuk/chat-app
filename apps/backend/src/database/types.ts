@@ -3,7 +3,7 @@ import type {
   Insertable,
   Selectable,
   Updateable,
-  Kysely,
+  Transaction,
 } from 'kysely';
 
 export interface Database {
@@ -60,6 +60,6 @@ export type MessageSelect = Selectable<Message>;
 export type MessageInsert = Insertable<Message>;
 export type MessageUpdate = Updateable<Message>;
 
-//prettier-ignore
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type RepositoryFactory = (db: Kysely<Database>) => Record<string, (...args: any[]) => Promise<any>>;
+export interface TransactionalRepository {
+  transacting: (trx: Transaction<Database>) => TransactionalRepository;
+}
