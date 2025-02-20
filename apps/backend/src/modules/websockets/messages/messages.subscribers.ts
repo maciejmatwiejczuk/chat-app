@@ -1,6 +1,6 @@
 import type { Socket } from 'socket.io';
 import { messageController } from './messages.controller.js';
-import type { ClientEvents, ServerEvents } from '@chat-app/_common/types.js';
+import type { ClientEvents, ServerEvents } from '@chat-app/_common';
 
 export function registerMessageSubscribers(
   socket: Socket<ClientEvents, ServerEvents>

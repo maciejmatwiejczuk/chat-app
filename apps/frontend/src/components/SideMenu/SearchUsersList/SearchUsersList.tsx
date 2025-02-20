@@ -1,4 +1,4 @@
-import { UserDto } from '@chat-app/_common/schemas/users';
+import { UserDto } from '@chat-app/_common';
 import { useGetUsers } from '../../../api/users';
 import Loader from '../../_common/Loader/Loader';
 import ChatItem from '../ChatItem/ChatItem';

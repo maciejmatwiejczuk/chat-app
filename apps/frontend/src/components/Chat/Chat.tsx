@@ -8,7 +8,7 @@ import styles from './chat.module.css';
 import { useMe } from '../../api/sessions';
 import { useGetInvitationById } from '../../api/invitations';
 import { useQueryClient } from '@tanstack/react-query';
-import { InvitationDto } from '@chat-app/_common/schemas/invitations';
+import { InvitationDto } from '@chat-app/_common';
 import { useChatContext } from '../../context/ChatContext/useChatContext';
 import { Navigate } from 'react-router-dom';
 import Loader from '../_common/Loader/Loader';

@@ -3,7 +3,7 @@ import type {
   ClientEvents,
   ServerEvents,
   ChatMessageClient,
-} from '@chat-app/_common/types.js';
+} from '@chat-app/_common';
 import { messageService } from './messages.service.js';
 import AppError from '../../../utils/AppError.js';
 

@@ -1,4 +1,4 @@
-import type { GetChatDto } from '@chat-app/_common/schemas/messages.js';
+import type { GetChatDto } from '@chat-app/_common';
 import { db } from '../../../database/db.js';
 
 export const messageService = {

@@ -3,7 +3,7 @@ import {
   CreateUserSchema,
   GetUsersSchema,
   UpdateUserSchema,
-} from '@chat-app/_common/schemas/users.js';
+} from '@chat-app/_common';
 import AppError from '../../../utils/AppError.js';
 import mapFieldErrors from '../../../utils/mapFieldErrors.js';
 import { userService } from './users.service.js';

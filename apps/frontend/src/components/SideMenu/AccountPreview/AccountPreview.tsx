@@ -9,7 +9,11 @@ function AccountPreview() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const logout = useLogout();
-  const { data } = useMe();
+  const { data: me } = useMe();
+
+  if (!me) {
+    throw new Error('Cannot get data of logged in user');
+  }
 
   function openModal() {
     setIsModalOpen(true);
@@ -27,7 +31,7 @@ function AccountPreview() {
     <div className={styles.container}>
       <div className={styles.usernameAvatarWrapper}>
         <Avatar />
-        <h3 className={styles.username}>{data.username}</h3>
+        <h3 className={styles.username}>{me.username}</h3>
       </div>
       <Button title="Log out" onClick={openModal} size="small" type="fill" />
       {isModalOpen && (

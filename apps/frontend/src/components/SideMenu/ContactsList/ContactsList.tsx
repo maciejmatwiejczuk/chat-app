@@ -1,7 +1,7 @@
 import { useGetContacts } from '../../../api/contacts';
 import { useMe } from '../../../api/sessions';
 import Loader from '../../_common/Loader/Loader';
-import { ContactDto } from '@chat-app/_common/schemas/contacts';
+import { ContactDto } from '@chat-app/_common';
 import ChatItem from '../ChatItem/ChatItem';
 import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver';
 import styles from './contacts-list.module.css';

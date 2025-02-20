@@ -1,4 +1,4 @@
-import { GetChatSchema } from '@chat-app/_common/schemas/messages.js';
+import { GetChatSchema } from '@chat-app/_common';
 import type { Request, Response, NextFunction } from 'express';
 import mapFieldErrors from '../../../utils/mapFieldErrors.js';
 import AppError from '../../../utils/AppError.js';

@@ -11,7 +11,7 @@ import userRouter from './modules/api/users/users.routes.js';
 import sessionRouter from './modules/api/sessions/sessions.routes.js';
 import { invitationRouter } from './modules/api/invitations/invitations.routes.js';
 import { contactRouter } from './modules/api/contacts/contacts.routes.js';
-import type { ServerEvents, ClientEvents } from '@chat-app/_common/types.ts';
+import type { ServerEvents, ClientEvents } from '@chat-app/_common';
 import ErrorHandler from './utils/ErrorHandler.js';
 import sessionMiddleware from './middlewares/sessionMiddleware.js';
 import type { Session, SessionData } from 'express-session';

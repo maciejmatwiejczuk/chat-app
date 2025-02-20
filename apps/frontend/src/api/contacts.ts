@@ -3,12 +3,9 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import type {
-  ContactDto,
-  ContactsCriteria,
-} from '@chat-app/_common/schemas/contacts.ts';
+import type { ContactDto, ContactsCriteria } from '@chat-app/_common';
 import { api } from '../config/axios';
-import { ApiResponse } from '@chat-app/_common/types';
+import { ApiResponse } from '@chat-app/_common';
 
 const CONTACTS_ENDPOINT = 'contacts';
 

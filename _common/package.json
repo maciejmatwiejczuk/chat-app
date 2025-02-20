@@ -1,14 +1,9 @@
 {
   "name": "@chat-app/_common",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "type": "module",
-  "devDependencies": {},
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "build": "tsc --build"
+  }
 }

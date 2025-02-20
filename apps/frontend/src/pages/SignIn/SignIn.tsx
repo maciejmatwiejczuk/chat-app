@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchema, LoginDto } from '@chat-app/_common/schemas/sessions';
+import { LoginSchema, LoginDto } from '@chat-app/_common';
 import styles from './sign-in.module.css';
 import Button from '../../components/_common/Button/Button';
 import FormInput from '../../components/_common/FormInput/FormInput';

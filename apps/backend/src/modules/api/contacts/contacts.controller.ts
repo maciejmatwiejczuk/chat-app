@@ -1,4 +1,4 @@
-import { GetContactsSchema } from '@chat-app/_common/schemas/contacts.js';
+import { GetContactsSchema } from '@chat-app/_common';
 import type { Request, Response, NextFunction } from 'express';
 import AppError from '../../../utils/AppError.js';
 import mapFieldErrors from '../../../utils/mapFieldErrors.js';
