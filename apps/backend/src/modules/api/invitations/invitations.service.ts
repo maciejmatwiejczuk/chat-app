@@ -1,5 +1,5 @@
 import { db } from '../../../database/db.js';
-import type { GetInvitationsDto } from '@chat-app/_common/schemas/invitations.js';
+import type { GetInvitationsDto } from '@chat-app/_common';
 import AppError from '../../../utils/AppError.js';
 
 export const invitationService = {

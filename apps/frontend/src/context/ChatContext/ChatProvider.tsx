@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { ChatContext } from './useChatContext';
 import type { ChatInfo, ChatMessage } from './useChatContext';
 import { socket } from '../../config/socket';
-import { ChatMessageServer } from '@chat-app/_common/types';
+import { ChatMessageServer } from '@chat-app/_common';
 import { useQueryClient } from '@tanstack/react-query';
 
 function ChatProvider({ children }: PropsWithChildren) {

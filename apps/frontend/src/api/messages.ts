@@ -1,7 +1,7 @@
-import type { MessageDto } from '@chat-app/_common/schemas/messages';
+import type { MessageDto } from '@chat-app/_common';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { api } from '../config/axios';
-import { ApiResponse } from '@chat-app/_common/types';
+import { ApiResponse } from '@chat-app/_common';
 
 const MESSAGES_ENDPOINT = 'messages/chat';
 

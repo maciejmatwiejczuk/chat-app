@@ -5,7 +5,7 @@ import type {
   CreateUserDto,
   GetUsersDto,
   UpdateUserDto,
-} from '@chat-app/_common/schemas/users.js';
+} from '@chat-app/_common';
 import type { UserInsert } from '../../../database/types.js';
 
 export const userService = {

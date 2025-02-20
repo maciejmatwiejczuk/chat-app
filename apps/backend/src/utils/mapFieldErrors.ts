@@ -1,5 +1,5 @@
 import type { ZodIssue } from 'zod';
-import type { FieldError } from '@chat-app/_common/types.js';
+import type { FieldError } from '@chat-app/_common';
 
 export default function mapFieldErrors(fieldErrors: ZodIssue[]): FieldError[] {
   return fieldErrors.map((error) => {

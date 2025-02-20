@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
-import { CreateUserDto, UserDto } from '@chat-app/_common/schemas/users';
+import { CreateUserDto, UserDto } from '@chat-app/_common';
 import { api } from '../config/axios.ts';
-import { ApiResponse } from '@chat-app/_common/types.ts';
+import { ApiResponse } from '@chat-app/_common';
 
 const ENDPOINT = 'users';
 

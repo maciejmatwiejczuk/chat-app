@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc --build",
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/src/index.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

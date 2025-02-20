@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { db } from '../../../database/db.js';
 import AppError from '../../../utils/AppError.js';
-import type { LoginDto } from '@chat-app/_common/schemas/sessions.js';
+import type { LoginDto } from '@chat-app/_common';
 
 export const sessionService = {
   async logIn(loginData: LoginDto) {

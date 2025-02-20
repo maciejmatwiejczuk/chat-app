@@ -1,4 +1,4 @@
-import type { ChatMessageClient } from '@chat-app/_common/types.js';
+import type { ChatMessageClient } from '@chat-app/_common';
 import { db } from '../../../database/db.js';
 import AppError from '../../../utils/AppError.js';
 

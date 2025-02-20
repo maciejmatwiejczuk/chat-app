@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import AppError from '../../../utils/AppError.js';
 import { invitationService } from './invitations.service.js';
-import { GetInvitationsSchema } from '@chat-app/_common/schemas/invitations.js';
+import { GetInvitationsSchema } from '@chat-app/_common';
 import mapFieldErrors from '../../../utils/mapFieldErrors.js';
 
 export const invitationController = {

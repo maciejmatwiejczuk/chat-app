@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import AppError from '../../../utils/AppError.js';
 import { sessionService } from './sessions.service.js';
-import { LoginSchema } from '@chat-app/_common/schemas/sessions.js';
+import { LoginSchema } from '@chat-app/_common';
 import { io } from '../../../index.js';
 
 export const sessionController = {

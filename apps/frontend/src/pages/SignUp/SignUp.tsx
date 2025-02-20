@@ -1,16 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  CreateUserDto,
-  CreateUserSchema,
-} from '@chat-app/_common/schemas/users';
+import { CreateUserDto, CreateUserSchema } from '@chat-app/_common';
 import Button from '../../components/_common/Button/Button';
 import styles from './sign-up.module.css';
 import FormInput from '../../components/_common/FormInput/FormInput';
 import { useCreateUser } from '../../api/users';
 import axios from 'axios';
-import { FieldError } from '@chat-app/_common/types';
+import { FieldError } from '@chat-app/_common';
 
 function SignUp() {
   const {

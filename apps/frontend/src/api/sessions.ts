@@ -4,13 +4,13 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { LoginDto } from '@chat-app/_common/schemas/sessions.ts';
+import { LoginDto } from '@chat-app/_common';
 import { api } from '../config/axios.ts';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { useAuthContext } from '../context/AuthContext/useAuthContext.ts';
-import { UserDto } from '@chat-app/_common/schemas/users.ts';
-import { ApiResponse } from '@chat-app/_common/types.ts';
+import { UserDto } from '@chat-app/_common';
+import { ApiResponse } from '@chat-app/_common';
 import { socket } from '../config/socket.ts';
 
 const LOGIN_ENDPOINT = 'login';
