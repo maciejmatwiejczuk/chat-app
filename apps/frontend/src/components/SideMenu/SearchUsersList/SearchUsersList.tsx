@@ -5,6 +5,7 @@ import ChatItem from '../ChatItem/ChatItem';
 import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver';
 import styles from './search-users-list.module.css';
 import { useChatContext } from '../../../context/ChatContext/useChatContext';
+import { useMe } from '../../../api/sessions';
 
 interface SearchUsersListProps {
   search?: string;
@@ -17,6 +18,12 @@ function SearchUsersList({ search }: SearchUsersListProps) {
     HTMLDivElement
   >(getUsersQuery);
   const { activeChat, changeChat } = useChatContext();
+
+  const { data: me } = useMe();
+
+  if (!me) {
+    throw new Error('Cannot get data of logged in user');
+  }
 
   if (getUsersQuery.isPending) {
     return (
@@ -39,10 +46,34 @@ function SearchUsersList({ search }: SearchUsersListProps) {
   }
 
   const chatItems = getUsersQuery.data?.pages.map((users: UserDto[]) => {
-    return users.map((user: UserDto, i: number) => {
-      const isOpen = activeChat?.user.id === user.id;
+    return users
+      .filter((user: UserDto) => user.id !== me.id)
+      .map((user: UserDto, i: number) => {
+        const isOpen = activeChat?.user.id === user.id;
 
-      if (i === users.length - 1) {
+        if (i === users.length - 1) {
+          return (
+            <ChatItem
+              userId={user.id}
+              username={user.username}
+              isOpen={isOpen}
+              onOpen={() => {
+                if (!isOpen) {
+                  changeChat({
+                    user: {
+                      id: user.id,
+                      username: user.username,
+                    },
+                    isContact: false,
+                    invitationId: undefined,
+                  });
+                }
+              }}
+              ref={lastItemRef}
+            />
+          );
+        }
+
         return (
           <ChatItem
             userId={user.id}
@@ -60,31 +91,9 @@ function SearchUsersList({ search }: SearchUsersListProps) {
                 });
               }
             }}
-            ref={lastItemRef}
           />
         );
-      }
-
-      return (
-        <ChatItem
-          userId={user.id}
-          username={user.username}
-          isOpen={isOpen}
-          onOpen={() => {
-            if (!isOpen) {
-              changeChat({
-                user: {
-                  id: user.id,
-                  username: user.username,
-                },
-                isContact: false,
-                invitationId: undefined,
-              });
-            }
-          }}
-        />
-      );
-    });
+      });
   });
 
   return (
