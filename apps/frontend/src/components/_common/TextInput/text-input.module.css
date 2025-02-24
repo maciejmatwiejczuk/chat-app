@@ -25,13 +25,13 @@
 }
 
 .inputError {
-  border: 1px solid var(--color-error-foreground);
-  background-color: var(--color-error-background);
+  border: 1px solid var(--color-danger-950);
+  background-color: var(--color-danger-100);
 }
 
 .inputError:focus {
-  border: 1px solid var(--color-error-foreground-active);
-  box-shadow: 0 0 12px -4px var(--color-error-foreground-active);
+  border: 1px solid var(--color-danger-950);
+  box-shadow: 0 0 12px -4px var(--color-danger-950);
 }
 
 .inputWrapper > svg {

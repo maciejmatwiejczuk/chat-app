@@ -11,5 +11,5 @@
 
 .error {
   margin-top: var(--size-px-3xs);
-  color: var(--color-error-foreground);
+  color: var(--color-danger-950);
 }
