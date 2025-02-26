@@ -1,4 +1,4 @@
 export const corsConfig = {
-  origin: 'https://chat-app-frontend-l6l1.onrender.com',
+  origin: process.env.CORS_ORIGIN,
   credentials: true,
 } as const;
