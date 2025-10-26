@@ -17,6 +17,7 @@ export const pool = new Pool({
   password: databaseConfig.password,
   port: databaseConfig.port,
   max: databaseConfig.maxConnections,
+  ssl: databaseConfig.ssl,
 });
 
 export const dialect = new PostgresDialect({
