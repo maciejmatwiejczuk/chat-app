@@ -5,5 +5,5 @@ export const databaseConfig = {
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   maxConnections: Number(process.env.DATABASE_MAX_CONNECTIONS),
-  ssl: Boolean(process.env.DATABASE_USE_SSL),
+  ssl: process.env.DATABASE_USE_SSL === "true" ? true : false,
 } as const;
